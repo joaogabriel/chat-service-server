@@ -9,15 +9,13 @@ import java.time.LocalDateTime;
 
 @Builder
 @Document
-public class ChatRoomDocument {
+public class UserDocument {
 
     @Id
     private String id;
     private String token = TokenGenerator.getNew();
-    public LocalDateTime startedOn;
-    public LocalDateTime closedOn;
-    public ChatUserDocument sender;
-    public ChatUserDocument recipient;
+    public String name;
+    public String color;
 
     public String getId() {
         return id;

@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatNotificationVO {
+public class UserNotificationVO {
 
     public String id;
     public String senderId;

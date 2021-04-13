@@ -1,12 +1,12 @@
 package com.joaotech.chatservice.service;
 
-import com.joaotech.chatservice.adapter.ChatMessageAdapter;
-import com.joaotech.chatservice.model.ChatMessageDocument;
-import com.joaotech.chatservice.model.ChatRoomDocument;
+import com.joaotech.chatservice.adapter.MessageAdapter;
+import com.joaotech.chatservice.model.MessageDocument;
+import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.model.MessageStatus;
-import com.joaotech.chatservice.repository.ChatMessageRepository;
-import com.joaotech.chatservice.vo.ChatMessageVO;
-import com.joaotech.chatservice.vo.ChatNotificationVO;
+import com.joaotech.chatservice.repository.MessageRepository;
+import com.joaotech.chatservice.vo.MessageVO;
+import com.joaotech.chatservice.vo.UserNotificationVO;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -17,24 +17,25 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class ChatMessageService {
+public class MessageService {
 
     private static final String MESSAGE_DESTINATION = "/queue/messages";
 
-    private final ChatMessageRepository chatMessageRepository;
+    private final MessageRepository messageRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
-    private final ChatRoomService chatRoomService;
+    private final RoomService roomService;
     private final MongoOperations mongoOperations;
 
-    public void save(ChatMessageVO chatMessage) {
-        ChatRoomDocument roomDocument = chatRoomService.findByToken(chatMessage.roomToken);
+    public void save(MessageVO chatMessage) {
+
+        RoomDocument roomDocument = roomService.findByToken(chatMessage.roomToken);
 
         if (roomDocument == null) {
             throw new RuntimeException();
         }
 
-        ChatMessageDocument chatMessageDocument = ChatMessageDocument.builder()
+        MessageDocument messageDocument = MessageDocument.builder()
                 .roomToken(chatMessage.roomToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
@@ -42,19 +43,19 @@ public class ChatMessageService {
                 .type(chatMessage.type)
                 .build();
 
-        chatMessageRepository.save(chatMessageDocument);
+        messageRepository.save(messageDocument);
 
-        ChatNotificationVO chatNotification = new ChatNotificationVO(chatMessageDocument.getToken(), roomDocument.sender.getToken(), roomDocument.sender.name);
+        UserNotificationVO chatNotification = new UserNotificationVO(messageDocument.getToken(), roomDocument.sender.getToken(), roomDocument.sender.name);
 
         messagingTemplate.convertAndSendToUser(roomDocument.recipient.getToken(), MESSAGE_DESTINATION, chatNotification);
 
     }
 
-    public List<ChatMessageVO> findByRoom(String roomToken) {
+    public List<MessageVO> findByRoom(String roomToken) {
 
-        List<ChatMessageDocument> messages = chatMessageRepository.findByRoomToken(roomToken);
+        List<MessageDocument> messages = messageRepository.findByRoomToken(roomToken);
 
-        return ChatMessageAdapter.toChatMessageVO(messages);
+        return MessageAdapter.toChatMessageVO(messages);
 
     }
 

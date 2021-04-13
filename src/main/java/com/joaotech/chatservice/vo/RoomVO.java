@@ -5,12 +5,12 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public class ChatRoomVO {
+public class RoomVO {
 
     public String token;
     public LocalDateTime startedOn;
     public LocalDateTime closedOn;
-    public ChatUserVO sender;
-    public ChatUserVO recipient;
+    public UserVO sender;
+    public UserVO recipient;
 
 }

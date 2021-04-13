@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Document
-public class ChatMessageDocument {
+public class MessageDocument {
 
     @Id
     private String id;

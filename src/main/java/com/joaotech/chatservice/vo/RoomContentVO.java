@@ -9,9 +9,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatRoomContentVO {
+public class RoomContentVO {
 
-    public ChatRoomVO room;
-    public List<ChatMessageVO> messages;
+    public RoomVO room;
+    public List<MessageVO> messages;
 
 }

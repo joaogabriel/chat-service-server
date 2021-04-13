@@ -7,7 +7,7 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public class ChatMessageVO {
+public class MessageVO {
 
     public String token;
     public String roomToken;
