@@ -12,7 +12,6 @@ public class UserAdapter {
         return UserVO.builder()
                 .token(userDocument.token)
                 .name(userDocument.name)
-                .color(userDocument.color)
                 .build();
     }
 

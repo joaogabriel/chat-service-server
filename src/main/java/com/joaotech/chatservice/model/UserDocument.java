@@ -16,7 +16,6 @@ public class UserDocument {
     private String id;
     public String token;
     public String name;
-    public String color;
 
     public String getId() {
         return id;
