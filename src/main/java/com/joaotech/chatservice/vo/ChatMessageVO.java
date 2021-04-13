@@ -1,22 +1,21 @@
-package com.joaotech.chatservice.model;
+package com.joaotech.chatservice.vo;
 
+import com.joaotech.chatservice.model.MessageStatus;
+import com.joaotech.chatservice.model.MessageType;
 import com.joaotech.chatservice.util.TokenGenerator;
 import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Builder
-@Document
-public class ChatMessageDocument {
+public class ChatMessageVO {
 
-    @Id
-    private String id;
-    private String token = TokenGenerator.getNew();
+    public String token;
     public String roomToken;
     public String content;
-    public LocalDateTime timestamp;
+    public Date timestamp;
     public MessageStatus status;
     public MessageType type;
 
