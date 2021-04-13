@@ -10,7 +10,7 @@ public class UserAdapter {
 
     public static UserVO toChatUserVO(UserDocument userDocument) {
         return UserVO.builder()
-                .token(userDocument.getToken())
+                .token(userDocument.token)
                 .name(userDocument.name)
                 .color(userDocument.color)
                 .build();

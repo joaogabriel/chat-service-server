@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserVO {
+public class OpenRoomVO {
 
-    public String token;
-    public String name;
-    public String color;
+    public UserVO sender;
+    public UserVO recipient;
 
 }

@@ -4,32 +4,30 @@ import com.joaotech.chatservice.adapter.RoomAdapter;
 import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.model.UserDocument;
 import com.joaotech.chatservice.repository.RoomRepository;
-import com.joaotech.chatservice.vo.MessageVO;
+import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
-import com.joaotech.chatservice.vo.RoomVO;
 import com.joaotech.chatservice.vo.UserVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class RoomService {
 
-    private final MessageService messageService;
+//    private final MessageService messageService;
 
     private final RoomRepository roomRepository;
 
-    public String open(RoomVO room) {
+    public String open(OpenRoomVO room) {
 
         UserVO sender = room.sender;
 
         UserVO recipient = room.recipient;
 
-        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndClosedOnIsNull(sender.token, recipient.token);
+        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySender_TokenAndRecipient_TokenAndClosedOnIsNull(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
             throw new RuntimeException();
@@ -59,19 +57,9 @@ public class RoomService {
 
     }
 
-    public void close(RoomVO room) {
+    public void close(String token) {
 
-        UserVO sender = room.sender;
-
-        UserVO recipient = room.recipient;
-
-        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndClosedOnIsNull(sender.token, recipient.token);
-
-        if (previousOpenedRoom.isEmpty()) {
-            throw new RuntimeException();
-        }
-
-        RoomDocument roomDocument = previousOpenedRoom.get();
+        RoomDocument roomDocument = roomRepository.findByToken(token).orElseThrow(RuntimeException::new);
 
         roomDocument.closedOn = LocalDateTime.now();
 
@@ -87,11 +75,11 @@ public class RoomService {
 
         RoomDocument roomDocument = roomRepository.findByToken(token).orElseThrow(RuntimeException::new);
 
-        List<MessageVO> messages = messageService.findByRoom(token);
+//        List<MessageVO> messages = messageService.findByRoom(token);
 
         return RoomContentVO.builder()
                 .room(RoomAdapter.toChatRoomVO(roomDocument))
-                .messages(messages)
+//                .messages(messages)
                 .build();
 
     }

@@ -1,14 +1,18 @@
 package com.joaotech.chatservice.model;
 
 import com.joaotech.chatservice.util.TokenGenerator;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
 @Builder
-@Document
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(value = "Room")
 public class RoomDocument {
 
     @Id

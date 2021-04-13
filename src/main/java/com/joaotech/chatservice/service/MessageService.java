@@ -2,8 +2,8 @@ package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageDocument;
-import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.model.MessageStatus;
+import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.UserNotificationVO;
@@ -45,9 +45,9 @@ public class MessageService {
 
         messageRepository.save(messageDocument);
 
-        UserNotificationVO chatNotification = new UserNotificationVO(messageDocument.getToken(), roomDocument.sender.getToken(), roomDocument.sender.name);
+        UserNotificationVO chatNotification = new UserNotificationVO(messageDocument.getToken(), roomDocument.sender.token, roomDocument.sender.name);
 
-        messagingTemplate.convertAndSendToUser(roomDocument.recipient.getToken(), MESSAGE_DESTINATION, chatNotification);
+        messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION, chatNotification);
 
     }
 
