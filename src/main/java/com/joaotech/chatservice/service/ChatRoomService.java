@@ -73,6 +73,10 @@ public class ChatRoomService {
 
     }
 
+    public ChatRoomDocument findByToken(String token) {
+        return chatRoomRepository.findByToken(token).orElseThrow(RuntimeException::new);
+    }
+
     public void getContent(String token) {
 
         ChatRoomDocument roomDocument = chatRoomRepository.findByToken(token).orElseThrow(RuntimeException::new);

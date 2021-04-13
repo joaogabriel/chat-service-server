@@ -5,30 +5,33 @@ import com.joaotech.chatservice.model.ChatRoomDocument;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.repository.ChatMessageRepository;
 import com.joaotech.chatservice.vo.ChatMessageVO;
+import com.joaotech.chatservice.vo.ChatNotificationVO;
+import com.sun.jdi.PrimitiveValue;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class ChatMessageService {
 
+    private static final String MESSAGE_DESTINATION = "/queue/messages";
+
     private final ChatMessageRepository chatMessageRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
     private final ChatRoomService chatRoomService;
     private final MongoOperations mongoOperations;
 
     public void save(ChatMessageVO chatMessage) {
-        // TODO: 12/04/21 sala existe?
-//        ChatRoomDocument roomDocument = chatRoomRepository.findByToken(token).orElseThrow(RuntimeException::new);
+        ChatRoomDocument roomDocument = chatRoomService.findByToken(chatMessage.roomToken);
+
+        if (roomDocument == null) {
+            throw new RuntimeException();
+        }
 
         ChatMessageDocument chatMessageDocument = ChatMessageDocument.builder()
                 .roomToken(chatMessage.roomToken)
@@ -39,6 +42,10 @@ public class ChatMessageService {
                 .build();
 
         chatMessageRepository.save(chatMessageDocument);
+
+        ChatNotificationVO chatNotification = new ChatNotificationVO(chatMessageDocument.getToken(), roomDocument.sender.getToken(), roomDocument.sender.name);
+
+        messagingTemplate.convertAndSendToUser(roomDocument.recipient.getToken(), MESSAGE_DESTINATION, chatNotification);
 
     }
 

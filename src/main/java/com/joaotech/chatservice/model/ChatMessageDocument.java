@@ -20,4 +20,12 @@ public class ChatMessageDocument {
     public MessageStatus status;
     public MessageType type;
 
+    public String getId() {
+        return id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
 }
