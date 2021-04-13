@@ -1,14 +1,18 @@
 package com.joaotech.chatservice.service;
 
+import com.joaotech.chatservice.adapter.ChatRoomAdapter;
 import com.joaotech.chatservice.model.ChatRoomDocument;
 import com.joaotech.chatservice.model.ChatUserDocument;
 import com.joaotech.chatservice.repository.ChatRoomRepository;
+import com.joaotech.chatservice.vo.ChatMessageVO;
+import com.joaotech.chatservice.vo.ChatRoomContentVO;
 import com.joaotech.chatservice.vo.ChatRoomVO;
 import com.joaotech.chatservice.vo.ChatUserVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,7 +23,7 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
 
-    public void open(ChatRoomVO room) {
+    public String open(ChatRoomVO room) {
 
         ChatUserVO sender = room.sender;
 
@@ -51,6 +55,8 @@ public class ChatRoomService {
 
         chatRoomRepository.save(roomDocument);
 
+        return roomDocument.getToken();
+
     }
 
     public void close(ChatRoomVO room) {
@@ -77,12 +83,16 @@ public class ChatRoomService {
         return chatRoomRepository.findByToken(token).orElseThrow(RuntimeException::new);
     }
 
-    public void getContent(String token) {
+    public ChatRoomContentVO getContent(String token) {
 
         ChatRoomDocument roomDocument = chatRoomRepository.findByToken(token).orElseThrow(RuntimeException::new);
 
+        List<ChatMessageVO> messages = chatMessageService.findByRoom(token);
 
-
+        return ChatRoomContentVO.builder()
+                .room(ChatRoomAdapter.toChatRoomVO(roomDocument))
+                .messages(messages)
+                .build();
 
     }
 

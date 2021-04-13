@@ -1,37 +1,35 @@
 package com.joaotech.chatservice.controller;
 
-import com.joaotech.chatservice.service.ChatMessageService;
 import com.joaotech.chatservice.service.ChatRoomService;
+import com.joaotech.chatservice.vo.ChatRoomContentVO;
 import com.joaotech.chatservice.vo.ChatRoomVO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/room")
 @AllArgsConstructor
 public class RoomController {
 
-    private final ChatMessageService chatMessageService;
     private final ChatRoomService chatRoomService;
 
-    @MessageMapping("/room/open")
-    public void open(@Payload ChatRoomVO room) {
-        chatRoomService.open(room);
+    @PostMapping("/open")
+    public ResponseEntity<String> open(@Payload ChatRoomVO room) {
+        String roomToken = chatRoomService.open(room);
+        return ResponseEntity.ok(roomToken);
     }
 
-    @MessageMapping("/room/close")
+    @PostMapping("/close")
     public void close(@Payload ChatRoomVO room) {
         chatRoomService.close(room);
     }
 
-    @GetMapping("/room/{token}")
-    public ResponseEntity<Long> getContent(@PathVariable String token) {
-        return ResponseEntity.ok(chatMessageService.countNewMessages(token, token));
+    @GetMapping("/{token}/content")
+    public ResponseEntity<ChatRoomContentVO> getContent(@PathVariable String token) {
+        ChatRoomContentVO content = chatRoomService.getContent(token);
+        return ResponseEntity.ok(content);
     }
 
 }

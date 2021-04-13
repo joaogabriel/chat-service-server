@@ -1,18 +1,19 @@
 package com.joaotech.chatservice.service;
 
+import com.joaotech.chatservice.adapter.ChatMessageAdapter;
 import com.joaotech.chatservice.model.ChatMessageDocument;
 import com.joaotech.chatservice.model.ChatRoomDocument;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.repository.ChatMessageRepository;
 import com.joaotech.chatservice.vo.ChatMessageVO;
 import com.joaotech.chatservice.vo.ChatNotificationVO;
-import com.sun.jdi.PrimitiveValue;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -46,6 +47,14 @@ public class ChatMessageService {
         ChatNotificationVO chatNotification = new ChatNotificationVO(chatMessageDocument.getToken(), roomDocument.sender.getToken(), roomDocument.sender.name);
 
         messagingTemplate.convertAndSendToUser(roomDocument.recipient.getToken(), MESSAGE_DESTINATION, chatNotification);
+
+    }
+
+    public List<ChatMessageVO> findByRoom(String roomToken) {
+
+        List<ChatMessageDocument> messages = chatMessageRepository.findByRoomToken(roomToken);
+
+        return ChatMessageAdapter.toChatMessageVO(messages);
 
     }
 
