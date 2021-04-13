@@ -1,6 +1,6 @@
 package com.joaotech.chatservice.service;
 
-import com.joaotech.chatservice.model.ChatMessage;
+import com.joaotech.chatservice.model.ChatMessageDocument;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.repository.ChatMessageRepository;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -26,10 +26,10 @@ public class ChatMessageService {
         this.mongoOperations = mongoOperations;
     }
 
-    public ChatMessage save(ChatMessage chatMessage) {
-        chatMessage.setStatus(MessageStatus.RECEIVED);
-        repository.save(chatMessage);
-        return chatMessage;
+    public ChatMessageDocument save(ChatMessageDocument chatMessageDocument) {
+        chatMessageDocument.setStatus(MessageStatus.RECEIVED);
+        repository.save(chatMessageDocument);
+        return chatMessageDocument;
     }
 
     public long countNewMessages(String senderId, String recipientId) {
@@ -37,10 +37,10 @@ public class ChatMessageService {
                 senderId, recipientId, MessageStatus.RECEIVED);
     }
 
-    public List<ChatMessage> findChatMessages(String senderId, String recipientId) {
+    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {
         Optional<String> chatId = chatRoomService.getChatId(senderId, recipientId, false);
 
-        List<ChatMessage> messages = chatId.map(cId -> repository.findByChatId(cId)).orElse(new ArrayList<>());
+        List<ChatMessageDocument> messages = chatId.map(cId -> repository.findByChatId(cId)).orElse(new ArrayList<>());
 
         if (messages.size() > 0) {
             updateStatuses(senderId, recipientId, MessageStatus.DELIVERED);
@@ -49,12 +49,12 @@ public class ChatMessageService {
         return messages;
     }
 
-    public ChatMessage findById(String id) {
+    public ChatMessageDocument findById(String id) {
         return repository
                 .findById(id)
-                .map(chatMessage -> {
-                    chatMessage.setStatus(MessageStatus.DELIVERED);
-                    return repository.save(chatMessage);
+                .map(chatMessageDocument -> {
+                    chatMessageDocument.setStatus(MessageStatus.DELIVERED);
+                    return repository.save(chatMessageDocument);
                 })
                 .orElseThrow(() ->
                         new RuntimeException("can't find message (" + id + ")")); // alterei aqui
@@ -66,6 +66,6 @@ public class ChatMessageService {
                         .where("senderId").is(senderId)
                         .and("recipientId").is(recipientId));
         Update update = Update.update("status", status);
-        mongoOperations.updateMulti(query, update, ChatMessage.class);
+        mongoOperations.updateMulti(query, update, ChatMessageDocument.class);
     }
 }

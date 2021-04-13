@@ -1,7 +1,7 @@
 package com.joaotech.chatservice.controller;
 
-import com.joaotech.chatservice.model.ChatMessage;
-import com.joaotech.chatservice.model.ChatNotification;
+import com.joaotech.chatservice.model.ChatMessageDocument;
+import com.joaotech.chatservice.model.ChatNotificationDocument;
 import com.joaotech.chatservice.service.ChatMessageService;
 import com.joaotech.chatservice.service.ChatRoomService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -23,16 +23,16 @@ public class ChatController {
     }
 
     @MessageMapping("/chat")
-    public void processMessage(@Payload ChatMessage chatMessage) {
+    public void processMessage(@Payload ChatMessageDocument chatMessageDocument) {
         var chatId = chatRoomService
-                .getChatId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true);
-        chatMessage.setChatId(chatId.get());
+                .getChatId(chatMessageDocument.getSenderId(), chatMessageDocument.getRecipientId(), true);
+        chatMessageDocument.setChatId(chatId.get());
 
-        ChatMessage saved = chatMessageService.save(chatMessage);
+        ChatMessageDocument saved = chatMessageService.save(chatMessageDocument);
 
         messagingTemplate.convertAndSendToUser(
-                chatMessage.getRecipientId(), "/queue/messages",
-                new ChatNotification(
+                chatMessageDocument.getRecipientId(), "/queue/messages",
+                new ChatNotificationDocument(
                         saved.getId(),
                         saved.getSenderId(),
                         saved.getSenderName()));
