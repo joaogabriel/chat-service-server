@@ -4,6 +4,7 @@ import com.joaotech.chatservice.adapter.RoomAdapter;
 import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.model.UserDocument;
 import com.joaotech.chatservice.repository.RoomRepository;
+import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
 import com.joaotech.chatservice.vo.UserVO;
@@ -49,6 +50,7 @@ public class RoomService {
                 .sender(senderDocument)
                 .recipient(recipientDocument)
                 .startedOn(LocalDateTime.now())
+                .token(TokenGenerator.getNew())
                 .build();
 
         roomRepository.save(roomDocument);
