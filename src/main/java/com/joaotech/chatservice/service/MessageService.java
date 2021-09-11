@@ -5,6 +5,7 @@ import com.joaotech.chatservice.model.MessageDocument;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.repository.MessageRepository;
+import com.joaotech.chatservice.vo.CreateMessageVO;
 import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.UserNotificationVO;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class MessageService {
     private final RoomService roomService;
     private final MongoOperations mongoOperations;
 
-    public void save(MessageVO chatMessage) {
+    public void save(CreateMessageVO chatMessage) {
 
         RoomDocument roomDocument = roomService.findByToken(chatMessage.roomToken);
 

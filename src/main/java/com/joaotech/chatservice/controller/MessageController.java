@@ -1,6 +1,7 @@
 package com.joaotech.chatservice.controller;
 
 import com.joaotech.chatservice.service.MessageService;
+import com.joaotech.chatservice.vo.CreateMessageVO;
 import com.joaotech.chatservice.vo.MessageVO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @MessageMapping("/chat")
-    public void processMessage(@Payload MessageVO chatMessage) {
+    public void processMessage(@Payload CreateMessageVO chatMessage) {
         messageService.save(chatMessage);
     }
 
