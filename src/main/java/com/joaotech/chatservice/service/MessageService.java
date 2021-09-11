@@ -5,6 +5,7 @@ import com.joaotech.chatservice.model.MessageDocument;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.repository.MessageRepository;
+import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.CreateMessageVO;
 import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.UserNotificationVO;
@@ -38,6 +39,7 @@ public class MessageService {
         }
 
         MessageDocument messageDocument = MessageDocument.builder()
+                .token(TokenGenerator.getNew())
                 .roomToken(chatMessage.roomToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
