@@ -4,18 +4,14 @@ import com.joaotech.chatservice.util.TokenGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(value = "Message")
 public class MessageDocument {
 
-    @Id
     private String id;
     private String token = TokenGenerator.getNew();
     public String roomToken;

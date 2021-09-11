@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
+
 @RestController
 @RequestMapping("/rooms")
 @AllArgsConstructor
@@ -15,14 +17,14 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping("/open")
-    public ResponseEntity<String> open(@RequestBody OpenRoomVO room) {
+    public ResponseEntity<String> open(@RequestBody OpenRoomVO room) throws NoSuchAlgorithmException {
         String roomToken = roomService.open(room);
         return ResponseEntity.ok(roomToken);
     }
 
     @PostMapping("/{token}/close")
     public ResponseEntity<?> close(@PathVariable String token) {
-        roomService.close(token);
+//        roomService.close(token);
         return ResponseEntity.ok().build();
     }
 

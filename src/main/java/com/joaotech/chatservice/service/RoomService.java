@@ -1,9 +1,9 @@
 package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.RoomAdapter;
-import com.joaotech.chatservice.model.RoomDocument;
+import com.joaotech.chatservice.dao.RoomDAO;
+import com.joaotech.chatservice.model.Room;
 import com.joaotech.chatservice.model.UserDocument;
-import com.joaotech.chatservice.repository.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
@@ -11,16 +11,12 @@ import com.joaotech.chatservice.vo.UserVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class RoomService {
-
-//    private final MessageService messageService;
-
-    private final RoomRepository roomRepository;
 
     public String open(OpenRoomVO room) {
 
@@ -28,11 +24,18 @@ public class RoomService {
 
         UserVO recipient = room.recipient;
 
-        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySender_TokenAndRecipient_TokenAndClosedOnIsNull(sender.token, recipient.token);
-
-        if (previousOpenedRoom.isPresent()) {
-            throw new RuntimeException();
+        RoomDAO roomDAO = null;
+        try {
+            roomDAO = new RoomDAO();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
+
+//        Room previousOpenedRoom = roomDAO.findBySender(room.recipient.token);
+
+//        if (previousOpenedRoom.isPresent()) {
+//            throw new RuntimeException();
+//        }
 
         UserDocument senderDocument = UserDocument.builder()
                 .token(sender.token)
@@ -46,14 +49,14 @@ public class RoomService {
 //                .color(recipient.color)
                 .build();
 
-        RoomDocument roomDocument = RoomDocument.builder()
-                .sender(senderDocument)
-                .recipient(recipientDocument)
+        Room roomDocument = Room.builder()
+                .sender(senderDocument.token)
+                .recipient(recipientDocument.token)
                 .startedOn(LocalDateTime.now())
                 .token(TokenGenerator.getNew())
                 .build();
 
-        roomRepository.save(roomDocument);
+        roomDAO.insert(roomDocument);
 
         return roomDocument.getToken();
 
@@ -61,26 +64,48 @@ public class RoomService {
 
     public void close(String token) {
 
-        RoomDocument roomDocument = roomRepository.findByToken(token).orElseThrow(RuntimeException::new);
+        RoomDAO roomDAO = null;
+        try {
+            roomDAO = new RoomDAO();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
-        roomDocument.closedOn = LocalDateTime.now();
+        Room room = roomDAO.findBySender(token);
 
-        roomRepository.save(roomDocument);
+        room.closedOn = LocalDateTime.now();
+
+        roomDAO.insert(room);
 
     }
 
-    public RoomDocument findByToken(String token) {
-        return roomRepository.findByToken(token).orElseThrow(RuntimeException::new);
+    public Room findByToken(String token) {
+
+        RoomDAO roomDAO = null;
+        try {
+            roomDAO = new RoomDAO();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return roomDAO.findBySender(token);
     }
 
     public RoomContentVO getContent(String token) {
 
-        RoomDocument roomDocument = roomRepository.findByToken(token).orElseThrow(RuntimeException::new);
+        RoomDAO roomDAO = null;
+        try {
+            roomDAO = new RoomDAO();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        roomDAO.findBySender(token);
 
 //        List<MessageVO> messages = messageService.findByRoom(token);
 
         return RoomContentVO.builder()
-                .room(RoomAdapter.toChatRoomVO(roomDocument))
+                .room(RoomAdapter.toChatRoomVO(roomDAO.findBySender(token)))
 //                .messages(messages)
                 .build();
 

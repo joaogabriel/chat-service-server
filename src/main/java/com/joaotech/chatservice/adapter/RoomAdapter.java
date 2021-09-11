@@ -1,25 +1,26 @@
 package com.joaotech.chatservice.adapter;
 
-import com.joaotech.chatservice.model.RoomDocument;
+import com.joaotech.chatservice.model.Room;
 import com.joaotech.chatservice.vo.RoomVO;
+import com.joaotech.chatservice.vo.UserVO;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RoomAdapter {
 
-    public static RoomVO toChatRoomVO(RoomDocument roomDocument) {
+    public static RoomVO toChatRoomVO(Room room) {
         return RoomVO.builder()
-                .token(roomDocument.getToken())
-                .startedOn(roomDocument.startedOn)
-                .closedOn(roomDocument.closedOn)
-                .sender(UserAdapter.toChatUserVO(roomDocument.sender))
-                .recipient(UserAdapter.toChatUserVO(roomDocument.recipient))
+                .token(room.getToken())
+                .startedOn(room.startedOn)
+                .closedOn(room.closedOn)
+                .sender(UserVO.builder().token(room.sender).build())
+                .recipient(UserVO.builder().token(room.recipient).build())
                 .build();
     }
 
-    public static List<RoomVO> toChatRoomVO(List<RoomDocument> roomDocuments) {
-        return roomDocuments.stream()
+    public static List<RoomVO> toChatRoomVO(List<Room> rooms) {
+        return rooms.stream()
                 .map(RoomAdapter::toChatRoomVO)
                 .collect(Collectors.toList());
     }

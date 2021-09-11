@@ -3,16 +3,15 @@ package com.joaotech.chatservice.service;
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageDocument;
 import com.joaotech.chatservice.model.MessageStatus;
-import com.joaotech.chatservice.model.RoomDocument;
-import com.joaotech.chatservice.repository.MessageRepository;
+import com.joaotech.chatservice.model.Room;
 import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.UserNotificationVO;
 import lombok.AllArgsConstructor;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,17 +20,15 @@ public class MessageService {
 
     private static final String MESSAGE_DESTINATION = "/queue/messages";
 
-    private final MessageRepository messageRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
     private final RoomService roomService;
-    private final MongoOperations mongoOperations;
 
     public void save(MessageVO chatMessage) {
 
-        RoomDocument roomDocument = roomService.findByToken(chatMessage.roomToken);
+        Room room = roomService.findByToken(chatMessage.roomToken);
 
-        if (roomDocument == null) {
+        if (room == null) {
             // TODO: 26/08/21 lancar excecao especifica
             throw new RuntimeException();
         }
@@ -44,19 +41,20 @@ public class MessageService {
                 .type(chatMessage.type)
                 .build();
 
-        messageRepository.save(messageDocument);
+//        messageRepository.save(messageDocument);
 
         // TODO: 26/08/21 usar builder
         // TODO: 26/08/21 id com token?
-        UserNotificationVO chatNotification = new UserNotificationVO(messageDocument.getToken(), roomDocument.sender.token, roomDocument.sender.name);
+        UserNotificationVO chatNotification = new UserNotificationVO(messageDocument.getToken(), room.sender, room.sender);
 
-        messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION, chatNotification);
+        messagingTemplate.convertAndSendToUser(room.recipient, MESSAGE_DESTINATION, chatNotification);
 
     }
 
     public List<MessageVO> findByRoom(String roomToken) {
 
-        List<MessageDocument> messages = messageRepository.findByRoomToken(roomToken);
+//        List<MessageDocument> messages = messageRepository.findByRoomToken(roomToken);
+        List<MessageDocument> messages = new ArrayList<>();
 
         return MessageAdapter.toChatMessageVO(messages);
 
