@@ -14,4 +14,6 @@ public interface RoomRepository extends MongoRepository<RoomDocument, String> {
 
     List<RoomDocument> findBySenderTokenAndClosedOnIsNull(String senderToken);
 
+    List<RoomDocument> findByRecipientTokenAndClosedOnIsNull(String recipientToken);
+
 }

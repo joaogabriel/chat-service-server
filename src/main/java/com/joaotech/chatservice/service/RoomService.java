@@ -92,6 +92,8 @@ public class RoomService {
 
         List<RoomDocument> rooms = roomRepository.findBySenderTokenAndClosedOnIsNull(userToken);
 
+        rooms.addAll(roomRepository.findByRecipientTokenAndClosedOnIsNull(userToken));
+
         return RoomAdapter.toOpenedRoomSenderVO(rooms);
 
     }
