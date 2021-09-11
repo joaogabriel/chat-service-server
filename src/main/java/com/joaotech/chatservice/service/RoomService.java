@@ -37,13 +37,13 @@ public class RoomService {
         UserDocument senderDocument = UserDocument.builder()
                 .token(sender.token)
                 .name(sender.name)
-                .color(sender.color)
+//                .color(sender.color)
                 .build();
 
         UserDocument recipientDocument = UserDocument.builder()
                 .token(recipient.token)
                 .name(recipient.name)
-                .color(recipient.color)
+//                .color(recipient.color)
                 .build();
 
         RoomDocument roomDocument = RoomDocument.builder()
