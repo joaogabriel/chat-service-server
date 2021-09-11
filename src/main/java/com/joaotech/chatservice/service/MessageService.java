@@ -62,10 +62,16 @@ public class MessageService {
 
     }
 
-    public long countNewMessages(String senderId, String recipientId) {
-//        return repository.countBySenderIdAndRecipientIdAndStatus(
-//                senderId, recipientId, MessageStatus.RECEIVED);
-        return 1;
+    public MessageVO findByToken(String token) {
+
+        MessageDocument message = messageRepository.findByToken(token);
+
+        return MessageAdapter.toChatMessageVO(message);
+
+    }
+
+    public long countNewMessages(String roomToken) {
+        return messageRepository.countByRoomTokenAndStatus(roomToken, MessageStatus.RECEIVED);
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {

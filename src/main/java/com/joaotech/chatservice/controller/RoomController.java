@@ -1,5 +1,6 @@
 package com.joaotech.chatservice.controller;
 
+import com.joaotech.chatservice.service.MessageService;
 import com.joaotech.chatservice.service.RoomService;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class RoomController {
 
     private final RoomService roomService;
+    private final MessageService messageService;
 
     @PostMapping("/open")
     public ResponseEntity<String> open(@RequestBody OpenRoomVO room) {
@@ -30,6 +32,12 @@ public class RoomController {
     public ResponseEntity<RoomContentVO> getContent(@PathVariable String token) {
         RoomContentVO content = roomService.getContent(token);
         return ResponseEntity.ok(content);
+    }
+
+    @GetMapping("/{token}/new-messages-count")
+    public ResponseEntity<Long> countNewMessages(@PathVariable String token) {
+        Long countNewMessages = messageService.countNewMessages(token);
+        return ResponseEntity.ok(countNewMessages);
     }
 
 }
