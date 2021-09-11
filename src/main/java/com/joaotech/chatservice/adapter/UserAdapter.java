@@ -8,16 +8,19 @@ import java.util.stream.Collectors;
 
 public class UserAdapter {
 
-    public static UserVO toChatUserVO(UserDocument userDocument) {
+    public static UserVO toUserVO(UserDocument userDocument) {
+        if (userDocument == null) {
+            return null;
+        }
         return UserVO.builder()
                 .token(userDocument.token)
                 .name(userDocument.name)
                 .build();
     }
 
-    public static List<UserVO> toChatUserVO(List<UserDocument> userDocuments) {
+    public static List<UserVO> toUserVO(List<UserDocument> userDocuments) {
         return userDocuments.stream()
-                .map(UserAdapter::toChatUserVO)
+                .map(UserAdapter::toUserVO)
                 .collect(Collectors.toList());
     }
 

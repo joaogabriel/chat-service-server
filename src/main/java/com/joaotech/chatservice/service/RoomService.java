@@ -6,12 +6,14 @@ import com.joaotech.chatservice.model.UserDocument;
 import com.joaotech.chatservice.repository.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.OpenRoomVO;
+import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
 import com.joaotech.chatservice.vo.UserVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +30,7 @@ public class RoomService {
 
         UserVO recipient = room.recipient;
 
-        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySender_TokenAndRecipient_TokenAndClosedOnIsNull(sender.token, recipient.token);
+        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndClosedOnIsNull(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
             throw new RuntimeException();
@@ -80,9 +82,17 @@ public class RoomService {
 //        List<MessageVO> messages = messageService.findByRoom(token);
 
         return RoomContentVO.builder()
-                .room(RoomAdapter.toChatRoomVO(roomDocument))
+                .room(RoomAdapter.toRoomVO(roomDocument))
 //                .messages(messages)
                 .build();
+
+    }
+
+    public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
+
+        List<RoomDocument> rooms = roomRepository.findBySenderTokenAndClosedOnIsNull(userToken);
+
+        return RoomAdapter.toOpenedRoomSenderVO(rooms);
 
     }
 
