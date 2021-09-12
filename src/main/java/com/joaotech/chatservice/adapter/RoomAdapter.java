@@ -30,6 +30,7 @@ public class RoomAdapter {
                 .token(roomDocument.getToken())
                 .startedOn(roomDocument.startedOn)
                 .recipient(UserAdapter.toUserVO(roomDocument.recipient))
+                .sender(UserAdapter.toUserVO(roomDocument.sender))
                 .build();
     }
 
