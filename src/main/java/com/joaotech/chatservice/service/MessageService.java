@@ -6,7 +6,8 @@ import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.Room;
 import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.MessageVO;
-import com.joaotech.chatservice.vo.UserNotificationVO;
+import com.joaotech.chatservice.vo.RoomNotificationVO;
+import com.joaotech.chatservice.vo.RoomsNotificationVO;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MessageService {
 
-    private static final String MESSAGE_DESTINATION = "/queue/messages";
+    private static final String MESSAGE_DESTINATION = "/queue/rooms";
 
     private final SimpMessagingTemplate messagingTemplate;
 
@@ -37,6 +38,7 @@ public class MessageService {
 
         Message message = Message.builder()
                 .roomToken(chatMessage.roomToken)
+                .userToken(chatMessage.userToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
                 .status(MessageStatus.RECEIVED)
@@ -48,8 +50,40 @@ public class MessageService {
         // TODO: 26/08/21 usar builder
         // TODO: 26/08/21 id com token?
         UserNotificationVO chatNotification = new UserNotificationVO(message.getToken(), room.senderToken, room.senderToken);
+        notifyUsers(roomDocument, messageDocument);
+
+    }
+
+    private void notifyUsers(RoomDocument roomDocument, MessageDocument messageDocument) {
+
+        notifyRoom(roomDocument);
+
+        notifyRooms(roomDocument, messageDocument);
 
         messagingTemplate.convertAndSendToUser(room.recipientToken, MESSAGE_DESTINATION, chatNotification);
+    }
+
+    private void notifyRoom(RoomDocument roomDocument) {
+
+        RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
+                .token(roomDocument.getToken())
+                .sender(UserAdapter.toUserVO(roomDocument.sender))
+                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
+                .build();
+
+        messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION, roomsNotificationVO);
+
+    }
+
+    private void notifyRooms(RoomDocument roomDocument, MessageDocument messageDocument) {
+
+        RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
+                .messageToken(messageDocument.getToken())
+                .sender(UserAdapter.toUserVO(roomDocument.sender))
+                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
+                .build();
+
+        messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION + "/" + roomDocument.getToken(), roomsNotificationVO);
 
     }
 

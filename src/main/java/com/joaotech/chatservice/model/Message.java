@@ -25,6 +25,9 @@ public class Message {
     @Column("room_token")
     public String roomToken;
 
+    @Column("user_token")
+    public String userToken;
+
     @Column("content")
     public String content;
 

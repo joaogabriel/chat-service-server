@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class CreateMessageVO {
 
     public String roomToken;
+    public String userToken;
     public String content;
     public MessageType type;
 
