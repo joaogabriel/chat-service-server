@@ -1,6 +1,6 @@
 package com.joaotech.chatservice.adapter;
 
-import com.joaotech.chatservice.model.UserDocument;
+import com.joaotech.chatservice.model.User;
 import com.joaotech.chatservice.vo.UserVO;
 
 import java.util.List;
@@ -8,19 +8,20 @@ import java.util.stream.Collectors;
 
 public class UserAdapter {
 
-    public static UserVO toUserVO(UserDocument userDocument) {
-        if (userDocument == null) {
+    public static UserVO toChatUserVO(User user) {
+        if (user == null) {
             return null;
         }
+
         return UserVO.builder()
-                .token(userDocument.token)
-                .name(userDocument.name)
+                .token(user.token)
+                .name(user.name)
                 .build();
     }
 
-    public static List<UserVO> toUserVO(List<UserDocument> userDocuments) {
-        return userDocuments.stream()
-                .map(UserAdapter::toUserVO)
+    public static List<UserVO> toChatUserVO(List<User> users) {
+        return users.stream()
+                .map(UserAdapter::toChatUserVO)
                 .collect(Collectors.toList());
     }
 

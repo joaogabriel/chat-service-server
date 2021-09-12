@@ -1,40 +1,41 @@
 package com.joaotech.chatservice.adapter;
 
-import com.joaotech.chatservice.model.RoomDocument;
+import com.joaotech.chatservice.model.Room;
 import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomVO;
+import com.joaotech.chatservice.vo.UserVO;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RoomAdapter {
 
-    public static RoomVO toRoomVO(RoomDocument roomDocument) {
+    public static RoomVO toChatRoomVO(Room room) {
         return RoomVO.builder()
-                .token(roomDocument.getToken())
-                .startedOn(roomDocument.startedOn)
-                .closedOn(roomDocument.closedOn)
-                .sender(UserAdapter.toUserVO(roomDocument.sender))
-                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
+                .token(room.getToken())
+                .startedOn(room.startedOn)
+                .closedOn(room.closedOn)
+                .sender(UserVO.builder().token(room.senderToken).build())
+                .recipient(UserVO.builder().token(room.recipientToken).build())
                 .build();
     }
 
-    public static List<RoomVO> toRoomVO(List<RoomDocument> roomDocuments) {
-        return roomDocuments.stream()
-                .map(RoomAdapter::toRoomVO)
+    public static List<RoomVO> toChatRoomVO(List<Room> rooms) {
+        return rooms.stream()
+                .map(RoomAdapter::toChatRoomVO)
                 .collect(Collectors.toList());
     }
 
-    public static OpenedRoomSenderVO toOpenedRoomSenderVO(RoomDocument roomDocument) {
+    public static OpenedRoomSenderVO toOpenedRoomSenderVO(Room roomDocument) {
         return OpenedRoomSenderVO.builder()
                 .token(roomDocument.getToken())
                 .startedOn(roomDocument.startedOn)
-                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
-                .sender(UserAdapter.toUserVO(roomDocument.sender))
+                .recipient(UserVO.builder().token(roomDocument.recipientToken).build())
+                .sender(UserVO.builder().token(roomDocument.senderToken).build())
                 .build();
     }
 
-    public static List<OpenedRoomSenderVO> toOpenedRoomSenderVO(List<RoomDocument> roomDocuments) {
+    public static List<OpenedRoomSenderVO> toOpenedRoomSenderVO(List<Room> roomDocuments) {
         return roomDocuments.stream()
                 .map(RoomAdapter::toOpenedRoomSenderVO)
                 .collect(Collectors.toList());

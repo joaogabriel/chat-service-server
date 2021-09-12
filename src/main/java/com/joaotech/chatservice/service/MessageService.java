@@ -1,18 +1,12 @@
 package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.MessageAdapter;
-import com.joaotech.chatservice.adapter.UserAdapter;
-import com.joaotech.chatservice.model.MessageDocument;
+import com.joaotech.chatservice.model.Message;
 import com.joaotech.chatservice.model.MessageStatus;
-import com.joaotech.chatservice.model.RoomDocument;
+import com.joaotech.chatservice.model.Room;
 import com.joaotech.chatservice.repository.MessageRepository;
-import com.joaotech.chatservice.util.TokenGenerator;
-import com.joaotech.chatservice.vo.CreateMessageVO;
-import com.joaotech.chatservice.vo.MessageVO;
-import com.joaotech.chatservice.vo.RoomNotificationVO;
-import com.joaotech.chatservice.vo.RoomsNotificationVO;
+import com.joaotech.chatservice.vo.*;
 import lombok.AllArgsConstructor;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -25,23 +19,22 @@ public class MessageService {
 
     private static final String MESSAGE_DESTINATION = "/queue/rooms";
 
-    private final MessageRepository messageRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
     private final RoomService roomService;
-    private final MongoOperations mongoOperations;
 
-    public void save(CreateMessageVO chatMessage) {
+    private final MessageRepository messageRepository;
 
-        RoomDocument roomDocument = roomService.findByToken(chatMessage.roomToken);
+    public void save(MessageVO chatMessage) {
 
-        if (roomDocument == null) {
+        Room room = roomService.findByToken(chatMessage.roomToken);
+
+        if (room == null) {
             // TODO: 26/08/21 lancar excecao especifica
             throw new RuntimeException();
         }
 
-        MessageDocument messageDocument = MessageDocument.builder()
-                .token(TokenGenerator.getNew())
+        Message message = Message.builder()
                 .roomToken(chatMessage.roomToken)
                 .userToken(chatMessage.userToken)
                 .content(chatMessage.content)
@@ -50,47 +43,53 @@ public class MessageService {
                 .type(chatMessage.type)
                 .build();
 
-        messageRepository.save(messageDocument);
+        messageRepository.save(message);
 
-        notifyUsers(roomDocument, messageDocument);
+        // TODO: 26/08/21 usar builder
+        // TODO: 26/08/21 id com token?
 
-    }
-
-    private void notifyUsers(RoomDocument roomDocument, MessageDocument messageDocument) {
-
-        notifyRoom(roomDocument);
-
-        notifyRooms(roomDocument, messageDocument);
+        notifyUsers(room, message);
 
     }
 
-    private void notifyRoom(RoomDocument roomDocument) {
+    private void notifyUsers(Room room, Message message) {
+
+        UserNotificationVO chatNotification = new UserNotificationVO(message.getToken(), room.senderToken, room.senderToken);
+
+        notifyRoom(room);
+
+        notifyRooms(room, message);
+
+        messagingTemplate.convertAndSendToUser(room.recipientToken, MESSAGE_DESTINATION, chatNotification);
+    }
+
+    private void notifyRoom(Room room) {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
-                .token(roomDocument.getToken())
-                .sender(UserAdapter.toUserVO(roomDocument.sender))
-                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
+                .token(room.getToken())
+                .sender(UserVO.builder().token(room.senderToken).build())
+                .recipient(UserVO.builder().token(room.recipientToken).build())
                 .build();
 
-        messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION, roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(room.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
 
     }
 
-    private void notifyRooms(RoomDocument roomDocument, MessageDocument messageDocument) {
+    private void notifyRooms(Room room, Message message) {
 
         RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
-                .messageToken(messageDocument.getToken())
-                .sender(UserAdapter.toUserVO(roomDocument.sender))
-                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
+                .messageToken(message.getToken())
+                .sender(UserVO.builder().token(room.senderToken).build())
+                .recipient(UserVO.builder().token(room.recipientToken).build())
                 .build();
 
-        messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION + "/" + roomDocument.getToken(), roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(room.recipientToken, MESSAGE_DESTINATION + "/" + room.getToken(), roomsNotificationVO);
 
     }
 
     public List<MessageVO> findByRoom(String roomToken) {
 
-        List<MessageDocument> messages = messageRepository.findByRoomToken(roomToken);
+        List<Message> messages = messageRepository.findAllByRoomToken(roomToken);
 
         return MessageAdapter.toChatMessageVO(messages);
 
@@ -98,7 +97,7 @@ public class MessageService {
 
     public MessageVO findByToken(String token) {
 
-        MessageDocument message = messageRepository.findByToken(token);
+        Message message = messageRepository.findById(token).orElse(null);
 
         return MessageAdapter.toChatMessageVO(message);
 

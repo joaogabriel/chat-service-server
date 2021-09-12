@@ -17,6 +17,7 @@ import java.util.List;
 public class RoomController {
 
     private final RoomService roomService;
+
     private final MessageService messageService;
 
     @PostMapping("/open")
@@ -34,6 +35,7 @@ public class RoomController {
     @GetMapping("/{token}/content")
     public ResponseEntity<RoomContentVO> getContent(@PathVariable String token) {
         RoomContentVO content = roomService.getContent(token);
+        content.messages = messageService.findByRoom(content.room.token);
         return ResponseEntity.ok(content);
     }
 

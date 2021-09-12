@@ -1,19 +1,17 @@
 package com.joaotech.chatservice.repository;
 
-import com.joaotech.chatservice.model.MessageDocument;
+import com.joaotech.chatservice.model.Message;
 import com.joaotech.chatservice.model.MessageStatus;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface MessageRepository extends MongoRepository<MessageDocument, String> {
+public interface MessageRepository extends CrudRepository<Message, String> {
 
-    MessageDocument findByToken(String token);
+    List<Message> findAllByRoomToken(String token);
 
-    List<MessageDocument> findByRoomToken(String roomToken);
+    Message findByToken(String token);
 
     long countByRoomTokenAndStatus(String roomToken, MessageStatus status);
-
-//    List<ChatMessageDocument> findByChatId(String chatId);
 
 }

@@ -1,8 +1,8 @@
 package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.RoomAdapter;
-import com.joaotech.chatservice.model.RoomDocument;
-import com.joaotech.chatservice.model.UserDocument;
+import com.joaotech.chatservice.model.Room;
+import com.joaotech.chatservice.model.User;
 import com.joaotech.chatservice.repository.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.OpenRoomVO;
@@ -20,8 +20,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class RoomService {
 
-//    private final MessageService messageService;
-
     private final RoomRepository roomRepository;
 
     public String open(OpenRoomVO room) {
@@ -30,29 +28,30 @@ public class RoomService {
 
         UserVO recipient = room.recipient;
 
-        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndClosedOnIsNull(sender.token, recipient.token);
+        Optional<Room> previousOpenedRoom = roomRepository.findBySenderAndRecipientToken(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
             throw new RuntimeException();
         }
 
-        UserDocument senderDocument = UserDocument.builder()
+        User senderDocument = User.builder()
                 .token(sender.token)
                 .name(sender.name)
 //                .color(sender.color)
                 .build();
 
-        UserDocument recipientDocument = UserDocument.builder()
+        User recipientDocument = User.builder()
                 .token(recipient.token)
                 .name(recipient.name)
 //                .color(recipient.color)
                 .build();
 
-        RoomDocument roomDocument = RoomDocument.builder()
-                .sender(senderDocument)
-                .recipient(recipientDocument)
+        Room roomDocument = Room.builder()
+                .senderToken(senderDocument.token)
+                .recipientToken(recipientDocument.token)
                 .startedOn(LocalDateTime.now())
                 .token(TokenGenerator.getNew())
+                .id(TokenGenerator.getNew())
                 .build();
 
         roomRepository.save(roomDocument);
@@ -63,34 +62,31 @@ public class RoomService {
 
     public void close(String token) {
 
-        RoomDocument roomDocument = roomRepository.findByToken(token).orElseThrow(RuntimeException::new);
+        Room room = roomRepository.findById(token).orElse(null);
 
-        roomDocument.closedOn = LocalDateTime.now();
+        room.closedOn = LocalDateTime.now();
 
-        roomRepository.save(roomDocument);
+        roomRepository.save(room);
 
     }
 
-    public RoomDocument findByToken(String token) {
-        return roomRepository.findByToken(token).orElseThrow(RuntimeException::new);
+    public Room findByToken(String token) {
+        return roomRepository.findByToken(token).orElse(null);
     }
 
     public RoomContentVO getContent(String token) {
 
-        RoomDocument roomDocument = roomRepository.findByToken(token).orElseThrow(RuntimeException::new);
-
-//        List<MessageVO> messages = messageService.findByRoom(token);
+        Optional<Room> room = roomRepository.findByToken(token);
 
         return RoomContentVO.builder()
-                .room(RoomAdapter.toRoomVO(roomDocument))
-//                .messages(messages)
+                .room(RoomAdapter.toChatRoomVO(room.orElse(null)))
                 .build();
 
     }
 
     public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
 
-        List<RoomDocument> rooms = roomRepository.findBySenderTokenAndClosedOnIsNull(userToken);
+        List<Room> rooms = roomRepository.findBySenderAndRecipientTokenAndClosedOnIsNull(userToken);
 
         rooms.addAll(roomRepository.findByRecipientTokenAndClosedOnIsNull(userToken));
 
