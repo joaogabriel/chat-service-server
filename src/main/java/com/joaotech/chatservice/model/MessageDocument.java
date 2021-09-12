@@ -19,6 +19,7 @@ public class MessageDocument {
     private String id;
     private String token = TokenGenerator.getNew();
     public String roomToken;
+    public String userToken;
     public String content;
     public LocalDateTime timestamp;
     public MessageStatus status;

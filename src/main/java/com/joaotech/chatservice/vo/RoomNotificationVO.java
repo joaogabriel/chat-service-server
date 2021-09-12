@@ -12,5 +12,6 @@ public class RoomNotificationVO {
     public String messageToken;
     public String senderId;
     public String senderName;
+    public String messageOwner;
 
 }

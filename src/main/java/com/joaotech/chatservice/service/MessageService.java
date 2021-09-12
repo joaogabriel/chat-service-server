@@ -42,6 +42,7 @@ public class MessageService {
         MessageDocument messageDocument = MessageDocument.builder()
                 .token(TokenGenerator.getNew())
                 .roomToken(chatMessage.roomToken)
+                .userToken(chatMessage.userToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
                 .status(MessageStatus.RECEIVED)
@@ -80,6 +81,7 @@ public class MessageService {
                 .messageToken(messageDocument.getToken())
                 .senderId(roomDocument.sender.token)
                 .senderName(roomDocument.sender.name)
+                .messageOwner(messageDocument.userToken)
                 .build();
 
         messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION + "/" + roomDocument.getToken(), roomsNotificationVO);
