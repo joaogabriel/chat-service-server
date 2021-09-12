@@ -4,6 +4,7 @@ import com.joaotech.chatservice.adapter.RoomAdapter;
 import com.joaotech.chatservice.dao.RoomDAO;
 import com.joaotech.chatservice.model.Room;
 import com.joaotech.chatservice.model.UserDocument;
+import com.joaotech.chatservice.reposistory.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
@@ -11,25 +12,21 @@ import com.joaotech.chatservice.vo.UserVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class RoomService {
+
+    private final RoomRepository roomRepository;
 
     public String open(OpenRoomVO room) {
 
         UserVO sender = room.sender;
 
         UserVO recipient = room.recipient;
-
-        RoomDAO roomDAO = null;
-        try {
-            roomDAO = new RoomDAO();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
 
 //        Room previousOpenedRoom = roomDAO.findBySender(room.recipient.token);
 
@@ -54,9 +51,10 @@ public class RoomService {
                 .recipient(recipientDocument.token)
                 .startedOn(LocalDateTime.now())
                 .token(TokenGenerator.getNew())
+                .id(TokenGenerator.getNew())
                 .build();
 
-        roomDAO.insert(roomDocument);
+        roomRepository.save(roomDocument);
 
         return roomDocument.getToken();
 
@@ -64,48 +62,42 @@ public class RoomService {
 
     public void close(String token) {
 
-        RoomDAO roomDAO = null;
-        try {
-            roomDAO = new RoomDAO();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+//        RoomDAO roomDAO = null;
+//        try {
+//            roomDAO = new RoomDAO();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
 
-        Room room = roomDAO.findBySender(token);
+        Room room = roomRepository.findById(token).orElse(null);
 
         room.closedOn = LocalDateTime.now();
 
-        roomDAO.insert(room);
+        roomRepository.save(room);
 
     }
 
     public Room findByToken(String token) {
 
-        RoomDAO roomDAO = null;
-        try {
-            roomDAO = new RoomDAO();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        //        TODO ECLUIR PRA UTILIZAR O REPOSITORY
+//        RoomDAO roomDAO = null;
+//        try {
+//            roomDAO = new RoomDAO();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
 
-        return roomDAO.findBySender(token);
+        return roomRepository.findById(token).orElse(null);
     }
 
     public RoomContentVO getContent(String token) {
 
-        RoomDAO roomDAO = null;
-        try {
-            roomDAO = new RoomDAO();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        roomDAO.findBySender(token);
+        Optional<Room> room = roomRepository.findByToken(token);
 
 //        List<MessageVO> messages = messageService.findByRoom(token);
 
         return RoomContentVO.builder()
-                .room(RoomAdapter.toChatRoomVO(roomDAO.findBySender(token)))
+                .room(RoomAdapter.toChatRoomVO(room.orElse(null)))
 //                .messages(messages)
                 .build();
 
