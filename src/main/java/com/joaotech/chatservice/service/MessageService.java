@@ -76,7 +76,11 @@ public class MessageService {
 
     private void notifyRooms(RoomDocument roomDocument, MessageDocument messageDocument) {
 
-        RoomNotificationVO roomsNotificationVO = new RoomNotificationVO(messageDocument.getToken());
+        RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
+                .messageToken(messageDocument.getToken())
+                .senderId(roomDocument.sender.token)
+                .senderName(roomDocument.sender.name)
+                .build();
 
         messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION + "/" + roomDocument.getToken(), roomsNotificationVO);
 
