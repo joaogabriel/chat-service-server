@@ -3,9 +3,8 @@ package com.joaotech.chatservice.service;
 import com.joaotech.chatservice.adapter.RoomAdapter;
 import com.joaotech.chatservice.model.Room;
 import com.joaotech.chatservice.model.User;
-import com.joaotech.chatservice.reposistory.RoomRepository;
+import com.joaotech.chatservice.repository.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
-import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
@@ -29,7 +28,7 @@ public class RoomService {
 
         UserVO recipient = room.recipient;
 
-        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySender_TokenAndRecipient_TokenAndClosedOnIsNull(sender.token, recipient.token);
+        Optional<Room> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndClosedOnIsNull(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
             throw new RuntimeException();
@@ -48,8 +47,8 @@ public class RoomService {
                 .build();
 
         Room roomDocument = Room.builder()
-                .sender(senderDocument.token)
-                .recipient(recipientDocument.token)
+                .senderToken(senderDocument.token)
+                .recipientToken(recipientDocument.token)
                 .startedOn(LocalDateTime.now())
                 .token(TokenGenerator.getNew())
                 .id(TokenGenerator.getNew())
@@ -87,7 +86,7 @@ public class RoomService {
 
     public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
 
-        List<RoomDocument> rooms = roomRepository.findBySenderTokenAndClosedOnIsNull(userToken);
+        List<Room> rooms = roomRepository.findBySenderTokenAndClosedOnIsNull(userToken);
 
         rooms.addAll(roomRepository.findByRecipientTokenAndClosedOnIsNull(userToken));
 

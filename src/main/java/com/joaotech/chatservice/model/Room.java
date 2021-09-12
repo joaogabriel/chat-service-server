@@ -29,10 +29,10 @@ public class Room {
     public LocalDateTime closedOn;
 
     @Column("sender")
-    public String sender;
+    public String senderToken;
 
     @Column("recipient")
-    public String recipient;
+    public String recipientToken;
 
     public String getId() {
         return id;

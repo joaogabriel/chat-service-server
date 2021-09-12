@@ -1,20 +1,19 @@
-
 package com.joaotech.chatservice.repository;
 
-import com.joaotech.chatservice.model.RoomDocument;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import com.joaotech.chatservice.model.Room;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface RoomRepository extends MongoRepository<RoomDocument, String> {
+public interface RoomRepository extends CrudRepository<Room, String> {
 
-    Optional<RoomDocument> findByToken(String token);
+    Optional<Room> findByToken(String token);
 
-    Optional<RoomDocument> findBySenderTokenAndRecipientTokenAndClosedOnIsNull(String senderToken, String recipientToken);
+    Optional<Room> findBySenderTokenAndRecipientTokenAndClosedOnIsNull(String senderToken, String recipientToken);
 
-    List<RoomDocument> findBySenderTokenAndClosedOnIsNull(String senderToken);
+    List<Room> findBySenderTokenAndClosedOnIsNull(String senderToken);
 
-    List<RoomDocument> findByRecipientTokenAndClosedOnIsNull(String recipientToken);
+    List<Room> findByRecipientTokenAndClosedOnIsNull(String recipientToken);
 
 }

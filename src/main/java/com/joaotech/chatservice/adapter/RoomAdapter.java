@@ -1,8 +1,6 @@
 package com.joaotech.chatservice.adapter;
 
 import com.joaotech.chatservice.model.Room;
-import com.joaotech.chatservice.model.RoomDocument;
-import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomVO;
 import com.joaotech.chatservice.vo.UserVO;
@@ -17,8 +15,8 @@ public class RoomAdapter {
                 .token(room.getToken())
                 .startedOn(room.startedOn)
                 .closedOn(room.closedOn)
-                .sender(UserVO.builder().token(room.sender).build())
-                .recipient(UserVO.builder().token(room.recipient).build())
+                .sender(UserVO.builder().token(room.senderToken).build())
+                .recipient(UserVO.builder().token(room.recipientToken).build())
                 .build();
     }
 
@@ -32,7 +30,7 @@ public class RoomAdapter {
         return OpenedRoomSenderVO.builder()
                 .token(roomDocument.getToken())
                 .startedOn(roomDocument.startedOn)
-                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
+                .recipient(UserVO.builder().token(roomDocument.recipientToken).build())
                 .build();
     }
 

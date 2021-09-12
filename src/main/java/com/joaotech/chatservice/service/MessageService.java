@@ -4,7 +4,7 @@ import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.Message;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.Room;
-import com.joaotech.chatservice.reposistory.MessageRepository;
+import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.UserNotificationVO;
 import lombok.AllArgsConstructor;
@@ -43,13 +43,13 @@ public class MessageService {
                 .type(chatMessage.type)
                 .build();
 
-        messageRepository.save(messageDocument);
+        messageRepository.save(message);
 
         // TODO: 26/08/21 usar builder
         // TODO: 26/08/21 id com token?
-        UserNotificationVO chatNotification = new UserNotificationVO(message.getToken(), room.sender, room.sender);
+        UserNotificationVO chatNotification = new UserNotificationVO(message.getToken(), room.senderToken, room.senderToken);
 
-        messagingTemplate.convertAndSendToUser(room.recipient, MESSAGE_DESTINATION, chatNotification);
+        messagingTemplate.convertAndSendToUser(room.recipientToken, MESSAGE_DESTINATION, chatNotification);
 
     }
 
@@ -63,7 +63,7 @@ public class MessageService {
 
     public MessageVO findByToken(String token) {
 
-        Message message = messageRepository.findByToken(token);
+        Message message = messageRepository.findById(token).orElse(null);
 
         return MessageAdapter.toChatMessageVO(message);
 
