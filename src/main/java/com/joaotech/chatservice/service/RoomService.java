@@ -62,13 +62,6 @@ public class RoomService {
 
     public void close(String token) {
 
-//        RoomDAO roomDAO = null;
-//        try {
-//            roomDAO = new RoomDAO();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-
         Room room = roomRepository.findById(token).orElse(null);
 
         room.closedOn = LocalDateTime.now();
@@ -78,16 +71,7 @@ public class RoomService {
     }
 
     public Room findByToken(String token) {
-
-        //        TODO ECLUIR PRA UTILIZAR O REPOSITORY
-//        RoomDAO roomDAO = null;
-//        try {
-//            roomDAO = new RoomDAO();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-
-        return roomRepository.findById(token).orElse(null);
+        return roomRepository.findByToken(token).orElse(null);
     }
 
     public RoomContentVO getContent(String token) {

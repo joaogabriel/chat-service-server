@@ -20,14 +20,14 @@ public class RoomController {
     private final MessageService messageService;
 
     @PostMapping("/open")
-    public ResponseEntity<String> open(@RequestBody OpenRoomVO room) throws NoSuchAlgorithmException {
+    public ResponseEntity<String> open(@RequestBody OpenRoomVO room) {
         String roomToken = roomService.open(room);
         return ResponseEntity.ok(roomToken);
     }
 
     @PostMapping("/{token}/close")
     public ResponseEntity<?> close(@PathVariable String token) {
-//        roomService.close(token);
+        roomService.close(token);
         return ResponseEntity.ok().build();
     }
 
