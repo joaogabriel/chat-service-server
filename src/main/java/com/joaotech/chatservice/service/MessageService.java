@@ -50,10 +50,6 @@ public class MessageService {
 
         messageRepository.save(messageDocument);
 
-        // TODO: 26/08/21 usar builder
-        // TODO: 26/08/21 id com token?
-//        UserNotificationVO chatNotification = new UserNotificationVO(messageDocument.getToken(), roomDocument.sender.token, roomDocument.sender.name);
-
         notifyUsers(roomDocument, messageDocument);
 
     }
