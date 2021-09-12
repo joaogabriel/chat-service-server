@@ -1,5 +1,6 @@
 package com.joaotech.chatservice.controller;
 
+import com.joaotech.chatservice.service.MessageService;
 import com.joaotech.chatservice.service.RoomService;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
@@ -16,6 +17,8 @@ public class RoomController {
 
     private final RoomService roomService;
 
+    private final MessageService messageService;
+
     @PostMapping("/open")
     public ResponseEntity<String> open(@RequestBody OpenRoomVO room) throws NoSuchAlgorithmException {
         String roomToken = roomService.open(room);
@@ -31,6 +34,7 @@ public class RoomController {
     @GetMapping("/{token}/content")
     public ResponseEntity<RoomContentVO> getContent(@PathVariable String token) {
         RoomContentVO content = roomService.getContent(token);
+        content.messages = messageService.findByRoom(content.room.token);
         return ResponseEntity.ok(content);
     }
 

@@ -5,6 +5,7 @@ import com.joaotech.chatservice.model.Room;
 import com.joaotech.chatservice.model.User;
 import com.joaotech.chatservice.reposistory.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
+import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
 import com.joaotech.chatservice.vo.UserVO;
@@ -12,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -92,11 +94,8 @@ public class RoomService {
 
         Optional<Room> room = roomRepository.findByToken(token);
 
-//        List<MessageVO> messages = messageService.findByRoom(token);
-
         return RoomContentVO.builder()
                 .room(RoomAdapter.toChatRoomVO(room.orElse(null)))
-//                .messages(messages)
                 .build();
 
     }

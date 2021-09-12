@@ -55,7 +55,7 @@ public class MessageService {
 
     public List<MessageVO> findByRoom(String roomToken) {
 
-        List<Message> messages = messageRepository.findAllByToken(roomToken);
+        List<Message> messages = messageRepository.findAllByRoomToken(roomToken);
 
         return MessageAdapter.toChatMessageVO(messages);
 

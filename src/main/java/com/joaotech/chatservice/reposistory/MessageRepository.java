@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MessageRepository extends CrudRepository<Message, String> {
 
-    List<Message> findAllByToken(String token);
+    List<Message> findAllByRoomToken(String token);
 
 }
