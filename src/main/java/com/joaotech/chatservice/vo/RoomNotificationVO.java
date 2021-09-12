@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 public class RoomNotificationVO {
 
     public String messageToken;
-    public String senderId;
-    public String senderName;
-    public String messageOwner;
+    public UserVO sender;
+    public UserVO recipient;
 
 }

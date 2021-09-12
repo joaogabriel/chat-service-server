@@ -1,6 +1,7 @@
 package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.MessageAdapter;
+import com.joaotech.chatservice.adapter.UserAdapter;
 import com.joaotech.chatservice.model.MessageDocument;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.RoomDocument;
@@ -67,8 +68,8 @@ public class MessageService {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
                 .token(roomDocument.getToken())
-                .senderId(roomDocument.sender.token)
-                .senderName(roomDocument.sender.name)
+                .sender(UserAdapter.toUserVO(roomDocument.sender))
+                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
                 .build();
 
         messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION, roomsNotificationVO);
@@ -79,9 +80,8 @@ public class MessageService {
 
         RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
                 .messageToken(messageDocument.getToken())
-                .senderId(roomDocument.sender.token)
-                .senderName(roomDocument.sender.name)
-                .messageOwner(messageDocument.userToken)
+                .sender(UserAdapter.toUserVO(roomDocument.sender))
+                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
                 .build();
 
         messagingTemplate.convertAndSendToUser(roomDocument.recipient.token, MESSAGE_DESTINATION + "/" + roomDocument.getToken(), roomsNotificationVO);
