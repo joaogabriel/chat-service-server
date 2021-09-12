@@ -1,6 +1,5 @@
 package com.joaotech.chatservice.model;
 
-import com.joaotech.chatservice.util.TokenGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder

@@ -1,9 +1,8 @@
 package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.RoomAdapter;
-import com.joaotech.chatservice.dao.RoomDAO;
 import com.joaotech.chatservice.model.Room;
-import com.joaotech.chatservice.model.UserDocument;
+import com.joaotech.chatservice.model.User;
 import com.joaotech.chatservice.reposistory.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.OpenRoomVO;
@@ -13,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -34,13 +32,13 @@ public class RoomService {
 //            throw new RuntimeException();
 //        }
 
-        UserDocument senderDocument = UserDocument.builder()
+        User senderDocument = User.builder()
                 .token(sender.token)
                 .name(sender.name)
 //                .color(sender.color)
                 .build();
 
-        UserDocument recipientDocument = UserDocument.builder()
+        User recipientDocument = User.builder()
                 .token(recipient.token)
                 .name(recipient.name)
 //                .color(recipient.color)
