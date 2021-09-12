@@ -7,6 +7,7 @@ import com.joaotech.chatservice.reposistory.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.OpenRoomVO;
+import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
 import com.joaotech.chatservice.vo.UserVO;
 import lombok.AllArgsConstructor;
@@ -28,11 +29,11 @@ public class RoomService {
 
         UserVO recipient = room.recipient;
 
-//        Room previousOpenedRoom = roomDAO.findBySender(room.recipient.token);
+        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySender_TokenAndRecipient_TokenAndClosedOnIsNull(sender.token, recipient.token);
 
-//        if (previousOpenedRoom.isPresent()) {
-//            throw new RuntimeException();
-//        }
+        if (previousOpenedRoom.isPresent()) {
+            throw new RuntimeException();
+        }
 
         User senderDocument = User.builder()
                 .token(sender.token)
@@ -81,6 +82,16 @@ public class RoomService {
         return RoomContentVO.builder()
                 .room(RoomAdapter.toChatRoomVO(room.orElse(null)))
                 .build();
+
+    }
+
+    public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
+
+        List<RoomDocument> rooms = roomRepository.findBySenderTokenAndClosedOnIsNull(userToken);
+
+        rooms.addAll(roomRepository.findByRecipientTokenAndClosedOnIsNull(userToken));
+
+        return RoomAdapter.toOpenedRoomSenderVO(rooms);
 
     }
 

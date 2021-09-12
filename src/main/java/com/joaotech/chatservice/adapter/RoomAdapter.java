@@ -1,6 +1,9 @@
 package com.joaotech.chatservice.adapter;
 
 import com.joaotech.chatservice.model.Room;
+import com.joaotech.chatservice.model.RoomDocument;
+import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
+import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomVO;
 import com.joaotech.chatservice.vo.UserVO;
 
@@ -22,6 +25,20 @@ public class RoomAdapter {
     public static List<RoomVO> toChatRoomVO(List<Room> rooms) {
         return rooms.stream()
                 .map(RoomAdapter::toChatRoomVO)
+                .collect(Collectors.toList());
+    }
+
+    public static OpenedRoomSenderVO toOpenedRoomSenderVO(Room roomDocument) {
+        return OpenedRoomSenderVO.builder()
+                .token(roomDocument.getToken())
+                .startedOn(roomDocument.startedOn)
+                .recipient(UserAdapter.toUserVO(roomDocument.recipient))
+                .build();
+    }
+
+    public static List<OpenedRoomSenderVO> toOpenedRoomSenderVO(List<Room> roomDocuments) {
+        return roomDocuments.stream()
+                .map(RoomAdapter::toOpenedRoomSenderVO)
                 .collect(Collectors.toList());
     }
 

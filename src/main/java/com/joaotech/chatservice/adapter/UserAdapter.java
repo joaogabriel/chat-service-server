@@ -9,6 +9,10 @@ import java.util.stream.Collectors;
 public class UserAdapter {
 
     public static UserVO toChatUserVO(User user) {
+        if (user == null) {
+            return null;
+        }
+
         return UserVO.builder()
                 .token(user.token)
                 .name(user.name)
