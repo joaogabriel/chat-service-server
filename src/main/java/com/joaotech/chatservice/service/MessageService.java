@@ -25,7 +25,7 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-    public void save(MessageVO chatMessage) {
+    public void save(CreateMessageVO chatMessage) {
 
         Room room = roomService.findByToken(chatMessage.roomToken);
 
@@ -44,9 +44,6 @@ public class MessageService {
                 .build();
 
         messageRepository.save(message);
-
-        // TODO: 26/08/21 usar builder
-        // TODO: 26/08/21 id com token?
 
         notifyUsers(room, message);
 

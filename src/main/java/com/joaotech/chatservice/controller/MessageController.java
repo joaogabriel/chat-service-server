@@ -1,5 +1,6 @@
 package com.joaotech.chatservice.controller;
 
+import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.service.MessageService;
 import com.joaotech.chatservice.vo.CreateMessageVO;
 import com.joaotech.chatservice.vo.MessageVO;
@@ -19,7 +20,7 @@ public class MessageController {
 
     @MessageMapping("/chat")
     public void processMessage(@Payload CreateMessageVO chatMessage) {
-//        messageService.save(chatMessage);
+        messageService.save(chatMessage);
     }
 
     @GetMapping("/messages/{token}")
