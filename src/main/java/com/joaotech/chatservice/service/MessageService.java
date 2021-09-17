@@ -45,9 +45,6 @@ public class MessageService {
 
         messageRepository.save(messageModel);
 
-        // TODO: 26/08/21 usar builder
-        // TODO: 26/08/21 id com token?
-
         notifyUsers(roomModel, messageModel);
 
     }
@@ -56,11 +53,14 @@ public class MessageService {
 
         UserNotificationVO chatNotification = new UserNotificationVO(messageModel.getToken(), roomModel.senderToken, roomModel.senderToken);
 
+        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, chatNotification);
+
+        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, chatNotification);
+
         notifyRoom(roomModel);
 
         notifyRooms(roomModel, messageModel);
 
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, chatNotification);
     }
 
     private void notifyRoom(RoomModel roomModel) {
@@ -73,6 +73,8 @@ public class MessageService {
 
         messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
 
+        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, roomsNotificationVO);
+
     }
 
     private void notifyRooms(RoomModel roomModel, MessageModel messageModel) {
@@ -84,6 +86,8 @@ public class MessageService {
                 .build();
 
         messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION + "/" + roomModel.getToken(), roomsNotificationVO);
+
+        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION + "/" + roomModel.getToken(), roomsNotificationVO);
 
     }
 
