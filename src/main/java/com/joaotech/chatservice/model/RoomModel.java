@@ -7,24 +7,39 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import java.time.LocalDateTime;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("user")
-public class User {
+@Table("Room")
+public class RoomModel {
 
     @Column("id")
     private String id;
 
     @Id
     @Column("token")
-    public String token;
+    private String token;
 
-    @Column("name")
-    public String name;
+    @Column("started_on")
+    public LocalDateTime startedOn;
+
+    @Column("closed_on")
+    public LocalDateTime closedOn;
+
+    @Column("sender")
+    public String senderToken;
+
+    @Column("recipient")
+    public String recipientToken;
 
     public String getId() {
         return id;
+    }
+
+    public String getToken() {
+        return token;
     }
 
 }
