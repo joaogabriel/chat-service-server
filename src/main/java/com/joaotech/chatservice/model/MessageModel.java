@@ -15,15 +15,12 @@ import java.time.LocalDateTime;
 @Table("message")
 public class MessageModel {
 
+    @Id
     @Column
     private String id;
 
-    @Id
-    @Column
-    private String token;
-
-    @Column("room_token")
-    public String roomToken;
+    @Column("room_id")
+    public String roomId;
 
     @Column("user_token")
     public String userToken;
@@ -42,10 +39,6 @@ public class MessageModel {
 
     public String getId() {
         return id;
-    }
-
-    public String getToken() {
-        return token;
     }
 
 }

@@ -11,12 +11,13 @@ import java.util.stream.Collectors;
 public class RoomAdapter {
 
     public static RoomVO toChatRoomVO(RoomModel roomModel) {
+        if (roomModel == null) return null;
         return RoomVO.builder()
-                .token(roomModel.getToken())
+                .token(roomModel.getId())
                 .startedOn(roomModel.startedOn)
                 .closedOn(roomModel.closedOn)
-                .sender(UserVO.builder().token(roomModel.senderToken).build())
-                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
+                .sender(new UserVO(roomModel.senderToken, roomModel.senderName))
+                .recipient(new UserVO(roomModel.recipientToken, roomModel.recipientName))
                 .build();
     }
 
@@ -26,12 +27,12 @@ public class RoomAdapter {
                 .collect(Collectors.toList());
     }
 
-    public static OpenedRoomSenderVO toOpenedRoomSenderVO(RoomModel roomModelDocument) {
+    public static OpenedRoomSenderVO toOpenedRoomSenderVO(RoomModel roomModel) {
         return OpenedRoomSenderVO.builder()
-                .token(roomModelDocument.getToken())
-                .startedOn(roomModelDocument.startedOn)
-                .recipient(UserVO.builder().token(roomModelDocument.recipientToken).build())
-                .sender(UserVO.builder().token(roomModelDocument.senderToken).build())
+                .token(roomModel.getId())
+                .startedOn(roomModel.startedOn)
+                .sender(new UserVO(roomModel.senderToken, roomModel.senderName))
+                .recipient(new UserVO(roomModel.recipientToken, roomModel.recipientName))
                 .build();
     }
 

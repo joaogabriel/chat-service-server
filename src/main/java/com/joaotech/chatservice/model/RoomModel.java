@@ -15,12 +15,9 @@ import java.time.LocalDateTime;
 @Table("room")
 public class RoomModel {
 
-    @Column
-    private String id;
-
     @Id
     @Column
-    private String token;
+    private String id;
 
     @Column("started_on")
     public LocalDateTime startedOn;
@@ -31,15 +28,17 @@ public class RoomModel {
     @Column("sender_token")
     public String senderToken;
 
+    @Column("sender_name")
+    public String senderName;
+
     @Column("recipient_token")
     public String recipientToken;
 
+    @Column("recipient_name")
+    public String recipientName;
+
     public String getId() {
         return id;
-    }
-
-    public String getToken() {
-        return token;
     }
 
 }

@@ -5,6 +5,7 @@ import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.RoomModel;
 import com.joaotech.chatservice.repository.MessageRepository;
+import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.*;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -25,7 +26,7 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-    public void save(MessageVO chatMessage) {
+    public void save(CreateMessageVO chatMessage) {
 
         RoomModel roomModel = roomService.findByToken(chatMessage.roomToken);
 
@@ -35,7 +36,8 @@ public class MessageService {
         }
 
         MessageModel messageModel = MessageModel.builder()
-                .roomToken(chatMessage.roomToken)
+                .id(TokenGenerator.getNew())
+                .roomId(chatMessage.roomToken)
                 .userToken(chatMessage.userToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
@@ -51,7 +53,7 @@ public class MessageService {
 
     private void notifyUsers(RoomModel roomModel, MessageModel messageModel) {
 
-        UserNotificationVO chatNotification = new UserNotificationVO(messageModel.getToken(), roomModel.senderToken, roomModel.senderToken);
+        UserNotificationVO chatNotification = new UserNotificationVO(messageModel.getId(), roomModel.recipientToken, roomModel.senderToken);
 
         messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, chatNotification);
 
@@ -66,7 +68,7 @@ public class MessageService {
     private void notifyRoom(RoomModel roomModel) {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
-                .token(roomModel.getToken())
+                .token(roomModel.getId())
                 .sender(UserVO.builder().token(roomModel.senderToken).build())
                 .recipient(UserVO.builder().token(roomModel.recipientToken).build())
                 .build();
@@ -80,20 +82,20 @@ public class MessageService {
     private void notifyRooms(RoomModel roomModel, MessageModel messageModel) {
 
         RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
-                .messageToken(messageModel.getToken())
+                .messageToken(messageModel.getId())
                 .sender(UserVO.builder().token(roomModel.senderToken).build())
                 .recipient(UserVO.builder().token(roomModel.recipientToken).build())
                 .build();
 
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION + "/" + roomModel.getToken(), roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO);
 
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION + "/" + roomModel.getToken(), roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO);
 
     }
 
     public List<MessageVO> findByRoom(String roomToken) {
 
-        List<MessageModel> messageModels = messageRepository.findAllByRoomToken(roomToken);
+        List<MessageModel> messageModels = messageRepository.findAllByRoomId(roomToken);
 
         return MessageAdapter.toChatMessageVO(messageModels);
 
@@ -108,7 +110,7 @@ public class MessageService {
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomTokenAndStatus(roomToken, MessageStatus.RECEIVED);
+        return messageRepository.countByRoomIdAndStatus(roomToken, MessageStatus.RECEIVED);
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {
