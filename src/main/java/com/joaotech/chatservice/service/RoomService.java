@@ -1,8 +1,8 @@
 package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.RoomAdapter;
-import com.joaotech.chatservice.model.Room;
-import com.joaotech.chatservice.model.User;
+import com.joaotech.chatservice.model.RoomModel;
+import com.joaotech.chatservice.model.UserModel;
 import com.joaotech.chatservice.repository.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.OpenRoomVO;
@@ -28,25 +28,25 @@ public class RoomService {
 
         UserVO recipient = room.recipient;
 
-        Optional<Room> previousOpenedRoom = roomRepository.findBySenderAndRecipientToken(sender.token, recipient.token);
+        Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderAndRecipientToken(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
             throw new RuntimeException();
         }
 
-        User senderDocument = User.builder()
+        UserModel senderDocument = UserModel.builder()
                 .token(sender.token)
                 .name(sender.name)
 //                .color(sender.color)
                 .build();
 
-        User recipientDocument = User.builder()
+        UserModel recipientDocument = UserModel.builder()
                 .token(recipient.token)
                 .name(recipient.name)
 //                .color(recipient.color)
                 .build();
 
-        Room roomDocument = Room.builder()
+        RoomModel roomModelDocument = RoomModel.builder()
                 .senderToken(senderDocument.token)
                 .recipientToken(recipientDocument.token)
                 .startedOn(LocalDateTime.now())
@@ -54,29 +54,29 @@ public class RoomService {
                 .id(TokenGenerator.getNew())
                 .build();
 
-        roomRepository.save(roomDocument);
+        roomRepository.save(roomModelDocument);
 
-        return roomDocument.getToken();
+        return roomModelDocument.getToken();
 
     }
 
     public void close(String token) {
 
-        Room room = roomRepository.findById(token).orElse(null);
+        RoomModel roomModel = roomRepository.findById(token).orElse(null);
 
-        room.closedOn = LocalDateTime.now();
+        roomModel.closedOn = LocalDateTime.now();
 
-        roomRepository.save(room);
+        roomRepository.save(roomModel);
 
     }
 
-    public Room findByToken(String token) {
+    public RoomModel findByToken(String token) {
         return roomRepository.findByToken(token).orElse(null);
     }
 
     public RoomContentVO getContent(String token) {
 
-        Optional<Room> room = roomRepository.findByToken(token);
+        Optional<RoomModel> room = roomRepository.findByToken(token);
 
         return RoomContentVO.builder()
                 .room(RoomAdapter.toChatRoomVO(room.orElse(null)))
@@ -86,11 +86,11 @@ public class RoomService {
 
     public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
 
-        List<Room> rooms = roomRepository.findBySenderAndRecipientTokenAndClosedOnIsNull(userToken);
+        List<RoomModel> roomModels = roomRepository.findBySenderAndRecipientTokenAndClosedOnIsNull(userToken);
 
-        rooms.addAll(roomRepository.findByRecipientTokenAndClosedOnIsNull(userToken));
+        roomModels.addAll(roomRepository.findByRecipientTokenAndClosedOnIsNull(userToken));
 
-        return RoomAdapter.toOpenedRoomSenderVO(rooms);
+        return RoomAdapter.toOpenedRoomSenderVO(roomModels);
 
     }
 
