@@ -89,9 +89,9 @@ public class RoomService {
 
     public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
 
-        List<RoomModel> roomModels = roomRepository.findBySenderTokenAndRecipientTokenAndIsClosed(userToken);
+        List<RoomModel> roomModels = roomRepository.findByRecipientTokenAndClosedIsFalse(userToken);
 
-        roomModels.addAll(roomRepository.findByRecipientTokenAndIsCLosed(userToken));
+        roomModels.addAll(roomRepository.findBySenderTokenAndClosedIsFalse(userToken));
 
         return RoomAdapter.toOpenedRoomSenderVO(roomModels);
 
