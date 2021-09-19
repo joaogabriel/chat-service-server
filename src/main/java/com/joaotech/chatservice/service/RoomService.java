@@ -34,29 +34,29 @@ public class RoomService {
             throw new RuntimeException();
         }
 
-        UserModel senderDocument = UserModel.builder()
+        UserModel senderModel = UserModel.builder()
                 .token(sender.token)
                 .name(sender.name)
 //                .color(sender.color)
                 .build();
 
-        UserModel recipientDocument = UserModel.builder()
+        UserModel recipientModel = UserModel.builder()
                 .token(recipient.token)
                 .name(recipient.name)
 //                .color(recipient.color)
                 .build();
 
-        RoomModel roomModelDocument = RoomModel.builder()
-                .senderToken(senderDocument.token)
-                .recipientToken(recipientDocument.token)
+        RoomModel roomModel = RoomModel.builder()
+                .senderToken(senderModel.token)
+                .recipientToken(recipientModel.token)
                 .startedOn(LocalDateTime.now())
                 .token(TokenGenerator.getNew())
                 .id(TokenGenerator.getNew())
                 .build();
 
-        roomRepository.save(roomModelDocument);
+        roomRepository.save(roomModel);
 
-        return roomModelDocument.getToken();
+        return roomModel.getToken();
 
     }
 

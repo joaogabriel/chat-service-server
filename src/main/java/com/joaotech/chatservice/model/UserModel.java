@@ -13,10 +13,10 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Table("User")
 public class UserModel {
 
+    @Id
     @Column("id")
     private String id;
 
-    @Id
     @Column("token")
     public String token;
 

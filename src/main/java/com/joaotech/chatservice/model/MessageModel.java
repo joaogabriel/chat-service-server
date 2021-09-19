@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 @Table("Message")
 public class MessageModel {
 
+    @Id
     @Column("id")
     private String id;
 
-    @Id
     @Column("token")
     private String token;
 

@@ -19,7 +19,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @MessageMapping("/chat")
-    public void processMessage(@Payload CreateMessageVO chatMessage) {
+    public void processMessage(@Payload MessageVO chatMessage) {
         messageService.save(chatMessage);
     }
 
