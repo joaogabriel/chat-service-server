@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table("Message")
-public class Message {
+public class MessageModel {
 
     @Column("id")
     private String id;

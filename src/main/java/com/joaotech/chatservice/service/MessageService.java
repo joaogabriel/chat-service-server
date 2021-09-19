@@ -1,9 +1,9 @@
 package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.MessageAdapter;
-import com.joaotech.chatservice.model.Message;
+import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
-import com.joaotech.chatservice.model.Room;
+import com.joaotech.chatservice.model.RoomModel;
 import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.*;
 import lombok.AllArgsConstructor;
@@ -27,14 +27,14 @@ public class MessageService {
 
     public void save(MessageVO chatMessage) {
 
-        Room room = roomService.findByToken(chatMessage.roomToken);
+        RoomModel roomModel = roomService.findByToken(chatMessage.roomToken);
 
-        if (room == null) {
+        if (roomModel == null) {
             // TODO: 26/08/21 lancar excecao especifica
             throw new RuntimeException();
         }
 
-        Message message = Message.builder()
+        MessageModel messageModel = MessageModel.builder()
                 .roomToken(chatMessage.roomToken)
                 .userToken(chatMessage.userToken)
                 .content(chatMessage.content)
@@ -43,63 +43,67 @@ public class MessageService {
                 .type(chatMessage.type)
                 .build();
 
-        messageRepository.save(message);
+        messageRepository.save(messageModel);
 
-        // TODO: 26/08/21 usar builder
-        // TODO: 26/08/21 id com token?
-
-        notifyUsers(room, message);
+        notifyUsers(roomModel, messageModel);
 
     }
 
-    private void notifyUsers(Room room, Message message) {
+    private void notifyUsers(RoomModel roomModel, MessageModel messageModel) {
 
-        UserNotificationVO chatNotification = new UserNotificationVO(message.getToken(), room.senderToken, room.senderToken);
+        UserNotificationVO chatNotification = new UserNotificationVO(messageModel.getToken(), roomModel.senderToken, roomModel.senderToken);
 
-        notifyRoom(room);
+        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, chatNotification);
 
-        notifyRooms(room, message);
+        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, chatNotification);
 
-        messagingTemplate.convertAndSendToUser(room.recipientToken, MESSAGE_DESTINATION, chatNotification);
+        notifyRoom(roomModel);
+
+        notifyRooms(roomModel, messageModel);
+
     }
 
-    private void notifyRoom(Room room) {
+    private void notifyRoom(RoomModel roomModel) {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
-                .token(room.getToken())
-                .sender(UserVO.builder().token(room.senderToken).build())
-                .recipient(UserVO.builder().token(room.recipientToken).build())
+                .token(roomModel.getToken())
+                .sender(UserVO.builder().token(roomModel.senderToken).build())
+                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
                 .build();
 
-        messagingTemplate.convertAndSendToUser(room.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
+
+        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, roomsNotificationVO);
 
     }
 
-    private void notifyRooms(Room room, Message message) {
+    private void notifyRooms(RoomModel roomModel, MessageModel messageModel) {
 
         RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
-                .messageToken(message.getToken())
-                .sender(UserVO.builder().token(room.senderToken).build())
-                .recipient(UserVO.builder().token(room.recipientToken).build())
+                .messageToken(messageModel.getToken())
+                .sender(UserVO.builder().token(roomModel.senderToken).build())
+                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
                 .build();
 
-        messagingTemplate.convertAndSendToUser(room.recipientToken, MESSAGE_DESTINATION + "/" + room.getToken(), roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION + "/" + roomModel.getToken(), roomsNotificationVO);
+
+        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION + "/" + roomModel.getToken(), roomsNotificationVO);
 
     }
 
     public List<MessageVO> findByRoom(String roomToken) {
 
-        List<Message> messages = messageRepository.findAllByRoomToken(roomToken);
+        List<MessageModel> messageModels = messageRepository.findAllByRoomToken(roomToken);
 
-        return MessageAdapter.toChatMessageVO(messages);
+        return MessageAdapter.toChatMessageVO(messageModels);
 
     }
 
     public MessageVO findByToken(String token) {
 
-        Message message = messageRepository.findById(token).orElse(null);
+        MessageModel messageModel = messageRepository.findById(token).orElse(null);
 
-        return MessageAdapter.toChatMessageVO(message);
+        return MessageAdapter.toChatMessageVO(messageModel);
 
     }
 
