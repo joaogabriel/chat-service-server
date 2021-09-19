@@ -47,17 +47,11 @@ public class MessageService {
 
         messageRepository.save(messageModel);
 
-        notifyUsers(roomModel, messageModel);
+        notifyInvolved(roomModel, messageModel);
 
     }
 
-    private void notifyUsers(RoomModel roomModel, MessageModel messageModel) {
-
-        UserNotificationVO chatNotification = new UserNotificationVO(messageModel.getId(), roomModel.recipientToken, roomModel.senderToken);
-
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, chatNotification);
-
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, chatNotification);
+    private void notifyInvolved(RoomModel roomModel, MessageModel messageModel) {
 
         notifyRoom(roomModel);
 
@@ -69,8 +63,18 @@ public class MessageService {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
                 .token(roomModel.getId())
-                .sender(UserVO.builder().token(roomModel.senderToken).build())
-                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
+                .sender(
+                    UserVO.builder()
+                    .token(roomModel.senderToken)
+                    .name(roomModel.senderName)
+                    .build()
+                )
+                .recipient(
+                    UserVO.builder()
+                    .token(roomModel.recipientToken)
+                    .name(roomModel.recipientName)
+                    .build()
+                )
                 .build();
 
         messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
