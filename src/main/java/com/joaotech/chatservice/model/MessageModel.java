@@ -19,14 +19,11 @@ public class MessageModel {
     @Column
     private String id;
 
-    @Column
-    private String token;
+    @Column("room_id")
+    public String roomId;
 
-    @Column("room_token")
-    public String roomToken;
-
-    @Column("user_token")
-    public String userToken;
+    @Column("user_id")
+    public String userId;
 
     @Column
     public String content;
@@ -42,10 +39,6 @@ public class MessageModel {
 
     public String getId() {
         return id;
-    }
-
-    public String getToken() {
-        return token;
     }
 
 }

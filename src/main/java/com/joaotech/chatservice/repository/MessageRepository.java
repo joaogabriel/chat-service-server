@@ -2,16 +2,16 @@ package com.joaotech.chatservice.repository;
 
 import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
+import org.springframework.data.cassandra.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 public interface MessageRepository extends CrudRepository<MessageModel, String> {
 
-    List<MessageModel> findAllByRoomToken(String token);
+    @Query("SELECT * FROM chat_service.message WHERE room_id=?0 ALLOW FILTERING")
+    List<MessageModel> findAllByRoomId(String id);
 
-    MessageModel findByToken(String token);
-
-    long countByRoomTokenAndStatus(String roomToken, MessageStatus status);
+    long countByRoomIdAndStatus(String roomId, MessageStatus status);
 
 }

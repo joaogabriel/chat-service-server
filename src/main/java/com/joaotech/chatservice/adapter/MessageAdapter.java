@@ -10,8 +10,8 @@ public class MessageAdapter {
 
     public static MessageVO toChatMessageVO(MessageModel messageModel) {
         return MessageVO.builder()
-                .token(messageModel.getToken())
-                .roomToken(messageModel.roomToken)
+                .token(messageModel.getId())
+                .roomToken(messageModel.roomId)
                 .content(messageModel.content)
                 .timestamp(messageModel.timestamp)
                 .status(messageModel.status)

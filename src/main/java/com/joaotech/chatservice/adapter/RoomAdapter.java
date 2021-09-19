@@ -12,11 +12,11 @@ public class RoomAdapter {
 
     public static RoomVO toChatRoomVO(RoomModel roomModel) {
         return RoomVO.builder()
-                .token(roomModel.getToken())
+                .token(roomModel.getId())
                 .startedOn(roomModel.startedOn)
                 .closedOn(roomModel.closedOn)
-                .sender(UserVO.builder().token(roomModel.senderToken).build())
-                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
+                .sender(UserVO.builder().token(roomModel.senderId).build())
+                .recipient(UserVO.builder().token(roomModel.recipientId).build())
                 .build();
     }
 
@@ -26,12 +26,12 @@ public class RoomAdapter {
                 .collect(Collectors.toList());
     }
 
-    public static OpenedRoomSenderVO toOpenedRoomSenderVO(RoomModel roomModelDocument) {
+    public static OpenedRoomSenderVO toOpenedRoomSenderVO(RoomModel roomModel) {
         return OpenedRoomSenderVO.builder()
-                .token(roomModelDocument.getToken())
-                .startedOn(roomModelDocument.startedOn)
-                .recipient(UserVO.builder().token(roomModelDocument.recipientToken).build())
-                .sender(UserVO.builder().token(roomModelDocument.senderToken).build())
+                .token(roomModel.getId())
+                .startedOn(roomModel.startedOn)
+                .recipient(UserVO.builder().token(roomModel.recipientId).build())
+                .sender(UserVO.builder().token(roomModel.senderId).build())
                 .build();
     }
 

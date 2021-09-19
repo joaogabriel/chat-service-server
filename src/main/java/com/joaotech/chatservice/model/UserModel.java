@@ -17,9 +17,6 @@ public class UserModel {
     @Column
     private String id;
 
-    @Column("token")
-    public String token;
-
     @Column("name")
     public String name;
 

@@ -28,35 +28,34 @@ public class RoomService {
 
         UserVO recipient = room.recipient;
 
-        Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderAndRecipientToken(sender.token, recipient.token);
+        Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderIdAndRecipientId(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
             throw new RuntimeException();
         }
 
         UserModel senderModel = UserModel.builder()
-                .token(sender.token)
+                .id(sender.token)
                 .name(sender.name)
 //                .color(sender.color)
                 .build();
 
         UserModel recipientModel = UserModel.builder()
-                .token(recipient.token)
+                .id(recipient.token)
                 .name(recipient.name)
 //                .color(recipient.color)
                 .build();
 
         RoomModel roomModel = RoomModel.builder()
-                .senderToken(senderModel.token)
-                .recipientToken(recipientModel.token)
+                .senderId(senderModel.getId())
+                .recipientId(recipientModel.getId())
                 .startedOn(LocalDateTime.now())
-                .token(TokenGenerator.getNew())
                 .id(TokenGenerator.getNew())
                 .build();
 
         roomRepository.save(roomModel);
 
-        return roomModel.getToken();
+        return roomModel.getId();
 
     }
 
@@ -71,12 +70,12 @@ public class RoomService {
     }
 
     public RoomModel findByToken(String token) {
-        return roomRepository.findByToken(token).orElse(null);
+        return roomRepository.findById(token).orElse(null);
     }
 
     public RoomContentVO getContent(String token) {
 
-        Optional<RoomModel> room = roomRepository.findByToken(token);
+        Optional<RoomModel> room = roomRepository.findById(token);
 
         return RoomContentVO.builder()
                 .room(RoomAdapter.toChatRoomVO(room.orElse(null)))
@@ -86,9 +85,9 @@ public class RoomService {
 
     public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
 
-        List<RoomModel> roomModels = roomRepository.findBySenderAndRecipientTokenAndClosedOnIsNull(userToken);
+        List<RoomModel> roomModels = roomRepository.findBySenderIdAndRecipientIdAndClosedOnIsNull(userToken);
 
-        roomModels.addAll(roomRepository.findByRecipientTokenAndClosedOnIsNull(userToken));
+        roomModels.addAll(roomRepository.findByRecipientIdAndClosedOnIsNull(userToken));
 
         return RoomAdapter.toOpenedRoomSenderVO(roomModels);
 

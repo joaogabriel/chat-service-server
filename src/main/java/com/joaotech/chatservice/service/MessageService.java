@@ -35,8 +35,8 @@ public class MessageService {
         }
 
         MessageModel messageModel = MessageModel.builder()
-                .roomToken(chatMessage.roomToken)
-                .userToken(chatMessage.userToken)
+                .roomId(chatMessage.roomToken)
+                .userId(chatMessage.userToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
                 .status(MessageStatus.RECEIVED)
@@ -51,11 +51,11 @@ public class MessageService {
 
     private void notifyUsers(RoomModel roomModel, MessageModel messageModel) {
 
-        UserNotificationVO chatNotification = new UserNotificationVO(messageModel.getToken(), roomModel.senderToken, roomModel.senderToken);
+        UserNotificationVO chatNotification = new UserNotificationVO(messageModel.getId(), roomModel.recipientId, roomModel.senderId);
 
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, chatNotification);
+        messagingTemplate.convertAndSendToUser(roomModel.recipientId, MESSAGE_DESTINATION, chatNotification);
 
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, chatNotification);
+        messagingTemplate.convertAndSendToUser(roomModel.senderId, MESSAGE_DESTINATION, chatNotification);
 
         notifyRoom(roomModel);
 
@@ -66,34 +66,34 @@ public class MessageService {
     private void notifyRoom(RoomModel roomModel) {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
-                .token(roomModel.getToken())
-                .sender(UserVO.builder().token(roomModel.senderToken).build())
-                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
+                .token(roomModel.getId())
+                .sender(UserVO.builder().token(roomModel.senderId).build())
+                .recipient(UserVO.builder().token(roomModel.recipientId).build())
                 .build();
 
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomModel.recipientId, MESSAGE_DESTINATION, roomsNotificationVO);
 
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomModel.senderId, MESSAGE_DESTINATION, roomsNotificationVO);
 
     }
 
     private void notifyRooms(RoomModel roomModel, MessageModel messageModel) {
 
         RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
-                .messageToken(messageModel.getToken())
-                .sender(UserVO.builder().token(roomModel.senderToken).build())
-                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
+                .messageToken(messageModel.getId())
+                .sender(UserVO.builder().token(roomModel.senderId).build())
+                .recipient(UserVO.builder().token(roomModel.recipientId).build())
                 .build();
 
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION + "/" + roomModel.getToken(), roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomModel.recipientId, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO);
 
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION + "/" + roomModel.getToken(), roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomModel.senderId, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO);
 
     }
 
     public List<MessageVO> findByRoom(String roomToken) {
 
-        List<MessageModel> messageModels = messageRepository.findAllByRoomToken(roomToken);
+        List<MessageModel> messageModels = messageRepository.findAllByRoomId(roomToken);
 
         return MessageAdapter.toChatMessageVO(messageModels);
 
@@ -108,7 +108,7 @@ public class MessageService {
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomTokenAndStatus(roomToken, MessageStatus.RECEIVED);
+        return messageRepository.countByRoomIdAndStatus(roomToken, MessageStatus.RECEIVED);
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {

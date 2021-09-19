@@ -14,7 +14,7 @@ public class UserAdapter {
         }
 
         return UserVO.builder()
-                .token(userModel.token)
+                .token(userModel.getId())
                 .name(userModel.name)
                 .build();
     }

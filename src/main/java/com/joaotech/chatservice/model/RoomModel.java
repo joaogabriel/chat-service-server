@@ -19,27 +19,20 @@ public class RoomModel {
     @Column
     private String id;
 
-    @Column
-    private String token;
-
     @Column("started_on")
     public LocalDateTime startedOn;
 
     @Column("closed_on")
     public LocalDateTime closedOn;
 
-    @Column("sender_token")
-    public String senderToken;
+    @Column("sender_id")
+    public String senderId;
 
-    @Column("recipient_token")
-    public String recipientToken;
+    @Column("recipient_id")
+    public String recipientId;
 
     public String getId() {
         return id;
-    }
-
-    public String getToken() {
-        return token;
     }
 
 }
