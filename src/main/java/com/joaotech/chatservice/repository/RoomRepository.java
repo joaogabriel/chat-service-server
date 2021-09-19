@@ -16,9 +16,9 @@ public interface RoomRepository extends CrudRepository<RoomModel, String> {
     Optional<RoomModel> findBySenderTokenAndRecipientToken(String senderId, String recipientId);
 
     @Query("SELECT * FROM chat_service.room WHERE sender_token=?0 AND closed_on='' ALLOW FILTERING")
-    List<RoomModel> findBySenderTokenAndRecipientTokenAndClosedOnIsNull(String senderId);
+    List<RoomModel> findBySenderTokenAndRecipientTokenAndIsClosed(String senderId);
 
-    @Query("SELECT * FROM chat_service.room WHERE recipient_token=?0 AND closed_on='' ALLOW FILTERING")
-    List<RoomModel> findByRecipientTokenAndClosedOnIsNull(String recipientToken);
+    @Query("SELECT * FROM chat_service.room WHERE recipient_token=?0 AND isClosed ALLOW FILTERING")
+    List<RoomModel> findByRecipientTokenAndIsCLosed(String recipientToken);
 
 }

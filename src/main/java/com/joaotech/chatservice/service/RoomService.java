@@ -67,6 +67,8 @@ public class RoomService {
 
         roomModel.closedOn = LocalDateTime.now();
 
+        roomModel.isClosed = true;
+
         roomRepository.save(roomModel);
 
     }
@@ -87,9 +89,9 @@ public class RoomService {
 
     public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
 
-        List<RoomModel> roomModels = roomRepository.findBySenderTokenAndRecipientTokenAndClosedOnIsNull(userToken);
+        List<RoomModel> roomModels = roomRepository.findBySenderTokenAndRecipientTokenAndIsClosed(userToken);
 
-        roomModels.addAll(roomRepository.findByRecipientTokenAndClosedOnIsNull(userToken));
+        roomModels.addAll(roomRepository.findByRecipientTokenAndIsCLosed(userToken));
 
         return RoomAdapter.toOpenedRoomSenderVO(roomModels);
 

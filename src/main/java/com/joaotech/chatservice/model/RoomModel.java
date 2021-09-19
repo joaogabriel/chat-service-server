@@ -25,6 +25,9 @@ public class RoomModel {
     @Column("closed_on")
     public LocalDateTime closedOn;
 
+    @Column("is_closed")
+    public boolean isClosed;
+
     @Column("sender_token")
     public String senderToken;
 
