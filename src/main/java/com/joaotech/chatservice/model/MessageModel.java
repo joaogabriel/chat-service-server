@@ -22,8 +22,8 @@ public class MessageModel {
     @Column("room_id")
     public String roomId;
 
-    @Column("user_id")
-    public String userId;
+    @Column("user_token")
+    public String userToken;
 
     @Column
     public String content;

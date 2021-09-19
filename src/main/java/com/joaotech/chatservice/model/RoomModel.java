@@ -25,11 +25,17 @@ public class RoomModel {
     @Column("closed_on")
     public LocalDateTime closedOn;
 
-    @Column("sender_id")
-    public String senderId;
+    @Column("sender_token")
+    public String senderToken;
 
-    @Column("recipient_id")
-    public String recipientId;
+    @Column("sender_name")
+    public String senderName;
+
+    @Column("recipient_token")
+    public String recipientToken;
+
+    @Column("recipient_name")
+    public String recipientName;
 
     public String getId() {
         return id;

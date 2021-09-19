@@ -28,7 +28,7 @@ public class RoomService {
 
         UserVO recipient = room.recipient;
 
-        Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderIdAndRecipientId(sender.token, recipient.token);
+        Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientToken(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
             throw new RuntimeException();
@@ -47,8 +47,10 @@ public class RoomService {
                 .build();
 
         RoomModel roomModel = RoomModel.builder()
-                .senderId(senderModel.getId())
-                .recipientId(recipientModel.getId())
+                .senderToken(senderModel.getId())
+                .senderName(sender.name)
+                .recipientToken(recipientModel.getId())
+                .recipientName(recipient.name)
                 .startedOn(LocalDateTime.now())
                 .id(TokenGenerator.getNew())
                 .build();
@@ -85,9 +87,9 @@ public class RoomService {
 
     public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
 
-        List<RoomModel> roomModels = roomRepository.findBySenderIdAndRecipientIdAndClosedOnIsNull(userToken);
+        List<RoomModel> roomModels = roomRepository.findBySenderTokenAndRecipientTokenAndClosedOnIsNull(userToken);
 
-        roomModels.addAll(roomRepository.findByRecipientIdAndClosedOnIsNull(userToken));
+        roomModels.addAll(roomRepository.findByRecipientTokenAndClosedOnIsNull(userToken));
 
         return RoomAdapter.toOpenedRoomSenderVO(roomModels);
 
