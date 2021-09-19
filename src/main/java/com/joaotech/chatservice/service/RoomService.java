@@ -28,7 +28,7 @@ public class RoomService {
 
         UserVO recipient = room.recipient;
 
-        Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientToken(sender.token, recipient.token);
+        Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndClosedIsFalse(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
             throw new RuntimeException();

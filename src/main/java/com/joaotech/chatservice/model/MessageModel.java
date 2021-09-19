@@ -3,7 +3,6 @@ package com.joaotech.chatservice.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
 @Table("message")
 public class MessageModel {
 
-    @Id
     @Column
     private String id;
 
