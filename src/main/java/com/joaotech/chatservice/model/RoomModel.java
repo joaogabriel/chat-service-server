@@ -3,8 +3,8 @@ package com.joaotech.chatservice.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table("room")
 public class RoomModel {
 
-    @Id
+    @PrimaryKey
     @Column
     private String id;
 
