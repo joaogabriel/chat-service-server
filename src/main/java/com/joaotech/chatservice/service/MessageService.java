@@ -41,7 +41,7 @@ public class MessageService {
                 .userToken(chatMessage.userToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
-                .status(MessageStatus.RECEIVED)
+                .status(MessageStatus.RECEIVED.name())
                 .type(chatMessage.type)
                 .build();
 

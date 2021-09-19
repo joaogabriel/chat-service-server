@@ -2,7 +2,6 @@ package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.RoomAdapter;
 import com.joaotech.chatservice.model.RoomModel;
-import com.joaotech.chatservice.model.UserModel;
 import com.joaotech.chatservice.repository.RoomRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.OpenRoomVO;
@@ -34,22 +33,10 @@ public class RoomService {
             throw new RuntimeException();
         }
 
-        UserModel senderModel = UserModel.builder()
-                .id(sender.token)
-                .name(sender.name)
-//                .color(sender.color)
-                .build();
-
-        UserModel recipientModel = UserModel.builder()
-                .id(recipient.token)
-                .name(recipient.name)
-//                .color(recipient.color)
-                .build();
-
         RoomModel roomModel = RoomModel.builder()
-                .senderToken(senderModel.getId())
+                .senderToken(sender.token)
                 .senderName(sender.name)
-                .recipientToken(recipientModel.getId())
+                .recipientToken(recipient.token)
                 .recipientName(recipient.name)
                 .startedOn(LocalDateTime.now())
                 .id(TokenGenerator.getNew())
