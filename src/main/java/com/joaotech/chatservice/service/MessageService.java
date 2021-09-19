@@ -25,7 +25,7 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-    public void save(MessageVO chatMessage) {
+    public void save(CreateMessageVO chatMessage) {
 
         RoomModel roomModel = roomService.findByToken(chatMessage.roomToken);
 
