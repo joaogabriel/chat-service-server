@@ -12,14 +12,14 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("Message")
+@Table("message")
 public class MessageModel {
 
-    @Column("id")
+    @Column
     private String id;
 
     @Id
-    @Column("token")
+    @Column
     private String token;
 
     @Column("room_token")
@@ -28,16 +28,16 @@ public class MessageModel {
     @Column("user_token")
     public String userToken;
 
-    @Column("content")
+    @Column
     public String content;
 
-    @Column("timestamp")
+    @Column
     public LocalDateTime timestamp;
 
-    @Column("status")
+    @Column
     public MessageStatus status;
 
-    @Column("type")
+    @Column
     public MessageType type;
 
     public String getId() {
