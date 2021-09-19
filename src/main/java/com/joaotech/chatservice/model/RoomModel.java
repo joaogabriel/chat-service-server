@@ -12,14 +12,14 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("Room")
+@Table("room")
 public class RoomModel {
 
-    @Column("id")
+    @Column
     private String id;
 
     @Id
-    @Column("token")
+    @Column
     private String token;
 
     @Column("started_on")
@@ -28,10 +28,10 @@ public class RoomModel {
     @Column("closed_on")
     public LocalDateTime closedOn;
 
-    @Column("sender")
+    @Column("sender_token")
     public String senderToken;
 
-    @Column("recipient")
+    @Column("recipient_token")
     public String recipientToken;
 
     public String getId() {

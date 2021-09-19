@@ -10,10 +10,10 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("User")
+@Table("user")
 public class UserModel {
 
-    @Column("id")
+    @Column
     private String id;
 
     @Id
