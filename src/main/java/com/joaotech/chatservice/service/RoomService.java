@@ -32,7 +32,6 @@ public class RoomService {
         Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndClosedIsFalse(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
-
             throw new RuntimeException();
         }
 

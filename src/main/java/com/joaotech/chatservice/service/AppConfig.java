@@ -24,7 +24,7 @@ public class AppConfig {
                 withConfigLoader(DriverConfigLoader.fromFile(driverConfig)).
                 withAuthCredentials(username, password).
                 withSslContext(SSLContext.getDefault()).
-                withKeyspace("chat_service_dev").
+                withKeyspace("chat_service").
                 build();
     }
 
