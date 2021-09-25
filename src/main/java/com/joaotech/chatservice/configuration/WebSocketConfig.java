@@ -1,10 +1,13 @@
 package com.joaotech.chatservice.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joaotech.chatservice.interceptor.ACKCommandChannelInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.converter.MessageConverter;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -41,6 +44,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         converter.setContentTypeResolver(resolver);
         messageConverters.add(converter);
         return false;
+    }
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(ackCommandChannelInterceptor());
+    }
+
+    @Bean
+    public ACKCommandChannelInterceptor ackCommandChannelInterceptor() {
+        return new ACKCommandChannelInterceptor();
     }
 
 }
