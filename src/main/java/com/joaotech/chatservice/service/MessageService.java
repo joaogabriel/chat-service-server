@@ -8,6 +8,9 @@ import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.cassandra.core.query.CassandraPageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -64,16 +67,16 @@ public class MessageService {
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
                 .token(roomModel.getId())
                 .sender(
-                    UserVO.builder()
-                    .token(roomModel.senderToken)
-                    .name(roomModel.senderName)
-                    .build()
+                        UserVO.builder()
+                                .token(roomModel.senderToken)
+                                .name(roomModel.senderName)
+                                .build()
                 )
                 .recipient(
-                    UserVO.builder()
-                    .token(roomModel.recipientToken)
-                    .name(roomModel.recipientName)
-                    .build()
+                        UserVO.builder()
+                                .token(roomModel.recipientToken)
+                                .name(roomModel.recipientName)
+                                .build()
                 )
                 .build();
 
@@ -110,6 +113,25 @@ public class MessageService {
         MessageModel messageModel = messageRepository.findById(token).orElse(null);
 
         return MessageAdapter.toChatMessageVO(messageModel);
+
+    }
+
+    public void findAll() {
+
+//        final String SORT_FIELD = "name";
+//        final String DEFAULT_CURSOR_MARK = "-1";
+
+//        PageRequest roomId = PageRequest.of(0, 100, Sort.by(Sort.Direction.ASC, "roomId"));
+
+        Pageable pageable = CassandraPageRequest.of(0, 100, Sort.by(Sort.Direction.ASC, "id"));
+
+//        Pageable pageable = CassandraPageRequest.of(PageRequest.of(0, testRequest.getPageSize(),
+//                Sort.by(Sort.Direction.DESC, SORT_FIELD)), DEFAULT_CURSOR_MARK.equalsIgnoreCase(testRequest
+//                .getCursorMark()) ? null : PagingState.fromString(testRequest.getCursorMark()));
+
+        List<MessageModel> all = messageRepository.findAll(pageable);
+
+        System.out.println(all);
 
     }
 
