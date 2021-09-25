@@ -103,7 +103,7 @@ public class MessageService {
 
     public List<MessageVO> findByRoom(String roomToken) {
 
-        List<MessageModel> messageModels = messageRepository.findAllByRoomId(roomToken);
+        List<MessageModel> messageModels = messageRepository.findAllByRoom(roomToken);
 
         return MessageAdapter.toChatMessageVO(messageModels);
 

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 public class MessageAdapter {
 
     public static MessageVO toChatMessageVO(MessageModel messageModel) {
+        if (messageModel == null) return null;
         return MessageVO.builder()
                 .token(messageModel.getId())
                 .roomToken(messageModel.roomId)
