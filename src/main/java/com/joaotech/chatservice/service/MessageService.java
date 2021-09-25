@@ -9,10 +9,12 @@ import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.*;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -47,17 +49,11 @@ public class MessageService {
 
         messageRepository.save(messageModel);
 
-        notifyUsers(roomModel, messageModel);
+        notifyInvolved(roomModel, messageModel);
 
     }
 
-    private void notifyUsers(RoomModel roomModel, MessageModel messageModel) {
-
-        UserNotificationVO chatNotification = new UserNotificationVO(messageModel.getId(), roomModel.recipientToken, roomModel.senderToken);
-
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, chatNotification);
-
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, chatNotification);
+    private void notifyInvolved(RoomModel roomModel, MessageModel messageModel) {
 
         notifyRoom(roomModel);
 
@@ -69,8 +65,18 @@ public class MessageService {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
                 .token(roomModel.getId())
-                .sender(UserVO.builder().token(roomModel.senderToken).build())
-                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
+                .sender(
+                        UserVO.builder()
+                                .token(roomModel.senderToken)
+                                .name(roomModel.senderName)
+                                .build()
+                )
+                .recipient(
+                        UserVO.builder()
+                                .token(roomModel.recipientToken)
+                                .name(roomModel.recipientName)
+                                .build()
+                )
                 .build();
 
         messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
@@ -87,9 +93,11 @@ public class MessageService {
                 .recipient(UserVO.builder().token(roomModel.recipientToken).build())
                 .build();
 
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO);
+        Map<String, Object> headers = produceHeaders(messageModel);
 
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO, headers);
+
+        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO, headers);
 
     }
 
@@ -111,6 +119,10 @@ public class MessageService {
 
     public long countNewMessages(String roomToken) {
         return messageRepository.countByRoomIdAndStatus(roomToken, MessageStatus.RECEIVED);
+    }
+
+    private Map<String, Object> produceHeaders(MessageModel messageModel) {
+        return Map.of(StompHeaderAccessor.STOMP_MESSAGE_ID_HEADER, messageModel.getId());
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {
