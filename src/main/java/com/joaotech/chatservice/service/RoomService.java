@@ -8,12 +8,14 @@ import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
 import com.joaotech.chatservice.vo.UserVO;
+import jnr.constants.platform.PRIO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @AllArgsConstructor
@@ -30,6 +32,7 @@ public class RoomService {
         Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndClosedIsFalse(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
+
             throw new RuntimeException();
         }
 

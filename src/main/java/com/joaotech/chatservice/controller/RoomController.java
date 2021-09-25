@@ -5,6 +5,7 @@ import com.joaotech.chatservice.service.RoomService;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
+import com.joaotech.chatservice.vo.RoomTokenVO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,9 @@ public class RoomController {
     private final MessageService messageService;
 
     @PostMapping("/open")
-    public ResponseEntity<String> open(@RequestBody OpenRoomVO room) {
+    public ResponseEntity<RoomTokenVO> open(@RequestBody OpenRoomVO room) {
         String roomToken = roomService.open(room);
-        return ResponseEntity.ok(roomToken);
+        return ResponseEntity.ok(new RoomTokenVO(roomToken));
     }
 
     @PostMapping("/{token}/close")

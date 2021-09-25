@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface MessageRepository extends CrudRepository<MessageModel, String> {
 
-    @Query("SELECT * FROM chat_service.message WHERE room_id=?0 ALLOW FILTERING")
-    List<MessageModel> findAllByRoomId(String id);
+    @Query("SELECT * FROM message WHERE room_id=?0 ALLOW FILTERING")
+    List<MessageModel> findAllByRoom(String id);
 
     long countByRoomIdAndStatus(String roomId, MessageStatus status);
 
