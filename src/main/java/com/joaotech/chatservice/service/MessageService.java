@@ -109,9 +109,9 @@ public class MessageService {
 
     }
 
-    public MessageVO findByToken(String token) {
+    public MessageVO findById(String token) {
 
-        MessageModel messageModel = messageRepository.findById(UUID.fromString(token)).orElse(null);
+        MessageModel messageModel = messageRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
 
         return MessageAdapter.toChatMessageVO(messageModel);
 
