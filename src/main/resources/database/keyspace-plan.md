@@ -5,9 +5,9 @@
 ### rooms
 
 ```SQL
-create table rooms
+CREATE TABLE rooms
 (
-    id              uuid primary key,
+    id              uuid,
     closed_on       timestamp,
     is_closed       boolean,
     recipient_name  text,
@@ -27,7 +27,7 @@ CREATE INDEX ON rooms (recipient_token);
 
 ```SQL
 
-create table messages
+CREATE TABLE messages
 (
     room_id         uuid,
     id              uuid,
