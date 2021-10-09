@@ -5,8 +5,8 @@ import lombok.Builder;
 
 @Builder
 @AllArgsConstructor
-public class RoomTokenVO {
+public class RoomIdVO {
 
-    public String token;
+    public String id;
 
 }

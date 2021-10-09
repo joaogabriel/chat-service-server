@@ -3,19 +3,17 @@ package com.joaotech.chatservice.service;
 import com.joaotech.chatservice.adapter.RoomAdapter;
 import com.joaotech.chatservice.model.RoomModel;
 import com.joaotech.chatservice.repository.RoomRepository;
-import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
 import com.joaotech.chatservice.vo.UserVO;
-import jnr.constants.platform.PRIO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -36,23 +34,23 @@ public class RoomService {
         }
 
         RoomModel roomModel = RoomModel.builder()
+                .id(UUID.randomUUID())
                 .senderToken(sender.token)
                 .senderName(sender.name)
                 .recipientToken(recipient.token)
                 .recipientName(recipient.name)
                 .startedOn(LocalDateTime.now())
-                .id(TokenGenerator.getNew())
                 .build();
 
         roomRepository.save(roomModel);
 
-        return roomModel.getId();
+        return roomModel.getId().toString();
 
     }
 
     public void close(String token) {
 
-        RoomModel roomModel = roomRepository.findById(token).orElse(null);
+        RoomModel roomModel = roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
 
         roomModel.closedOn = LocalDateTime.now();
 
@@ -63,12 +61,12 @@ public class RoomService {
     }
 
     public RoomModel findByToken(String token) {
-        return roomRepository.findById(token).orElse(null);
+        return roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
     }
 
-    public RoomContentVO getContent(String token) {
+    public RoomContentVO getContent(String id) {
 
-        Optional<RoomModel> room = roomRepository.findById(token);
+        Optional<RoomModel> room = roomRepository.findById(UUID.fromString(id));
 
         return RoomContentVO.builder()
                 .room(RoomAdapter.toChatRoomVO(room.orElse(null)))

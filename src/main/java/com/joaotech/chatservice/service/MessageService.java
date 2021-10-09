@@ -5,9 +5,10 @@ import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.RoomModel;
 import com.joaotech.chatservice.repository.MessageRepository;
-import com.joaotech.chatservice.util.TokenGenerator;
 import com.joaotech.chatservice.vo.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.cassandra.core.query.CassandraPageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -38,7 +40,7 @@ public class MessageService {
         }
 
         MessageModel messageModel = MessageModel.builder()
-                .id(TokenGenerator.getNew())
+                .id(UUID.randomUUID()) // TODO: 09/10/21 client vai gerar
                 .roomId(chatMessage.roomToken)
                 .userToken(chatMessage.userToken)
                 .content(chatMessage.content)
@@ -64,7 +66,7 @@ public class MessageService {
     private void notifyRoom(RoomModel roomModel) {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
-                .token(roomModel.getId())
+                .id(roomModel.getId().toString())
                 .sender(
                         UserVO.builder()
                                 .token(roomModel.senderToken)
@@ -88,7 +90,7 @@ public class MessageService {
     private void notifyRooms(RoomModel roomModel, MessageModel messageModel) {
 
         RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
-                .messageToken(messageModel.getId())
+                .messageId(messageModel.getId().toString())
                 .sender(UserVO.builder().token(roomModel.senderToken).build())
                 .recipient(UserVO.builder().token(roomModel.recipientToken).build())
                 .build();
@@ -101,9 +103,12 @@ public class MessageService {
 
     }
 
-    public List<MessageVO> findByRoom(String roomToken) {
+    public List<MessageVO> findByRoom(String roomId, Integer page, Integer size) {
 
-        List<MessageModel> messageModels = messageRepository.findAllByRoom(roomToken);
+        Pageable pageable = CassandraPageRequest.of(page, size);
+//        Sort.by(Sort.Direction.DESC, "timestamp")
+
+        List<MessageModel> messageModels = messageRepository.findByRoomId(UUID.fromString(roomId), pageable);
 
         return MessageAdapter.toChatMessageVO(messageModels);
 
@@ -111,14 +116,14 @@ public class MessageService {
 
     public MessageVO findByToken(String token) {
 
-        MessageModel messageModel = messageRepository.findById(token).orElse(null);
+        MessageModel messageModel = messageRepository.findById(UUID.fromString(token)).orElse(null);
 
         return MessageAdapter.toChatMessageVO(messageModel);
 
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomIdAndStatus(roomToken, MessageStatus.RECEIVED);
+        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.RECEIVED);
     }
 
     private Map<String, Object> produceHeaders(MessageModel messageModel) {

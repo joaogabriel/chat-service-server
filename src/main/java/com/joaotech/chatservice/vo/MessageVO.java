@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MessageVO {
 
-    public String token;
-    public String roomToken;
+    public String id;
+    public String roomId;
     public String userToken;
     public String content;
     public LocalDateTime timestamp;
