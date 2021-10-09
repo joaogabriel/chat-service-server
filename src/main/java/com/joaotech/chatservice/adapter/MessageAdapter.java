@@ -12,7 +12,7 @@ public class MessageAdapter {
     public static MessageVO toChatMessageVO(MessageModel messageModel) {
         if (messageModel == null) return null;
         return MessageVO.builder()
-                .token(messageModel.getId())
+                .token(messageModel.getId().toString())
                 .roomToken(messageModel.roomId)
                 .content(messageModel.content)
                 .timestamp(messageModel.timestamp)

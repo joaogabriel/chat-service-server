@@ -13,7 +13,7 @@ public class RoomAdapter {
     public static RoomVO toChatRoomVO(RoomModel roomModel) {
         if (roomModel == null) return null;
         return RoomVO.builder()
-                .token(roomModel.getId())
+                .id(roomModel.getId().toString())
                 .startedOn(roomModel.startedOn)
                 .closedOn(roomModel.closedOn)
                 .sender(new UserVO(roomModel.senderToken, roomModel.senderName))
@@ -29,7 +29,7 @@ public class RoomAdapter {
 
     public static OpenedRoomSenderVO toOpenedRoomSenderVO(RoomModel roomModel) {
         return OpenedRoomSenderVO.builder()
-                .token(roomModel.getId())
+                .id(roomModel.getId())
                 .startedOn(roomModel.startedOn)
                 .sender(new UserVO(roomModel.senderToken, roomModel.senderName))
                 .recipient(new UserVO(roomModel.recipientToken, roomModel.recipientName))
