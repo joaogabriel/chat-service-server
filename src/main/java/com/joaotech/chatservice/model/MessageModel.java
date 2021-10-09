@@ -23,8 +23,8 @@ public class MessageModel {
     @Column("room_id")
     public String roomId;
 
-    @Column("user_token")
-    public String userToken;
+    @Column("message_owner_token")
+    public String messageOwnerToken;
 
     @Column
     public String content;
