@@ -18,7 +18,7 @@ public class MessageAdapter {
                 .timestamp(messageModel.timestamp)
                 .status(MessageStatus.valueOf(messageModel.status))
                 .type(messageModel.type)
-                .userToken(messageModel.userToken)
+                .userToken(messageModel.messageOwnerToken)
                 .build();
     }
 
