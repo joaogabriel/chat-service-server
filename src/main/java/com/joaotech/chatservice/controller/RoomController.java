@@ -27,28 +27,28 @@ public class RoomController {
         return ResponseEntity.ok(new RoomIdVO(id));
     }
 
-    @PostMapping("/{token}/close")
-    public ResponseEntity<?> close(@PathVariable String token) {
-        roomService.close(token);
+    @PostMapping("/{id}/close")
+    public ResponseEntity<?> close(@PathVariable String id) {
+        roomService.close(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{token}/content")
-    public ResponseEntity<RoomContentVO> getContent(@PathVariable String token, @RequestParam Integer page, @RequestParam Integer size) {
-        RoomContentVO content = roomService.getContent(token);
+    @GetMapping("/{id}/content")
+    public ResponseEntity<RoomContentVO> getContent(@PathVariable String id, @RequestParam Integer page, @RequestParam Integer size) {
+        RoomContentVO content = roomService.getContent(id);
         content.messages = messageService.findByRoom(content.room.id, page, size);
         return ResponseEntity.ok(content);
     }
 
-    @GetMapping("/users/{userToken}")
-    public ResponseEntity<List<OpenedRoomSenderVO>> getOpenedUserRooms(@PathVariable String userToken) {
-        List<OpenedRoomSenderVO> rooms = roomService.getOpenedUserRooms(userToken);
+    @GetMapping("/users/{userid}")
+    public ResponseEntity<List<OpenedRoomSenderVO>> getOpenedUserRooms(@PathVariable String userid) {
+        List<OpenedRoomSenderVO> rooms = roomService.getOpenedUserRooms(userid);
         return ResponseEntity.ok(rooms);
     }
 
-    @GetMapping("/{token}/new-messages-count")
-    public ResponseEntity<Long> countNewMessages(@PathVariable String token) {
-        Long countNewMessages = messageService.countNewMessages(token);
+    @GetMapping("/{id}/new-messages-count")
+    public ResponseEntity<Long> countNewMessages(@PathVariable String id) {
+        Long countNewMessages = messageService.countNewMessages(id);
         return ResponseEntity.ok(countNewMessages);
     }
 

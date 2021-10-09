@@ -50,7 +50,7 @@ public class RoomService {
 
     public void close(String token) {
 
-        RoomModel roomModel = roomRepository.findById(UUID.fromString(token)).orElse(null);
+        RoomModel roomModel = roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
 
         roomModel.closedOn = LocalDateTime.now();
 
@@ -61,12 +61,12 @@ public class RoomService {
     }
 
     public RoomModel findByToken(String token) {
-        return roomRepository.findById(UUID.fromString(token)).orElse(null);
+        return roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
     }
 
-    public RoomContentVO getContent(String token) {
+    public RoomContentVO getContent(String id) {
 
-        Optional<RoomModel> room = roomRepository.findById(UUID.fromString(token));
+        Optional<RoomModel> room = roomRepository.findById(UUID.fromString(id));
 
         return RoomContentVO.builder()
                 .room(RoomAdapter.toChatRoomVO(room.orElse(null)))

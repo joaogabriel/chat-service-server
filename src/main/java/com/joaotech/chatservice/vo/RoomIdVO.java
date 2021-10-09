@@ -7,6 +7,6 @@ import lombok.Builder;
 @AllArgsConstructor
 public class RoomIdVO {
 
-    public String token;
+    public String id;
 
 }

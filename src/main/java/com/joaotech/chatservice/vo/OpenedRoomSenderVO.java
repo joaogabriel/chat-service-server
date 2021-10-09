@@ -8,7 +8,7 @@ import java.util.UUID;
 @Builder
 public class OpenedRoomSenderVO {
 
-    public UUID id;
+    public String id;
     public LocalDateTime startedOn;
     public UserVO recipient;
     public UserVO sender;

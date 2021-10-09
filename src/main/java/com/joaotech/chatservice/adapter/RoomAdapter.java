@@ -29,7 +29,7 @@ public class RoomAdapter {
 
     public static OpenedRoomSenderVO toOpenedRoomSenderVO(RoomModel roomModel) {
         return OpenedRoomSenderVO.builder()
-                .id(roomModel.getId())
+                .id(roomModel.getId().toString())
                 .startedOn(roomModel.startedOn)
                 .sender(new UserVO(roomModel.senderToken, roomModel.senderName))
                 .recipient(new UserVO(roomModel.recipientToken, roomModel.recipientName))

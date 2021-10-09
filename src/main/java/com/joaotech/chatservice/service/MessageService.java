@@ -66,7 +66,7 @@ public class MessageService {
     private void notifyRoom(RoomModel roomModel) {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
-                .token(roomModel.getId().toString())
+                .id(roomModel.getId().toString())
                 .sender(
                         UserVO.builder()
                                 .token(roomModel.senderToken)
@@ -90,7 +90,7 @@ public class MessageService {
     private void notifyRooms(RoomModel roomModel, MessageModel messageModel) {
 
         RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
-                .messageToken(messageModel.getId().toString())
+                .messageId(messageModel.getId().toString())
                 .sender(UserVO.builder().token(roomModel.senderToken).build())
                 .recipient(UserVO.builder().token(roomModel.recipientToken).build())
                 .build();
