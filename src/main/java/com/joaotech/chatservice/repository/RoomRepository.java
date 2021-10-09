@@ -9,16 +9,15 @@ import java.util.Optional;
 
 public interface RoomRepository extends CrudRepository<RoomModel, String> {
 
-    @Query("SELECT * FROM room WHERE id=?0 ALLOW FILTERING")
-    Optional<RoomModel> findByRoomId(String id);
-
-    @Query("SELECT * FROM room WHERE sender_token=?0 AND recipient_token=?1 AND is_closed=false ALLOW FILTERING")
+    @Query("SELECT * FROM room WHERE sender_token=?0 AND recipient_token=?1 AND is_closed=false")
     Optional<RoomModel> findBySenderTokenAndRecipientTokenAndClosedIsFalse(String senderToken, String recipientToken);
 
-    @Query("SELECT * FROM room WHERE recipient_token=?0 AND is_closed=false ALLOW FILTERING")
+    @Query("SELECT * FROM room WHERE recipient_token=?0 AND is_closed=false")
     List<RoomModel> findByRecipientTokenAndClosedIsFalse(String recipientToken);
 
-    @Query("SELECT * FROM room WHERE sender_token=?0 AND is_closed=false ALLOW FILTERING")
+    @Query("SELECT * FROM room WHERE sender_token=?0 AND is_closed=false")
     List<RoomModel> findBySenderTokenAndClosedIsFalse(String recipientToken);
+
+
 
 }

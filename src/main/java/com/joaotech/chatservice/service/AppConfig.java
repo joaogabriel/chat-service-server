@@ -13,8 +13,10 @@ import java.security.NoSuchAlgorithmException;
 @Configuration
 public class AppConfig {
 // TODO - Corrigir os getEnvs
-    private final String username = "keysPaces-dev-at-209085978178";
-    private final String password = "C2tp/P3boE3Tz142ZUmVs4laC4KDHHPXRYeOwDgjWpg=";
+//private final String username = "keysPaces-dev-at-209085978178";
+//    private final String password = "C2tp/P3boE3Tz142ZUmVs4laC4KDHHPXRYeOwDgjWpg=";
+    private final String username = "";
+    private final String password = "";
     File driverConfig = new File(System.getProperty("user.dir") + "/src/main/resources/application.conf");
 
     @Primary
@@ -23,8 +25,7 @@ public class AppConfig {
         return CqlSession.builder().
                 withConfigLoader(DriverConfigLoader.fromFile(driverConfig)).
                 withAuthCredentials(username, password).
-                withSslContext(SSLContext.getDefault()).
-                withKeyspace("chat_service").
+                withKeyspace("chat_service_model").
                 build();
     }
 

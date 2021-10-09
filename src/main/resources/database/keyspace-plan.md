@@ -4,110 +4,95 @@
 
 ### rooms
 
-```
-CREATE TABLE...
+```SQL
+create table rooms
+(
+    id              uuid primary key,
+    closed_on       timestamp,
+    is_closed       boolean,
+    recipient_name  text,
+    recipient_token text,
+    sender_name     text,
+    sender_token    text,
+    started_on      timestamp
+    primary key (sender_token)
+);
+
+CREATE INDEX ON rooms (recipient_token);
+
+
 ```
 
 ### messages
 
-```
-CREATE TABLE...
+```SQL
+
+create table messages
+(
+    room_id         uuid,
+    id              uuid,
+    status          text,
+    content         text,
+    message_owner_token text,
+    recipient_token text,
+    sender_token    text,
+    timestamp       timestamp,
+    type            text,
+    primary key (room_id, id, status)
+);
+
+CREATE INDEX ON messages (status);
+
+CREATE INDEX ON rooms (is_closed);
+
 ```
 
 ## Consultas previstas
 
 ### rooms
 
-#### Sala por id
+#### Sala por sender e aberta
 
-```
-SELECT * FROM...
-```
-
-#### Sala por sender
-
-```
-SELECT * FROM...
+```SQL
+SELECT * FROM rooms WHERE sender_token = 'abc' AND is_closed = false;
 ```
 
-#### Sala por sender e status
+#### Sala por sender e aberta e recipient
 
-```
-SELECT * FROM...
-```
-
-#### Sala por sender e status e recipient
-
-```
-SELECT * FROM...
+```SQL
+SELECT * FROM rooms WHERE sender_token = 'abc' AND is_closed = false AND recipient_token = 'def';
 ```
 
-#### Sala por recipient
+#### Sala por recipient e aberta
 
-```
-SELECT * FROM...
-```
-
-#### Sala por recipient e status
-
-```
-SELECT * FROM...
-```
-
-#### Sala por recipient e status e sender
-
-```
-SELECT * FROM...
+```SQL
+SELECT * FROM rooms WHERE recipient_token = 'abc' AND is_closed = false;
 ```
 
 ### messages
 
-#### Mensagem por id
+#### Mensagem por id da sala e id da mensagem
 
-```
-SELECT * FROM...
+```SQL
+SELECT * FROM messages WHERE room_id = now() AND id = now();
 ```
 
 #### Mensagem por room_id
 
-```
-SELECT * FROM...
+```SQL
+SELECT * FROM messages WHERE room_id = now();
 ```
 
 #### Mensagem por room_id e status
 
-```
-SELECT * FROM...
-```
-
-#### Mensagem por sender
-
-```
-SELECT * FROM...
-```
-
-#### Mensagem por sender e recipient
-
-```
-SELECT * FROM...
-```
-
-#### Mensagem por recipient
-
-```
-SELECT * FROM...
-```
-
-#### Mensagem por recipient e sender
-
-```
-SELECT * FROM...
+```SQL
+SELECT * FROM messages WHERE room_id = now() AND status = 'RECEIVED';
 ```
 
 #### Quantidade de mensagens não lidas
 
-```
-SELECT * FROM...
+```SQL
+SELECT COUNT(*) FROM messages WHERE status = 'SENDED'
 ```
 
 ## Atualizações
