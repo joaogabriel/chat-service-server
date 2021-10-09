@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateMessageVO {
 
-    public String roomToken;
+    public String messageId;
+    public String roomId;
     public String userToken;
     public String content;
+    public Long timestamp;
     public MessageType type;
 
 }

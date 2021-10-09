@@ -60,7 +60,7 @@ public class RoomService {
 
     }
 
-    public RoomModel findByToken(String token) {
+    public RoomModel findById(String token) {
         return roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
     }
 

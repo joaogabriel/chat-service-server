@@ -32,20 +32,15 @@ public class MessageService {
 
     public void save(CreateMessageVO chatMessage) {
 
-        RoomModel roomModel = roomService.findByToken(chatMessage.roomToken);
-
-        if (roomModel == null) {
-            // TODO: 26/08/21 lancar excecao especifica
-            throw new RuntimeException();
-        }
+        RoomModel roomModel = roomService.findById(chatMessage.roomId);
 
         MessageModel messageModel = MessageModel.builder()
-                .id(UUID.randomUUID()) // TODO: 09/10/21 client vai gerar
-                .roomId(chatMessage.roomToken)
-                .userToken(chatMessage.userToken)
+                .id(UUID.fromString(chatMessage.messageId))
+                .roomId(chatMessage.roomId)
+                .messageOwnerToken(chatMessage.userToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
-                .status(MessageStatus.RECEIVED.name())
+                .status(MessageStatus.SENDED.name())
                 .type(chatMessage.type)
                 .build();
 
@@ -123,7 +118,7 @@ public class MessageService {
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.RECEIVED);
+        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED);
     }
 
     private Map<String, Object> produceHeaders(MessageModel messageModel) {
