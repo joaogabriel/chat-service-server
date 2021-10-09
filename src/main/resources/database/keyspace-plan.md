@@ -18,8 +18,7 @@ CREATE TABLE rooms
     primary key (sender_token)
 );
 
-CREATE INDEX ON rooms (recipient_token);
-
+CREATE CUSTOM INDEX recipient_and_status ON rooms (recipient_token,is_closed)  USING 'org.apache.cassandra.index.sasi.SASIIndex';
 
 ```
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface MessageRepository extends CrudRepository<MessageModel, String> {
 
-    @Query("SELECT * FROM message WHERE room_id=?0")
+    @Query("SELECT * FROM messages WHERE room_id=?0")
     List<MessageModel> findAllByRoom(String id);
 
     long countByRoomIdAndStatus(String roomId, MessageStatus status);
