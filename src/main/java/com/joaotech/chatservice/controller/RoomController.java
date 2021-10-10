@@ -33,7 +33,7 @@ public class RoomController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/content")
+    @GetMapping("/{id}")
     public ResponseEntity<RoomContentVO> getContent(@PathVariable String id, @RequestParam Integer page, @RequestParam Integer size) {
         RoomContentVO content = roomService.getContent(id);
         content.messages = messageService.findByRoom(content.room.id, page, size);

@@ -2,6 +2,9 @@ package com.joaotech.chatservice.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joaotech.chatservice.interceptor.ACKCommandChannelInterceptor;
+import com.joaotech.chatservice.service.MessageService;
+import com.joaotech.chatservice.service.MessageStatusService;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
@@ -18,7 +21,9 @@ import java.util.List;
 
 @Configuration
 @EnableWebSocketMessageBroker
+@AllArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+    private final MessageStatusService messageStatusService;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -54,7 +59,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Bean
     public ACKCommandChannelInterceptor ackCommandChannelInterceptor() {
-        return new ACKCommandChannelInterceptor();
+        return new ACKCommandChannelInterceptor(messageStatusService);
     }
 
 }
