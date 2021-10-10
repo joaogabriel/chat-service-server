@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -52,9 +53,9 @@ public class MessageService {
 
         Pageable pageable = CassandraPageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp"));
 
-        List<MessageModel> messageModels = messageRepository.findByRoomId(UUID.fromString(roomId), pageable);
+        Slice<MessageModel> messageModels = messageRepository.findByRoomId(UUID.fromString(roomId), pageable);
 
-        return MessageAdapter.toChatMessageVO(messageModels);
+        return MessageAdapter.toChatMessageVO(messageModels.getContent());
 
     }
 
