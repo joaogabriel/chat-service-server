@@ -14,13 +14,15 @@ CREATE TABLE rooms
     recipient_token text,
     sender_name     text,
     sender_token    text,
-    started_on      timestamp
-        primary key (is_closed, sender_token, recipient_token)
+    started_on      timestamp,
+    primary key (sender_token, is_closed, recipient_token)
 );
 
-CREATE INDEX ON rooms (recipient_token);
+CREATE INDEX recipient_token_idx
+    ON rooms (recipient_token);
 
-CREATE INDEX ON rooms (sender_token);
+CREATE INDEX rooms_id_idx
+    ON rooms (id);
 ```
 
 ### messages
@@ -31,8 +33,9 @@ CREATE TABLE messages
 (
     room_id             uuid,
     id                  uuid,
-    current_status       text,
-    status          map<text, timestamp>,
+    current_status      text,
+    status              map<text,
+    timestamp>,
     content             text,
     message_owner_token text,
     recipient_token     text,

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,16 +32,21 @@ public class MessageService {
 
         RoomModel roomModel = roomService.findById(chatMessage.roomId);
 
+        String currentStatus = MessageStatusType.SENDED.name();
+
         MessageModel messageModel = MessageModel.builder()
                 .id(UUID.fromString(chatMessage.messageId))
-                .roomId(chatMessage.roomId)
-                .messageOwnerToken(chatMessage.userToken)
+                .roomId(UUID.fromString(chatMessage.roomId))
+                .messageOwnerToken(chatMessage.messageOwnerToken)
+                .currentStatus(currentStatus)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
                 .type(chatMessage.type)
                 .build();
 
-        messageModel.status.put(chatMessage.statusVO.status.name(), LocalDateTime.ofEpochSecond(chatMessage.statusVO.timestamp,0 , ZoneOffset.UTC));
+        messageModel.status.put(MessageStatusType.NOT_SENDED.name(), LocalDateTime.ofEpochSecond(chatMessage.timestamp,0 , ZoneOffset.UTC));
+
+        messageModel.status.put(currentStatus, LocalDateTime.now());
 
         messageRepository.save(messageModel);
 
