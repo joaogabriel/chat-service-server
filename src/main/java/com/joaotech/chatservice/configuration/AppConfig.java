@@ -1,13 +1,9 @@
 package com.joaotech.chatservice.configuration;
 
-import com.datastax.oss.driver.api.core.CqlSession;
-import com.datastax.oss.driver.api.core.config.DriverConfigLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.cassandra.config.CqlSessionFactoryBean;
-
-import java.io.File;
 
 @Configuration
 public class AppConfig {
