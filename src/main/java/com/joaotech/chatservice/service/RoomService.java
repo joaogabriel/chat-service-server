@@ -2,12 +2,14 @@ package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.RoomAdapter;
 import com.joaotech.chatservice.model.RoomModel;
+import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.repository.RoomRepository;
 import com.joaotech.chatservice.vo.OpenRoomVO;
 import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
 import com.joaotech.chatservice.vo.RoomContentVO;
 import com.joaotech.chatservice.vo.UserVO;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +24,8 @@ public class RoomService {
     private final NotificationService notificationService;
 
     private final RoomRepository roomRepository;
+
+    private final MessageRepository messageRepository;
 
     public String open(OpenRoomVO room) {
 
@@ -70,10 +74,18 @@ public class RoomService {
 
     public RoomContentVO getContent(String id) {
 
-        Optional<RoomModel> room = roomRepository.findById(UUID.fromString(id));
+        if (StringUtils.isEmpty(id)) throw new RuntimeException("room id is required");
+
+        UUID roomId = UUID.fromString(id);
+
+        RoomModel room = roomRepository.findById(roomId).orElseThrow(RuntimeException::new);
+
+        // TODO: 10/10/21 quando mover para definitivo, remover dependencia do messageRepository daqui
+        long quantityOfMessages = messageRepository.countByRoomId(roomId);
 
         return RoomContentVO.builder()
-                .room(RoomAdapter.toChatRoomVO(room.orElse(null)))
+                .room(RoomAdapter.toChatRoomVO(room))
+                .quantityOfMessages(quantityOfMessages)
                 .build();
 
     }

@@ -2,10 +2,7 @@ package com.joaotech.chatservice.controller;
 
 import com.joaotech.chatservice.service.MessageService;
 import com.joaotech.chatservice.service.RoomService;
-import com.joaotech.chatservice.vo.OpenRoomVO;
-import com.joaotech.chatservice.vo.OpenedRoomSenderVO;
-import com.joaotech.chatservice.vo.RoomContentVO;
-import com.joaotech.chatservice.vo.RoomIdVO;
+import com.joaotech.chatservice.vo.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +31,15 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoomContentVO> getContent(@PathVariable String id, @RequestParam Integer page, @RequestParam Integer size) {
+    public ResponseEntity<RoomContentVO> findById(@PathVariable String id) {
         RoomContentVO content = roomService.getContent(id);
-        content.messages = messageService.findByRoom(content.room.id, page, size);
         return ResponseEntity.ok(content);
+    }
+
+    @GetMapping("/{id}/messages")
+    public ResponseEntity<RoomMessagesVO> findMessages(@PathVariable String id, @RequestParam Integer page, @RequestParam Integer size) {
+        List<MessageVO> messages = messageService.findByRoom(id, page, size);
+        return ResponseEntity.ok(new RoomMessagesVO(messages));
     }
 
     @GetMapping("/users/{userid}")
