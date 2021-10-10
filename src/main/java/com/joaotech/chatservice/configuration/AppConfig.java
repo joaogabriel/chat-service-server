@@ -17,7 +17,7 @@ public class AppConfig {
     public CqlSessionFactoryBean session() {
 
         CqlSessionFactoryBean session = new CqlSessionFactoryBean();
-        session.setContactPoints("172.17.20.34");
+        session.setContactPoints("172.17.20.34:9042");
         session.setKeyspaceName("chat_service_dev");
 
         return session;
