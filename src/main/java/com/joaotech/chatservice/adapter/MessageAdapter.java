@@ -13,7 +13,7 @@ public class MessageAdapter {
         if (messageModel == null) return null;
         return MessageVO.builder()
                 .id(messageModel.getId().toString())
-                .roomId(messageModel.roomId)
+                .roomId(messageModel.roomId.toString())
                 .content(messageModel.content)
                 .timestamp(messageModel.timestamp)
                 .status(null)

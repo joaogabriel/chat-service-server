@@ -2,7 +2,7 @@ package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageModel;
-import com.joaotech.chatservice.model.MessageStatusType;
+import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.RoomModel;
 import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.CreateMessageVO;
@@ -37,10 +37,13 @@ public class MessageService {
         MessageModel messageModel = MessageModel.builder()
                 .id(UUID.fromString(chatMessage.messageId))
                 .roomId(UUID.fromString(chatMessage.roomId))
+                .messageOwnerToken(chatMessage.userToken)
+                .roomId(UUID.fromString(chatMessage.roomId))
                 .messageOwnerToken(chatMessage.messageOwnerToken)
                 .currentStatus(currentStatus)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
+                .status(MessageStatus.SENDED.name())
                 .type(chatMessage.type)
                 .build();
 
@@ -73,7 +76,7 @@ public class MessageService {
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatusType.DELIVERED);
+        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED);
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {
