@@ -38,12 +38,14 @@ CREATE TABLE messages
     sender_token        text,
     timestamp           timestamp,
     type                text,
-    primary key (room_id, id, status, timestamp)
-);
+    primary key (room_id, timestamp)
+) WITH CLUSTERING ORDER BY (timestamp DESC);
 
 CREATE INDEX ON messages (status);
 
 CREATE INDEX ON rooms (is_closed);
+
+CREATE INDEX ON messages (id);
 
 ```
 
@@ -76,7 +78,7 @@ WHERE sender_token = 'abc'
 SELECT *
 FROM rooms
 WHERE recipient_token = 'abc'
-  AND is_closed = false;
+  AND is_closed = false ALLOW FILTERING;
 ```
 
 ### messages
