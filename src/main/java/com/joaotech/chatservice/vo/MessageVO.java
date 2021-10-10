@@ -16,6 +16,7 @@ public class MessageVO {
     public String roomId;
     public String userToken;
     public String content;
+    public String currentStatus;
     public LocalDateTime timestamp;
     public MessageStatusVO status;
     public MessageType type;

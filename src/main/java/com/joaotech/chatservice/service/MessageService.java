@@ -2,7 +2,7 @@ package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageModel;
-import com.joaotech.chatservice.model.MessageStatusType;
+import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.RoomModel;
 import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.CreateMessageVO;
@@ -35,7 +35,7 @@ public class MessageService {
 
         RoomModel roomModel = roomService.findById(chatMessage.roomId);
 
-        String currentStatus = MessageStatusType.SENDED.name();
+        String currentStatus = MessageStatus.SENDED.name();
 
         MessageModel messageModel = MessageModel.builder()
                 .id(UUID.fromString(chatMessage.messageId))
@@ -46,10 +46,13 @@ public class MessageService {
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
                 .type(chatMessage.type)
-                .status(new HashMap<>())
                 .build();
 
-        messageModel.status.put(MessageStatusType.NOT_SENDED.name(), LocalDateTime.ofEpochSecond(chatMessage.timestamp,0 , ZoneOffset.UTC));
+        if (messageModel.status == null) {
+            messageModel.status = new HashMap<>();
+        }
+
+        messageModel.status.put(MessageStatus.NOT_SENDED.name(), LocalDateTime.ofEpochSecond(chatMessage.timestamp,0 , ZoneOffset.UTC));
 
         messageModel.status.put(currentStatus, LocalDateTime.now());
 
@@ -83,7 +86,7 @@ public class MessageService {
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatusType.DELIVERED.name());
+        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED.name());
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {

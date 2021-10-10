@@ -1,6 +1,6 @@
 package com.joaotech.chatservice.vo;
 
-import com.joaotech.chatservice.model.MessageStatusType;
+import com.joaotech.chatservice.model.MessageStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -8,7 +8,7 @@ import lombok.Builder;
 @Builder
 public class MessageStatusVO {
 
-    public MessageStatusType status;
+    public MessageStatus status;
     public Long timestamp;
 
 }
