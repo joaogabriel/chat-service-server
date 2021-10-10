@@ -31,7 +31,7 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-    public void save(CreateMessageVO chatMessage) {
+    public void create(CreateMessageVO chatMessage) {
 
         RoomModel roomModel = roomService.findById(chatMessage.roomId);
 
@@ -46,11 +46,8 @@ public class MessageService {
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
                 .type(chatMessage.type)
+                .status(new HashMap<>())
                 .build();
-
-        if (messageModel.status == null) {
-            messageModel.status = new HashMap<>();
-        }
 
         messageModel.status.put(MessageStatus.NOT_SENDED.name(), LocalDateTime.ofEpochSecond(chatMessage.timestamp,0 , ZoneOffset.UTC));
 

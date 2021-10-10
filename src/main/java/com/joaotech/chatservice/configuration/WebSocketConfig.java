@@ -21,9 +21,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSocketMessageBroker
-@AllArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    private final MessageStatusService messageStatusService;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -59,7 +57,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Bean
     public ACKCommandChannelInterceptor ackCommandChannelInterceptor() {
-        return new ACKCommandChannelInterceptor(messageStatusService);
+        return new ACKCommandChannelInterceptor();
     }
 
 }

@@ -11,12 +11,8 @@ import org.springframework.messaging.support.ChannelInterceptor;
 
 public class ACKCommandChannelInterceptor implements ChannelInterceptor {
 
-    private MessageStatusService messageStatusService;
-
     @Autowired
-    public ACKCommandChannelInterceptor(MessageStatusService messageStatusService) {
-        this.messageStatusService = messageStatusService;
-    }
+    private MessageStatusService messageStatusService;
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
