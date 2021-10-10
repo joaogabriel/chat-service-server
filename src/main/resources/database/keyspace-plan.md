@@ -31,8 +31,8 @@ CREATE TABLE messages
 (
     room_id             uuid,
     id                  uuid,
-    currentStatus       text,
-    status              Object,
+    current_status       text,
+    status          map<text, timestamp>,
     content             text,
     message_owner_token text,
     recipient_token     text,
@@ -42,7 +42,7 @@ CREATE TABLE messages
     primary key (room_id, timestamp)
 ) WITH CLUSTERING ORDER BY (timestamp DESC);
 
-CREATE INDEX ON messages (status);
+CREATE INDEX ON messages (current_status);
 
 CREATE INDEX ON rooms (is_closed);
 

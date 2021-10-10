@@ -15,6 +15,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +43,10 @@ public class MessageService {
                 .messageOwnerToken(chatMessage.userToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
-                .status(null)
                 .type(chatMessage.type)
                 .build();
+
+        messageModel.status.put(chatMessage.statusVO.status.name(), LocalDateTime.ofEpochSecond(chatMessage.statusVO.timestamp,0 , ZoneOffset.UTC));
 
         messageRepository.save(messageModel);
 

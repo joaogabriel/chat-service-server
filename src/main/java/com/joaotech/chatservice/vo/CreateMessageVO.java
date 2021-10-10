@@ -18,5 +18,6 @@ public class CreateMessageVO {
     public String content;
     public Long timestamp;
     public MessageType type;
+    public MessageStatusVO statusVO;
 
 }
