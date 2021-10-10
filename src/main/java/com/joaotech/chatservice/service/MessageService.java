@@ -9,6 +9,7 @@ import com.joaotech.chatservice.vo.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
@@ -100,8 +101,7 @@ public class MessageService {
 
     public List<MessageVO> findByRoom(String roomId, Integer page, Integer size) {
 
-        Pageable pageable = CassandraPageRequest.of(page, size);
-//        Sort.by(Sort.Direction.DESC, "timestamp")
+        Pageable pageable = CassandraPageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp"));
 
         List<MessageModel> messageModels = messageRepository.findByRoomId(UUID.fromString(roomId), pageable);
 
