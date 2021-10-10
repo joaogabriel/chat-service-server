@@ -5,29 +5,25 @@ import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.RoomModel;
 import com.joaotech.chatservice.repository.MessageRepository;
-import com.joaotech.chatservice.vo.*;
+import com.joaotech.chatservice.vo.CreateMessageVO;
+import com.joaotech.chatservice.vo.MessageVO;
 import lombok.AllArgsConstructor;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class MessageService {
 
-    private static final String MESSAGE_DESTINATION = "/queue/rooms";
-
-    private final SimpMessagingTemplate messagingTemplate;
-
     private final RoomService roomService;
+
+    private final NotificationService notificationService;
 
     private final MessageRepository messageRepository;
 
@@ -47,55 +43,7 @@ public class MessageService {
 
         messageRepository.save(messageModel);
 
-        notifyInvolved(roomModel, messageModel);
-
-    }
-
-    private void notifyInvolved(RoomModel roomModel, MessageModel messageModel) {
-
-        notifyRoom(roomModel);
-
-        notifyRooms(roomModel, messageModel);
-
-    }
-
-    private void notifyRoom(RoomModel roomModel) {
-
-        RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
-                .id(roomModel.getId().toString())
-                .sender(
-                        UserVO.builder()
-                                .token(roomModel.senderToken)
-                                .name(roomModel.senderName)
-                                .build()
-                )
-                .recipient(
-                        UserVO.builder()
-                                .token(roomModel.recipientToken)
-                                .name(roomModel.recipientName)
-                                .build()
-                )
-                .build();
-
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
-
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, roomsNotificationVO);
-
-    }
-
-    private void notifyRooms(RoomModel roomModel, MessageModel messageModel) {
-
-        RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
-                .messageId(messageModel.getId().toString())
-                .sender(UserVO.builder().token(roomModel.senderToken).build())
-                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
-                .build();
-
-        Map<String, Object> headers = produceHeaders(messageModel);
-
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO, headers);
-
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO, headers);
+        notificationService.notifyInvolved(roomModel, messageModel);
 
     }
 
@@ -119,10 +67,6 @@ public class MessageService {
 
     public long countNewMessages(String roomToken) {
         return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED);
-    }
-
-    private Map<String, Object> produceHeaders(MessageModel messageModel) {
-        return Map.of(StompHeaderAccessor.STOMP_MESSAGE_ID_HEADER, messageModel.getId());
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {
