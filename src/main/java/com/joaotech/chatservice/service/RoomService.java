@@ -19,6 +19,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RoomService {
 
+    private final NotificationService notificationService;
+
     private final RoomRepository roomRepository;
 
     public String open(OpenRoomVO room) {
@@ -57,6 +59,8 @@ public class RoomService {
         roomModel.isClosed = true;
 
         roomRepository.save(roomModel);
+
+        notificationService.notifyRoom(roomModel);
 
     }
 
