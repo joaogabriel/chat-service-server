@@ -1,4 +1,4 @@
-package com.joaotech.chatservice.service;
+package com.joaotech.chatservice.configuration;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.config.DriverConfigLoader;
@@ -7,18 +7,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import java.io.File;
-import java.security.NoSuchAlgorithmException;
 
 @Configuration
 public class AppConfig {
-    File driverConfig = new File(System.getProperty("user.dir") + "/src/main/resources/application.conf");
 
+    private final File driverConfig = new File(System.getProperty("user.dir") + "/src/main/resources/application.conf");
+
+    @Bean
     @Primary
-    public @Bean
-    CqlSession session() throws NoSuchAlgorithmException {
+    public CqlSession session() {
         return CqlSession.builder().
                 withConfigLoader(DriverConfigLoader.fromFile(driverConfig)).
-                withKeyspace("chat_service_model").
+                withKeyspace("chat_service_dev").
                 build();
     }
 
