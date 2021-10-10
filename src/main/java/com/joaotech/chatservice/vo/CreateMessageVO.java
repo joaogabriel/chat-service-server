@@ -13,7 +13,6 @@ public class CreateMessageVO {
 
     public String messageId;
     public String roomId;
-    @JsonProperty("userToken")
     public String messageOwnerToken;
     public String content;
     public Long timestamp;
