@@ -17,6 +17,10 @@ A lightweight server for chat messages write in Java.
 - WebSocket
 - STOMP
 
+## Util links
+
+- https://shivanshugoyal0111.medium.com/pagination-in-cassandra-b7e45ec2656a
+
 ## API
 
 ### Rooms
