@@ -15,8 +15,8 @@ public class SecurityConfig {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
         config.setAllowCredentials(true);
-//        config.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000"));
-        config.addAllowedOriginPattern("http://localhost:3000");
+//        config.setAllowedOriginPatterns(Arrays.asList("http://chat.testes.agsoft.com.br"));
+        config.addAllowedOriginPattern("http://chat.testes.agsoft.com.br");
     //    config.addAllowedHeader("*");
         config.addAllowedMethod(HttpMethod.OPTIONS);
         config.addAllowedMethod(HttpMethod.HEAD);

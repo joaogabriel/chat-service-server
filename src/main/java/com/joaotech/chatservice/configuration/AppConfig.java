@@ -5,21 +5,22 @@ import com.datastax.oss.driver.api.core.config.DriverConfigLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.cassandra.config.CqlSessionFactoryBean;
 
 import java.io.File;
 
 @Configuration
 public class AppConfig {
 
-    private final File driverConfig = new File(System.getProperty("user.dir") + "/src/main/resources/application.conf");
-
     @Bean
     @Primary
-    public CqlSession session() {
-        return CqlSession.builder().
-                withConfigLoader(DriverConfigLoader.fromFile(driverConfig)).
-                withKeyspace("chat_service_dev").
-                build();
+    public CqlSessionFactoryBean session() {
+
+        CqlSessionFactoryBean session = new CqlSessionFactoryBean();
+        session.setContactPoints("172.17.20.34");
+        session.setKeyspaceName("chat_service_dev");
+
+        return session;
     }
 
 }
