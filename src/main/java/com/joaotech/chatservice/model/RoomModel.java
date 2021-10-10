@@ -8,16 +8,17 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("roomS")
+@Table("rooms")
 public class RoomModel {
 
     @PrimaryKey
     @Column
-    private String id;
+    private UUID id;
 
     @Column("started_on")
     public LocalDateTime startedOn;
@@ -40,7 +41,7 @@ public class RoomModel {
     @Column("recipient_name")
     public String recipientName;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

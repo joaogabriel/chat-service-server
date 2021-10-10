@@ -12,13 +12,13 @@ public class MessageAdapter {
     public static MessageVO toChatMessageVO(MessageModel messageModel) {
         if (messageModel == null) return null;
         return MessageVO.builder()
-                .token(messageModel.getId())
-                .roomToken(messageModel.roomId)
+                .id(messageModel.getId().toString())
+                .roomId(messageModel.roomId)
                 .content(messageModel.content)
                 .timestamp(messageModel.timestamp)
                 .status(MessageStatus.valueOf(messageModel.status))
                 .type(messageModel.type)
-                .userToken(messageModel.userToken)
+                .userToken(messageModel.messageOwnerToken)
                 .build();
     }
 

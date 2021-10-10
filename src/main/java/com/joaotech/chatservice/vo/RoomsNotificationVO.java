@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomsNotificationVO {
 
-    public String token;
+    public String id;
     public UserVO sender;
     public UserVO recipient;
 

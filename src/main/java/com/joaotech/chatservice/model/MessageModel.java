@@ -8,6 +8,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 @NoArgsConstructor
@@ -17,13 +18,13 @@ public class MessageModel {
 
     @PrimaryKey
     @Column
-    private String id;
+    private UUID id;
 
     @Column("room_id")
     public String roomId;
 
-    @Column("user_token")
-    public String userToken;
+    @Column("message_owner_token")
+    public String messageOwnerToken;
 
     @Column
     public String content;
@@ -37,7 +38,7 @@ public class MessageModel {
     @Column
     public MessageType type;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

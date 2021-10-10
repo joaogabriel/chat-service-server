@@ -22,9 +22,9 @@ public class MessageController {
         messageService.save(chatMessage);
     }
 
-    @GetMapping("/messages/{token}")
-    public ResponseEntity<MessageVO> getContent(@PathVariable String token) {
-        MessageVO message = messageService.findByToken(token);
+    @GetMapping("/messages/{id}")
+    public ResponseEntity<MessageVO> getContent(@PathVariable String id) {
+        MessageVO message = messageService.findById(id);
         return ResponseEntity.ok(message);
     }
 
