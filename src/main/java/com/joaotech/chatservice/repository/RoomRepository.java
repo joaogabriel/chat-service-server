@@ -12,7 +12,7 @@ public interface RoomRepository extends CrudRepository<RoomModel, String> {
     @Query("SELECT * FROM rooms WHERE sender_token=?0 AND recipient_token=?1 AND is_closed=false")
     Optional<RoomModel> findBySenderTokenAndRecipientTokenAndClosedIsFalse(String senderToken, String recipientToken);
 
-    @Query("SELECT * FROM rooms WHERE recipient_token=?0 AND is_closed=false")
+    @Query("SELECT * FROM rooms WHERE recipient_token=?0 AND is_closed=false ALLOW FILTERING")
     List<RoomModel> findByRecipientTokenAndClosedIsFalse(String recipientToken);
 
     @Query("SELECT * FROM rooms WHERE sender_token=?0 AND is_closed=false")

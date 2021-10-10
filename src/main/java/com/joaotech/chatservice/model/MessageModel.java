@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("message")
+@Table("messages")
 public class MessageModel {
 
     @PrimaryKey

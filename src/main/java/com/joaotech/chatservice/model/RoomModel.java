@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("room")
+@Table("roomS")
 public class RoomModel {
 
     @PrimaryKey

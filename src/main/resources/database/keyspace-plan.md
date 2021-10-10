@@ -15,11 +15,12 @@ CREATE TABLE rooms
     sender_name     text,
     sender_token    text,
     started_on      timestamp
-    primary key (sender_token)
+        primary key (is_closed, sender_token, recipient_token)
 );
 
-CREATE CUSTOM INDEX recipient_and_status ON rooms (recipient_token,is_closed)  USING 'org.apache.cassandra.index.sasi.SASIIndex';
+CREATE INDEX ON rooms (recipient_token);
 
+CREATE INDEX ON rooms (sender_token);
 ```
 
 ### messages
@@ -28,16 +29,16 @@ CREATE CUSTOM INDEX recipient_and_status ON rooms (recipient_token,is_closed)  U
 
 CREATE TABLE messages
 (
-    room_id         uuid,
-    id              uuid,
-    status          text,
-    content         text,
+    room_id             uuid,
+    id                  uuid,
+    status              text,
+    content             text,
     message_owner_token text,
-    recipient_token text,
-    sender_token    text,
-    timestamp       timestamp,
-    type            text,
-    primary key (room_id, id, status)
+    recipient_token     text,
+    sender_token        text,
+    timestamp           timestamp,
+    type                text,
+    primary key (room_id, id, status, timestamp)
 );
 
 CREATE INDEX ON messages (status);
@@ -53,19 +54,29 @@ CREATE INDEX ON rooms (is_closed);
 #### Sala por sender e aberta
 
 ```SQL
-SELECT * FROM rooms WHERE sender_token = 'abc' AND is_closed = false;
+SELECT *
+FROM rooms
+WHERE sender_token = 'abc'
+  AND is_closed = false;
 ```
 
 #### Sala por sender e aberta e recipient
 
 ```SQL
-SELECT * FROM rooms WHERE sender_token = 'abc' AND is_closed = false AND recipient_token = 'def';
+SELECT *
+FROM rooms
+WHERE sender_token = 'abc'
+  AND is_closed = false
+  AND recipient_token = 'def';
 ```
 
 #### Sala por recipient e aberta
 
 ```SQL
-SELECT * FROM rooms WHERE recipient_token = 'abc' AND is_closed = false;
+SELECT *
+FROM rooms
+WHERE recipient_token = 'abc'
+  AND is_closed = false;
 ```
 
 ### messages
@@ -73,25 +84,35 @@ SELECT * FROM rooms WHERE recipient_token = 'abc' AND is_closed = false;
 #### Mensagem por id da sala e id da mensagem
 
 ```SQL
-SELECT * FROM messages WHERE room_id = now() AND id = now();
+SELECT *
+FROM messages
+WHERE room_id = now()
+  AND id = now();
 ```
 
 #### Mensagem por room_id
 
 ```SQL
-SELECT * FROM messages WHERE room_id = now();
+SELECT *
+FROM messages
+WHERE room_id = now();
 ```
 
 #### Mensagem por room_id e status
 
 ```SQL
-SELECT * FROM messages WHERE room_id = now() AND status = 'RECEIVED';
+SELECT *
+FROM messages
+WHERE room_id = now()
+  AND status = 'RECEIVED';
 ```
 
 #### Quantidade de mensagens não lidas
 
 ```SQL
-SELECT COUNT(*) FROM messages WHERE status = 'SENDED'
+SELECT COUNT(*)
+FROM messages
+WHERE status = 'SENDED'
 ```
 
 ## Atualizações
