@@ -33,7 +33,7 @@ public class MessageService {
 
         MessageModel messageModel = MessageModel.builder()
                 .id(UUID.fromString(chatMessage.messageId))
-                .roomId(chatMessage.roomId)
+                .roomId(UUID.fromString(chatMessage.roomId))
                 .messageOwnerToken(chatMessage.userToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
