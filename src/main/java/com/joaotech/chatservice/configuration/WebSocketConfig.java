@@ -2,9 +2,6 @@ package com.joaotech.chatservice.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joaotech.chatservice.interceptor.ACKCommandChannelInterceptor;
-import com.joaotech.chatservice.service.MessageService;
-import com.joaotech.chatservice.service.MessageStatusService;
-import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
