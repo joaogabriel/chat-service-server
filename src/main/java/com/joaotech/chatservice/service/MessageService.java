@@ -8,6 +8,7 @@ import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.CreateMessageVO;
 import com.joaotech.chatservice.vo.MessageVO;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -57,6 +58,11 @@ public class MessageService {
 
     }
 
+    public long countByRoom(String roomId) {
+        if (StringUtils.isEmpty(roomId)) throw new RuntimeException("roomId is required");
+        return messageRepository.countByRoomId(UUID.fromString(roomId));
+    }
+
     public MessageVO findById(String id) {
 
         MessageModel messageModel = messageRepository.findById(UUID.fromString(id)).orElseThrow(RuntimeException::new);
@@ -66,7 +72,7 @@ public class MessageService {
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED);
+        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED.name());
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {

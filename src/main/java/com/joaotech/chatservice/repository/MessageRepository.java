@@ -10,9 +10,10 @@ import java.util.UUID;
 
 public interface MessageRepository extends CrudRepository<MessageModel, UUID> {
 
-    //    @Query("SELECT * FROM messages WHERE room_id=?0")
     List<MessageModel> findByRoomId(UUID roomId, Pageable pageable);
 
-    long countByRoomIdAndStatus(UUID roomId, MessageStatus status);
+    long countByRoomId(UUID roomId);
+
+    long countByRoomIdAndStatus(UUID roomId, String status);
 
 }
