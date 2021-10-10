@@ -20,6 +20,8 @@ public class MessageStatusService {
 
         String currentStatus = MessageStatusType.DELIVERED.name();
 
+        message.currentStatus = currentStatus;
+
         message.status.put(currentStatus, LocalDateTime.now());
 
         messageRepository.save(message);
