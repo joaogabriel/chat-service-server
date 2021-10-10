@@ -21,7 +21,7 @@ public class MessageModel {
     private UUID id;
 
     @Column("room_id")
-    public String roomId;
+    public UUID roomId;
 
     @Column("message_owner_token")
     public String messageOwnerToken;
