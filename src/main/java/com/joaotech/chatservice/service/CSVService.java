@@ -43,6 +43,8 @@ public class CSVService {
 
         final int TOKEN_SIZE = 10;
 
+        final String CSV_SEPARATOR = ",";
+
         String senderToken = RandomStringUtils.randomAlphanumeric(TOKEN_SIZE);
 
         String recipientToken = RandomStringUtils.randomAlphanumeric(TOKEN_SIZE);
@@ -64,7 +66,7 @@ public class CSVService {
 
         String roomId = roomService.open(openRoomVO);
 
-        return String.join(",", roomId, senderToken, recipientToken);
+        return String.join(CSV_SEPARATOR, roomId, senderToken, recipientToken);
 
     }
 
