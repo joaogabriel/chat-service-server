@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileNotFoundException;
-
 @RestController
 @RequestMapping("/csv")
 @AllArgsConstructor
@@ -25,7 +23,7 @@ public class CSVController {
 
             return ResponseEntity.ok("generated");
 
-        } catch (FileNotFoundException exception) {
+        } catch (Throwable exception) {
 
             exception.printStackTrace();
 

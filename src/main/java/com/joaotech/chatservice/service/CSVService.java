@@ -8,6 +8,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Locale;
 
 @Service
@@ -18,25 +19,23 @@ public class CSVService {
 
     public void generate() throws FileNotFoundException {
 
+        final int CSV_SIZE = 2000;
+
         Faker faker = new Faker(new Locale("pt-BR"));
 
-        final int CSV_SIZE = 2;
-
-//        PrintWriter printWriter = new PrintWriter("");
+        PrintWriter printWriter = new PrintWriter(getFileName());
 
         for (int i = 0; i < CSV_SIZE; i++) {
 
             String line = generateRoom(faker);
 
-            System.out.println(line);
-
-//            printWriter.println(line);
+            printWriter.println(line);
 
         }
 
-//        printWriter.flush();
-//
-//        printWriter.close();
+        printWriter.flush();
+
+        printWriter.close();
 
     }
 
@@ -66,6 +65,20 @@ public class CSVService {
         String roomId = roomService.open(openRoomVO);
 
         return String.join(",", roomId, senderToken, recipientToken);
+
+    }
+
+    private String getFileName() {
+
+        final String ENVIRONMENT_VARIABLE_NAME = "CSV_ROOMS_NAME";
+
+        final String fileName = System.getenv(ENVIRONMENT_VARIABLE_NAME);
+
+        if (fileName == null) {
+            throw new RuntimeException("You need to set the environment variable " + ENVIRONMENT_VARIABLE_NAME);
+        }
+
+        return fileName;
 
     }
 
