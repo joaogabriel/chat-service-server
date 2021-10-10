@@ -16,7 +16,7 @@ public class MessageStatusService {
     private final MessageRepository messageRepository;
 
     public void updateDeliveredStatus(String messageId) {
-        MessageModel message = messageRepository.findById(UUID.fromString(messageId)).orElse(null);
+        MessageModel message = messageRepository.findById(UUID.fromString(messageId)).orElseThrow(RuntimeException::new);
 
         String currentStatus = MessageStatus.DELIVERED.name();
 
