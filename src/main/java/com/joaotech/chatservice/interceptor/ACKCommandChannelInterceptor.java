@@ -26,6 +26,7 @@ public class ACKCommandChannelInterceptor implements ChannelInterceptor {
         }
 
         String messageId = accessor.getMessageId();
+        String messageString = accessor.getMessage();
 
         // TODO: 25/09/21 update status message
 

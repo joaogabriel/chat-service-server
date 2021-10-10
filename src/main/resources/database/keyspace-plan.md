@@ -31,7 +31,8 @@ CREATE TABLE messages
 (
     room_id             uuid,
     id                  uuid,
-    status              text,
+    currentStatus       text,
+    status              Object,
     content             text,
     message_owner_token text,
     recipient_token     text,

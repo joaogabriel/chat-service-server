@@ -3,11 +3,13 @@ package com.joaotech.chatservice.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Builder
@@ -33,7 +35,11 @@ public class MessageModel {
     public LocalDateTime timestamp;
 
     @Column
-    public String status;
+    public String currentStatus;
+
+    @Column
+    @CassandraType(type = CassandraType.Name.MAP)
+    public Map<String, LocalDateTime> status;
 
     @Column
     public MessageType type;

@@ -1,5 +1,5 @@
 package com.joaotech.chatservice.model;
 
-public enum MessageStatus {
+public enum MessageStatusType {
     NOT_SENDED, SENDED, DELIVERED
 }

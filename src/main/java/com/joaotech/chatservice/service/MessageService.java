@@ -2,7 +2,7 @@ package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageModel;
-import com.joaotech.chatservice.model.MessageStatus;
+import com.joaotech.chatservice.model.MessageStatusType;
 import com.joaotech.chatservice.model.RoomModel;
 import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.*;
@@ -15,6 +15,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,7 +42,7 @@ public class MessageService {
                 .messageOwnerToken(chatMessage.userToken)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
-                .status(MessageStatus.SENDED.name())
+                .status(null)
                 .type(chatMessage.type)
                 .build();
 
@@ -118,7 +119,7 @@ public class MessageService {
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED);
+        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatusType.DELIVERED);
     }
 
     private Map<String, Object> produceHeaders(MessageModel messageModel) {

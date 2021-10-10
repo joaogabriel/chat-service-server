@@ -1,7 +1,7 @@
 package com.joaotech.chatservice.adapter;
 
 import com.joaotech.chatservice.model.MessageModel;
-import com.joaotech.chatservice.model.MessageStatus;
+import com.joaotech.chatservice.model.MessageStatusType;
 import com.joaotech.chatservice.vo.MessageVO;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class MessageAdapter {
                 .roomId(messageModel.roomId)
                 .content(messageModel.content)
                 .timestamp(messageModel.timestamp)
-                .status(MessageStatus.valueOf(messageModel.status))
+                .status(null)
                 .type(messageModel.type)
                 .userToken(messageModel.messageOwnerToken)
                 .build();
