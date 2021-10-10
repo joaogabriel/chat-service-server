@@ -1,19 +1,21 @@
 package com.joaotech.chatservice.interceptor;
 
+import com.joaotech.chatservice.service.MessageStatusService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 
 public class ACKCommandChannelInterceptor implements ChannelInterceptor {
 
+    @Autowired
+    private MessageStatusService messageStatusService;
+
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
-
-        MessageHeaders headers = message.getHeaders();
 
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 
@@ -25,9 +27,7 @@ public class ACKCommandChannelInterceptor implements ChannelInterceptor {
             return message;
         }
 
-        String messageId = accessor.getMessageId();
-
-        // TODO: 25/09/21 update status message
+        messageStatusService.updateDeliveredStatus(accessor.getMessageId());
 
         return message;
 

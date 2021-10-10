@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,19 +31,27 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-    public void save(CreateMessageVO chatMessage) {
+    public void create(CreateMessageVO chatMessage) {
 
         RoomModel roomModel = roomService.findById(chatMessage.roomId);
+
+        String currentStatus = MessageStatus.SENDED.name();
 
         MessageModel messageModel = MessageModel.builder()
                 .id(UUID.fromString(chatMessage.messageId))
                 .roomId(UUID.fromString(chatMessage.roomId))
-                .messageOwnerToken(chatMessage.userToken)
+                .roomId(UUID.fromString(chatMessage.roomId))
+                .messageOwnerToken(chatMessage.messageOwnerToken)
+                .currentStatus(currentStatus)
                 .content(chatMessage.content)
                 .timestamp(LocalDateTime.now())
-                .status(MessageStatus.SENDED.name())
                 .type(chatMessage.type)
+                .status(new HashMap<>())
                 .build();
+
+        messageModel.status.put(MessageStatus.NOT_SENDED.name(), LocalDateTime.ofEpochSecond(chatMessage.timestamp,0 , ZoneOffset.UTC));
+
+        messageModel.status.put(currentStatus, LocalDateTime.now());
 
         messageRepository.save(messageModel);
 
