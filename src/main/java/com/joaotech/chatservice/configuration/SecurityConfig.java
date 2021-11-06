@@ -17,7 +17,7 @@ public class SecurityConfig {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
         config.setAllowCredentials(true);
-        config.setAllowedOriginPatterns(Arrays.asList("http://chat.testes.bringu.agsoft.com.br", "http://localhost:3000", "http://localhost:3000/"));
+        config.setAllowedOriginPatterns(Arrays.asList("http://chat.testes.bringu.agsoft.com.br", "http://localhost:3000"));
 //        config.addAllowedOriginPattern("http://chat.testes.bringu.agsoft.com.br");
 //        config.addAllowedOriginPattern("http://localhost:3000");
     //    config.addAllowedHeader("*");
