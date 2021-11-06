@@ -15,12 +15,17 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
-            <stringProp name="Argument.value">www.example.com</stringProp>
+            <stringProp name="Argument.value">chat.testes.bringu.agsoft.com.br</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="scheme" elementType="Argument">
             <stringProp name="Argument.name">scheme</stringProp>
             <stringProp name="Argument.value">https</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="host_service" elementType="Argument">
+            <stringProp name="Argument.name">host_service</stringProp>
+            <stringProp name="Argument.value">chatserver.testes.bringu.agsoft.com.br</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -98,14 +103,14 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <intProp name="LoopController.loops">-1</intProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1370726934000</longProp>
         <longProp name="ThreadGroup.end_time">1370726934000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.duration">300</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
@@ -129,8 +134,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/info</stringProp>
@@ -148,7 +153,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -156,7 +161,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -194,8 +199,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/users/${USER_TOKEN}</stringProp>
@@ -213,7 +218,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -221,7 +226,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -243,8 +248,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/iframe.html</stringProp>
@@ -262,7 +267,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -292,8 +297,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/iframe.html</stringProp>
@@ -311,7 +316,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -341,8 +346,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr?t=${TIME}</stringProp>
@@ -360,7 +365,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -368,7 +373,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -397,8 +402,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -416,7 +421,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -424,7 +429,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -450,8 +455,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr?t=${TIME}</stringProp>
@@ -469,7 +474,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -477,7 +482,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -506,8 +511,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -525,7 +530,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -533,7 +538,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -566,8 +571,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/open</stringProp>
@@ -585,7 +590,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -593,7 +598,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="content-type" elementType="Header">
                     <stringProp name="Header.name">content-type</stringProp>
@@ -636,8 +641,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -655,7 +660,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -663,7 +668,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -696,8 +701,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -715,7 +720,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -723,7 +728,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -756,8 +761,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -775,7 +780,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -783,7 +788,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -816,8 +821,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -835,7 +840,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -843,7 +848,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -876,8 +881,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -895,7 +900,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -903,7 +908,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -936,8 +941,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -955,7 +960,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -963,7 +968,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -989,8 +994,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/${ROOM_TOKEN}/content</stringProp>
@@ -1008,7 +1013,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1016,7 +1021,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -1045,8 +1050,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/s5lov1fa/xhr_send?t=${TIME}</stringProp>
@@ -1064,7 +1069,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1072,7 +1077,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -1105,8 +1110,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/s5lov1fa/xhr_send?t=${TIME}</stringProp>
@@ -1124,7 +1129,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1132,7 +1137,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -1165,8 +1170,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/${ROOM_TOKEN}/close</stringProp>
@@ -1184,7 +1189,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1192,7 +1197,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="content-type" elementType="Header">
                     <stringProp name="Header.name">content-type</stringProp>
@@ -1241,8 +1246,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -1260,7 +1265,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1268,7 +1273,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -1301,8 +1306,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -1320,7 +1325,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1328,7 +1333,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -1354,8 +1359,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -1373,7 +1378,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1381,7 +1386,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -1403,8 +1408,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -1422,7 +1427,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1430,7 +1435,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -1459,8 +1464,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -1478,7 +1483,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1486,7 +1491,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -1512,8 +1517,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/messages/CDYHFJKWfFPRVN9</stringProp>
@@ -1531,7 +1536,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1539,7 +1544,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -1568,8 +1573,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -1587,7 +1592,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1595,7 +1600,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -1628,8 +1633,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -1647,7 +1652,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1655,7 +1660,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -1694,8 +1699,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/open</stringProp>
@@ -1713,7 +1718,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1721,7 +1726,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="content-type" elementType="Header">
                     <stringProp name="Header.name">content-type</stringProp>
@@ -1764,8 +1769,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/open</stringProp>
@@ -1783,7 +1788,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1791,7 +1796,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="content-type" elementType="Header">
                     <stringProp name="Header.name">content-type</stringProp>
@@ -1824,8 +1829,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -1843,7 +1848,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1851,7 +1856,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -1884,8 +1889,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS/xhr_send?t=${TIME}</stringProp>
@@ -1903,7 +1908,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1911,7 +1916,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -1937,8 +1942,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/${ROOM_TOKEN}/content</stringProp>
@@ -1956,7 +1961,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -1964,7 +1969,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -1993,8 +1998,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -2012,7 +2017,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2020,7 +2025,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2053,8 +2058,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">//ws/${NUMBER}/${WORDS}/xhr_send?t=${TIME}</stringProp>
@@ -2072,7 +2077,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2080,7 +2085,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2113,8 +2118,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/${ROOM_ID}/close</stringProp>
@@ -2132,7 +2137,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2140,7 +2145,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="content-type" elementType="Header">
                     <stringProp name="Header.name">content-type</stringProp>
@@ -2189,8 +2194,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579462318</stringProp>
@@ -2208,7 +2213,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2216,7 +2221,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2249,8 +2254,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579462353</stringProp>
@@ -2268,7 +2273,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2276,7 +2281,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2302,8 +2307,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr?t=1632579442092</stringProp>
@@ -2321,7 +2326,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2329,7 +2334,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -2351,8 +2356,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr?t=1632579462511</stringProp>
@@ -2370,7 +2375,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2378,7 +2383,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -2407,8 +2412,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579462510</stringProp>
@@ -2426,7 +2431,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2434,7 +2439,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2467,8 +2472,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579462545</stringProp>
@@ -2486,7 +2491,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2494,7 +2499,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2520,8 +2525,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/messages/b8dhH3NXGsc3eUn</stringProp>
@@ -2539,7 +2544,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2547,7 +2552,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -2576,8 +2581,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579462678</stringProp>
@@ -2595,7 +2600,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2603,7 +2608,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2636,8 +2641,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579462714</stringProp>
@@ -2655,7 +2660,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2663,7 +2668,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2696,8 +2701,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579466674</stringProp>
@@ -2715,7 +2720,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2723,7 +2728,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2756,8 +2761,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579466708</stringProp>
@@ -2775,7 +2780,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2783,7 +2788,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2809,8 +2814,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/TrnkjoT6eaVNZhs/close</stringProp>
@@ -2828,7 +2833,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2836,7 +2841,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Access-Control-Request-Headers" elementType="Header">
                     <stringProp name="Header.name">Access-Control-Request-Headers</stringProp>
@@ -2873,8 +2878,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579468939</stringProp>
@@ -2892,7 +2897,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2900,7 +2905,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2933,8 +2938,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579468976</stringProp>
@@ -2952,7 +2957,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -2960,7 +2965,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -2993,8 +2998,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/TrnkjoT6eaVNZhs/close</stringProp>
@@ -3012,7 +3017,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3020,7 +3025,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="content-type" elementType="Header">
                     <stringProp name="Header.name">content-type</stringProp>
@@ -3053,8 +3058,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579469113</stringProp>
@@ -3072,7 +3077,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3080,7 +3085,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -3113,8 +3118,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579469155</stringProp>
@@ -3132,7 +3137,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3140,7 +3145,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -3173,8 +3178,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579470739</stringProp>
@@ -3192,7 +3197,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3200,7 +3205,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -3233,8 +3238,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/300/s5lov1fa/xhr_send?t=1632579470779</stringProp>
@@ -3252,7 +3257,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3260,7 +3265,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -3292,8 +3297,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/oe2kwg43/xhr?t=1632598419635</stringProp>
@@ -3311,7 +3316,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3319,7 +3324,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -3347,8 +3352,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/enfcslc3/xhr_streaming?t=1632598396618</stringProp>
@@ -3366,7 +3371,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3374,7 +3379,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -3396,8 +3401,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/je0y0ou4/eventsource</stringProp>
@@ -3415,7 +3420,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3423,7 +3428,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Cache-Control" elementType="Header">
                     <stringProp name="Header.name">Cache-Control</stringProp>
@@ -3459,7 +3464,7 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
               <stringProp name="HTTPSampler.port">3000</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
@@ -3518,8 +3523,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/info</stringProp>
@@ -3537,7 +3542,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3545,7 +3550,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -3567,8 +3572,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/users/4444444444</stringProp>
@@ -3586,7 +3591,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3594,7 +3599,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -3616,8 +3621,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/iframe.html</stringProp>
@@ -3635,7 +3640,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3665,8 +3670,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/iframe.html</stringProp>
@@ -3684,7 +3689,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3714,8 +3719,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr?t=1632599557933</stringProp>
@@ -3733,7 +3738,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3741,7 +3746,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -3770,8 +3775,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599557958</stringProp>
@@ -3789,7 +3794,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3797,7 +3802,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -3823,8 +3828,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr?t=1632599557959</stringProp>
@@ -3842,7 +3847,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3850,7 +3855,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -3879,8 +3884,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599558007</stringProp>
@@ -3898,7 +3903,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3906,7 +3911,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -3939,8 +3944,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599559135</stringProp>
@@ -3958,7 +3963,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -3966,7 +3971,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -3999,8 +4004,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599559171</stringProp>
@@ -4018,7 +4023,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4026,7 +4031,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -4052,8 +4057,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/rooms/5IUGxXPKPVa9cwG/content</stringProp>
@@ -4071,7 +4076,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4079,7 +4084,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -4108,8 +4113,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599559342</stringProp>
@@ -4127,7 +4132,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4135,7 +4140,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -4168,8 +4173,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599559384</stringProp>
@@ -4187,7 +4192,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4195,7 +4200,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -4234,8 +4239,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599580085</stringProp>
@@ -4253,7 +4258,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4261,7 +4266,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -4294,8 +4299,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599580118</stringProp>
@@ -4313,7 +4318,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4321,7 +4326,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -4347,8 +4352,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr?t=1632599557995</stringProp>
@@ -4366,7 +4371,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4374,7 +4379,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -4396,8 +4401,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr?t=1632599580281</stringProp>
@@ -4415,7 +4420,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4423,7 +4428,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -4452,8 +4457,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599580280</stringProp>
@@ -4471,7 +4476,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4479,7 +4484,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -4512,8 +4517,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599580313</stringProp>
@@ -4531,7 +4536,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4539,7 +4544,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -4565,8 +4570,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/messages/OlOAwwcl1vYKrHX</stringProp>
@@ -4584,7 +4589,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4592,7 +4597,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -4621,8 +4626,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599580491</stringProp>
@@ -4640,7 +4645,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4648,7 +4653,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -4681,8 +4686,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">172.17.20.183</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">${host_service}</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/ws/067/xggfbzwf/xhr_send?t=1632599580525</stringProp>
@@ -4700,7 +4705,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000/</stringProp>
+                    <stringProp name="Header.value">http://${host}/</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -4708,7 +4713,7 @@
                   </elementProp>
                   <elementProp name="Origin" elementType="Header">
                     <stringProp name="Header.name">Origin</stringProp>
-                    <stringProp name="Header.value">http://172.17.20.183:3000</stringProp>
+                    <stringProp name="Header.value">http://${host}</stringProp>
                   </elementProp>
                   <elementProp name="Content-type" elementType="Header">
                     <stringProp name="Header.name">Content-type</stringProp>
@@ -4765,7 +4770,7 @@
             <sampleCount>true</sampleCount>
           </value>
         </objProp>
-        <stringProp name="filename"></stringProp>
+        <stringProp name="filename">/home/max/Área de Trabalho/Teste de performance 20211106/bateria-1.csv</stringProp>
       </ResultCollector>
       <hashTree/>
       <ProxyControl guiclass="ProxyControlGui" testclass="ProxyControl" testname="HTTP(S) Test Script Recorder" enabled="false">
