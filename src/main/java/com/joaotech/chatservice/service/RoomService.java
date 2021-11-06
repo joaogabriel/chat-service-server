@@ -11,6 +11,7 @@ import com.joaotech.chatservice.vo.UserVO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -54,15 +55,18 @@ public class RoomService {
 
     }
 
+    @Transactional
     public void close(String token) {
 
         RoomModel roomModel = roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
+// TODO - Discutir se é a melhor solução
+        roomRepository.deleteBySenderAndRecipient(roomModel.senderToken, roomModel.recipientToken);
 
         roomModel.closedOn = LocalDateTime.now();
 
         roomModel.isClosed = true;
 
-        roomRepository.save(roomModel);
+        roomRepository.insert(roomModel);
 
         notificationService.notifyRoom(roomModel);
 
