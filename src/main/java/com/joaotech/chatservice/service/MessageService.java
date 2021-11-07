@@ -1,9 +1,6 @@
 package com.joaotech.chatservice.service;
 
 import com.datastax.oss.driver.api.core.cql.PagingState;
-import com.datastax.oss.driver.api.core.detach.AttachmentPoint;
-import com.datastax.oss.driver.internal.core.cql.DefaultPagingState;
-import com.datastax.oss.driver.internal.core.type.codec.extras.json.JsonCodec;
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
@@ -23,9 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.HashMap;
@@ -168,14 +163,17 @@ public class MessageService {
 //            new DefaultPagingState(pagingState, statement, AttachmentPoint.NONE);
 
             // 5
-            ByteBuffer buffer = ByteBuffer.allocate(this.rawPagingState.remaining() + this.hash.length + 6);
-            buffer.putShort((short)this.rawPagingState.remaining());
-            buffer.putShort((short)this.hash.length);
-            buffer.put(this.rawPagingState.duplicate());
-            buffer.put(this.hash);
-            buffer.putShort((short)this.protocolVersion);
-            buffer.rewind();
-            return buffer.array();
+//            ByteBuffer buffer = ByteBuffer.allocate(this.rawPagingState.remaining() + this.hash.length + 6);
+//            buffer.putShort((short)this.rawPagingState.remaining());
+//            buffer.putShort((short)this.hash.length);
+//            buffer.put(this.rawPagingState.duplicate());
+//            buffer.put(this.hash);
+//            buffer.putShort((short)this.protocolVersion);
+//            buffer.rewind();
+//            return buffer.array();
+
+            // o que tentar ainda:
+            // fazendo a consulta e recuperando o ResultSet, da pra acessar o PagingIterable, getExecutionInfo() e getSafePagingState()
         }
 
     }
