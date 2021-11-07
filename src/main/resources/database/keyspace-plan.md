@@ -15,7 +15,7 @@ CREATE TABLE rooms
     sender_name     text,
     sender_token    text,
     started_on      timestamp,
-    primary key (sender_token, is_closed, recipient_token)
+    primary key (sender_token, recipient_token, id)
 );
 
 CREATE INDEX recipient_token_idx
@@ -23,6 +23,9 @@ CREATE INDEX recipient_token_idx
 
 CREATE INDEX rooms_id_idx
     ON rooms (id);
+
+
+CREATE INDEX ON rooms (is_closed);
 ```
 
 ### messages
@@ -46,8 +49,6 @@ CREATE TABLE messages
 ) WITH CLUSTERING ORDER BY (timestamp DESC);
 
 CREATE INDEX ON messages (current_status);
-
-CREATE INDEX ON rooms (is_closed);
 
 CREATE INDEX ON messages (id);
 

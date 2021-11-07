@@ -60,14 +60,11 @@ public class RoomService {
 
         RoomModel roomModel = roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
 
-        // TODO - Discutir se é a melhor solução
-        roomRepository.deleteBySenderAndRecipient(roomModel.senderToken, roomModel.recipientToken);
-
         roomModel.closedOn = LocalDateTime.now();
 
         roomModel.isClosed = true;
 
-        roomRepository.insert(roomModel);
+        roomRepository.save(roomModel);
 
         notificationService.notifyRoom(roomModel);
 
