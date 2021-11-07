@@ -2,6 +2,7 @@ package com.joaotech.chatservice.adapter;
 
 import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.vo.MessageVO;
+import com.joaotech.chatservice.vo.PaginatedMessagesVO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,10 +22,17 @@ public class MessageAdapter {
                 .build();
     }
 
-    public static List<MessageVO> toChatMessageVO(List<MessageModel> messageModels) {
-        return messageModels.stream()
+    public static PaginatedMessagesVO toPaginatedMessagesVO(List<MessageModel> messages, String cursorMark) {
+
+        List<MessageVO> messagesVO = messages.stream()
                 .map(MessageAdapter::toChatMessageVO)
                 .collect(Collectors.toList());
+
+        return PaginatedMessagesVO.builder()
+                .messages(messagesVO)
+                .cursorMark(cursorMark)
+                .build();
+
     }
 
 }

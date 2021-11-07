@@ -1,13 +1,17 @@
 package com.joaotech.chatservice.vo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-// TODO: 10/10/21 remover
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
-public class RoomMessagesVO {
+public class PaginatedMessagesVO {
 
     public List<MessageVO> messages;
+    public String cursorMark;
 
 }

@@ -1,10 +1,6 @@
 package com.joaotech.chatservice.model;
 
-import com.datastax.oss.driver.api.core.type.DataType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
@@ -51,4 +47,17 @@ public class MessageModel {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "MessageModel{" +
+                "id=" + id +
+                ", roomId=" + roomId +
+                ", messageOwnerToken='" + messageOwnerToken + '\'' +
+                ", content='" + content + '\'' +
+                ", timestamp=" + timestamp +
+                ", currentStatus='" + currentStatus + '\'' +
+                ", status=" + status +
+                ", type=" + type +
+                '}';
+    }
 }
