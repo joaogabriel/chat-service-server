@@ -1,23 +1,18 @@
 package com.joaotech.chatservice.repository;
 
-import com.joaotech.chatservice.model.RoomModel;
-import org.springframework.data.cassandra.repository.Query;
+import com.joaotech.chatservice.model.RoomDocument;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface RoomRepository extends CrudRepository<RoomModel, UUID> {
+public interface RoomRepository extends CrudRepository<RoomDocument, UUID> {
 
-    @Query("SELECT * FROM rooms WHERE sender_token=?0 AND recipient_token=?1 AND is_closed=false")
-    Optional<RoomModel> findBySenderTokenAndRecipientTokenAndClosedIsFalse(String senderToken, String recipientToken);
+    Optional<RoomDocument> findBySenderTokenAndRecipientTokenAndIsClosedIsFalse(String senderToken, String recipientToken);
 
-    @Query("SELECT * FROM rooms WHERE recipient_token=?0 AND is_closed=false ALLOW FILTERING")
-    List<RoomModel> findByRecipientTokenAndClosedIsFalse(String recipientToken);
+    List<RoomDocument> findByRecipientTokenAndIsClosedIsFalse(String recipientToken);
 
-    @Query("SELECT * FROM rooms WHERE sender_token=?0 AND is_closed=false")
-    List<RoomModel> findBySenderTokenAndClosedIsFalse(String recipientToken);
-
+    List<RoomDocument> findBySenderTokenAndIsClosedIsFalse(String recipientToken);
 
 }

@@ -1,7 +1,7 @@
 package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.RoomAdapter;
-import com.joaotech.chatservice.model.RoomModel;
+import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.repository.RoomRepository;
 import com.joaotech.chatservice.vo.OpenRoomVO;
@@ -11,6 +11,7 @@ import com.joaotech.chatservice.vo.UserVO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,19 +28,20 @@ public class RoomService {
 
     private final MessageRepository messageRepository;
 
+    @Transactional
     public String open(OpenRoomVO room) {
 
         UserVO sender = room.sender;
 
         UserVO recipient = room.recipient;
 
-        Optional<RoomModel> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndClosedIsFalse(sender.token, recipient.token);
+        Optional<RoomDocument> previousOpenedRoom = roomRepository.findBySenderTokenAndRecipientTokenAndIsClosedIsFalse(sender.token, recipient.token);
 
         if (previousOpenedRoom.isPresent()) {
             throw new RuntimeException();
         }
 
-        RoomModel roomModel = RoomModel.builder()
+        RoomDocument roomDocument = RoomDocument.builder()
                 .id(UUID.randomUUID())
                 .senderToken(sender.token)
                 .senderName(sender.name)
@@ -48,27 +50,27 @@ public class RoomService {
                 .startedOn(LocalDateTime.now())
                 .build();
 
-        roomRepository.save(roomModel);
+        roomRepository.save(roomDocument);
 
-        return roomModel.getId().toString();
+        return roomDocument.getId().toString();
 
     }
 
     public void close(String token) {
 
-        RoomModel roomModel = roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
+        RoomDocument roomDocument = roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
 
-        roomModel.closedOn = LocalDateTime.now();
+        roomDocument.closedOn = LocalDateTime.now();
 
-        roomModel.isClosed = true;
+        roomDocument.isClosed = true;
 
-        roomRepository.save(roomModel);
+        roomRepository.save(roomDocument);
 
-        notificationService.notifyRoom(roomModel);
+        notificationService.notifyRoom(roomDocument);
 
     }
 
-    public RoomModel findById(String token) {
+    public RoomDocument findById(String token) {
         return roomRepository.findById(UUID.fromString(token)).orElseThrow(RuntimeException::new);
     }
 
@@ -78,7 +80,7 @@ public class RoomService {
 
         UUID roomId = UUID.fromString(id);
 
-        RoomModel room = roomRepository.findById(roomId).orElseThrow(RuntimeException::new);
+        RoomDocument room = roomRepository.findById(roomId).orElseThrow(RuntimeException::new);
 
         // TODO: 10/10/21 quando mover para definitivo, remover dependencia do messageRepository daqui
         long quantityOfMessages = messageRepository.countByRoomId(roomId);
@@ -92,11 +94,11 @@ public class RoomService {
 
     public List<OpenedRoomSenderVO> getOpenedUserRooms(String userToken) {
 
-        List<RoomModel> roomModels = roomRepository.findByRecipientTokenAndClosedIsFalse(userToken);
+        List<RoomDocument> roomDocuments = roomRepository.findByRecipientTokenAndIsClosedIsFalse(userToken);
 
-        roomModels.addAll(roomRepository.findBySenderTokenAndClosedIsFalse(userToken));
+        roomDocuments.addAll(roomRepository.findBySenderTokenAndIsClosedIsFalse(userToken));
 
-        return RoomAdapter.toOpenedRoomSenderVO(roomModels);
+        return RoomAdapter.toOpenedRoomSenderVO(roomDocuments);
 
     }
 

@@ -1,6 +1,6 @@
 package com.joaotech.chatservice.adapter;
 
-import com.joaotech.chatservice.model.MessageModel;
+import com.joaotech.chatservice.model.MessageDocument;
 import com.joaotech.chatservice.vo.MessageVO;
 
 import java.util.List;
@@ -8,21 +8,21 @@ import java.util.stream.Collectors;
 
 public class MessageAdapter {
 
-    public static MessageVO toChatMessageVO(MessageModel messageModel) {
-        if (messageModel == null) return null;
+    public static MessageVO toChatMessageVO(MessageDocument messageDocument) {
+        if (messageDocument == null) return null;
         return MessageVO.builder()
-                .id(messageModel.getId().toString())
-                .roomId(messageModel.roomId.toString())
-                .content(messageModel.content)
-                .timestamp(messageModel.timestamp)
-                .currentStatus(messageModel.currentStatus)
-                .type(messageModel.type)
-                .userToken(messageModel.messageOwnerToken)
+                .id(messageDocument.getId().toString())
+                .roomId(messageDocument.roomId.toString())
+                .content(messageDocument.content)
+                .timestamp(messageDocument.timestamp)
+                .currentStatus(messageDocument.currentStatus)
+                .type(messageDocument.type)
+                .userToken(messageDocument.messageOwnerToken)
                 .build();
     }
 
-    public static List<MessageVO> toChatMessageVO(List<MessageModel> messageModels) {
-        return messageModels.stream()
+    public static List<MessageVO> toChatMessageVO(List<MessageDocument> messageDocuments) {
+        return messageDocuments.stream()
                 .map(MessageAdapter::toChatMessageVO)
                 .collect(Collectors.toList());
     }

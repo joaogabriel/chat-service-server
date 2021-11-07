@@ -1,15 +1,15 @@
 package com.joaotech.chatservice.service;
 
 import com.joaotech.chatservice.adapter.MessageAdapter;
-import com.joaotech.chatservice.model.MessageModel;
+import com.joaotech.chatservice.model.MessageDocument;
 import com.joaotech.chatservice.model.MessageStatus;
-import com.joaotech.chatservice.model.RoomModel;
+import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.CreateMessageVO;
 import com.joaotech.chatservice.vo.MessageVO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.cassandra.core.query.CassandraPageRequest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -33,11 +33,11 @@ public class MessageService {
 
     public void create(CreateMessageVO chatMessage) {
 
-        RoomModel roomModel = roomService.findById(chatMessage.roomId);
+        RoomDocument roomDocument = roomService.findById(chatMessage.roomId);
 
         String currentStatus = MessageStatus.SENDED.name();
 
-        MessageModel messageModel = MessageModel.builder()
+        MessageDocument messageDocument = MessageDocument.builder()
                 .id(UUID.fromString(chatMessage.messageId))
                 .roomId(UUID.fromString(chatMessage.roomId))
                 .roomId(UUID.fromString(chatMessage.roomId))
@@ -49,21 +49,21 @@ public class MessageService {
                 .status(new HashMap<>())
                 .build();
 
-        messageModel.status.put(MessageStatus.NOT_SENDED.name(), LocalDateTime.ofEpochSecond(chatMessage.timestamp,0 , ZoneOffset.UTC));
+        messageDocument.status.put(MessageStatus.NOT_SENDED.name(), LocalDateTime.ofEpochSecond(chatMessage.timestamp, 0, ZoneOffset.UTC));
 
-        messageModel.status.put(currentStatus, LocalDateTime.now());
+        messageDocument.status.put(currentStatus, LocalDateTime.now());
 
-        messageRepository.save(messageModel);
+        messageRepository.save(messageDocument);
 
-        notificationService.notifyInvolved(roomModel, messageModel);
+        notificationService.notifyInvolved(roomDocument, messageDocument);
 
     }
 
     public List<MessageVO> findByRoom(String roomId, Integer page, Integer size) {
 
-        Pageable pageable = CassandraPageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp"));
 
-        Slice<MessageModel> messageModels = messageRepository.findByRoomId(UUID.fromString(roomId), pageable);
+        Slice<MessageDocument> messageModels = messageRepository.findByRoomId(UUID.fromString(roomId), pageable);
 
         return MessageAdapter.toChatMessageVO(messageModels.getContent());
 
@@ -76,9 +76,9 @@ public class MessageService {
 
     public MessageVO findById(String id) {
 
-        MessageModel messageModel = messageRepository.findById(UUID.fromString(id)).orElseThrow(RuntimeException::new);
+        MessageDocument messageDocument = messageRepository.findById(UUID.fromString(id)).orElseThrow(RuntimeException::new);
 
-        return MessageAdapter.toChatMessageVO(messageModel);
+        return MessageAdapter.toChatMessageVO(messageDocument);
 
     }
 

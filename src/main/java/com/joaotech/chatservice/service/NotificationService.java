@@ -1,7 +1,7 @@
 package com.joaotech.chatservice.service;
 
-import com.joaotech.chatservice.model.MessageModel;
-import com.joaotech.chatservice.model.RoomModel;
+import com.joaotech.chatservice.model.MessageDocument;
+import com.joaotech.chatservice.model.RoomDocument;
 import com.joaotech.chatservice.vo.RoomNotificationVO;
 import com.joaotech.chatservice.vo.RoomsNotificationVO;
 import com.joaotech.chatservice.vo.UserVO;
@@ -20,56 +20,56 @@ public class NotificationService {
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    public void notifyInvolved(RoomModel roomModel, MessageModel messageModel) {
+    public void notifyInvolved(RoomDocument roomDocument, MessageDocument messageDocument) {
 
-        notifyRoom(roomModel);
+        notifyRoom(roomDocument);
 
-        notifyRooms(roomModel, messageModel);
+        notifyRooms(roomDocument, messageDocument);
 
     }
 
-    public void notifyRoom(RoomModel roomModel) {
+    public void notifyRoom(RoomDocument roomDocument) {
 
         RoomsNotificationVO roomsNotificationVO = RoomsNotificationVO.builder()
-                .id(roomModel.getId().toString())
+                .id(roomDocument.getId().toString())
                 .sender(
                         UserVO.builder()
-                                .token(roomModel.senderToken)
-                                .name(roomModel.senderName)
+                                .token(roomDocument.senderToken)
+                                .name(roomDocument.senderName)
                                 .build()
                 )
                 .recipient(
                         UserVO.builder()
-                                .token(roomModel.recipientToken)
-                                .name(roomModel.recipientName)
+                                .token(roomDocument.recipientToken)
+                                .name(roomDocument.recipientName)
                                 .build()
                 )
                 .build();
 
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomDocument.recipientToken, MESSAGE_DESTINATION, roomsNotificationVO);
 
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION, roomsNotificationVO);
+        messagingTemplate.convertAndSendToUser(roomDocument.senderToken, MESSAGE_DESTINATION, roomsNotificationVO);
 
     }
 
-    public void notifyRooms(RoomModel roomModel, MessageModel messageModel) {
+    public void notifyRooms(RoomDocument roomDocument, MessageDocument messageDocument) {
 
         RoomNotificationVO roomsNotificationVO = RoomNotificationVO.builder()
-                .messageId(messageModel.getId().toString())
-                .sender(UserVO.builder().token(roomModel.senderToken).build())
-                .recipient(UserVO.builder().token(roomModel.recipientToken).build())
+                .messageId(messageDocument.getId().toString())
+                .sender(UserVO.builder().token(roomDocument.senderToken).build())
+                .recipient(UserVO.builder().token(roomDocument.recipientToken).build())
                 .build();
 
-        Map<String, Object> headers = produceHeaders(messageModel);
+        Map<String, Object> headers = produceHeaders(messageDocument);
 
-        messagingTemplate.convertAndSendToUser(roomModel.recipientToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO, headers);
+        messagingTemplate.convertAndSendToUser(roomDocument.recipientToken, MESSAGE_DESTINATION + "/" + roomDocument.getId(), roomsNotificationVO, headers);
 
-        messagingTemplate.convertAndSendToUser(roomModel.senderToken, MESSAGE_DESTINATION + "/" + roomModel.getId(), roomsNotificationVO, headers);
+        messagingTemplate.convertAndSendToUser(roomDocument.senderToken, MESSAGE_DESTINATION + "/" + roomDocument.getId(), roomsNotificationVO, headers);
 
     }
 
-    private Map<String, Object> produceHeaders(MessageModel messageModel) {
-        return Map.of(StompHeaderAccessor.STOMP_MESSAGE_ID_HEADER, messageModel.getId());
+    private Map<String, Object> produceHeaders(MessageDocument messageDocument) {
+        return Map.of(StompHeaderAccessor.STOMP_MESSAGE_ID_HEADER, messageDocument.getId());
     }
 
 }
