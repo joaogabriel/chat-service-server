@@ -19,7 +19,7 @@ public class AppConfig {
     public CqlSession session() {
         return CqlSession.builder()
                 .withConfigLoader(DriverConfigLoader.fromFile(driverConfig))
-                .withKeyspace("chat_service_model")
+                .withKeyspace("chat_service_dev")
                 .build();
     }
 

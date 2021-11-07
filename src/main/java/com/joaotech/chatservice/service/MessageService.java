@@ -2,6 +2,8 @@ package com.joaotech.chatservice.service;
 
 import com.datastax.oss.driver.api.core.cql.PagingState;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
+import com.datastax.oss.driver.api.core.cql.SimpleStatement;
+import com.datastax.oss.driver.api.core.cql.Statement;
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
@@ -26,9 +28,9 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -75,41 +77,37 @@ public class MessageService {
 
     public PaginatedMessagesVO findByRoom(String roomId, Integer page, Integer size, String cursorMark) {
 
-        testMedium(roomId, page, size, cursorMark);
+        PagingState pagingState = null;
 
-        if (true) return null;
-
-        String DEFAULT_CURSOR_MARK = "-1";
-
-//        cursorMark = "java.nio.HeapByteBufferR[pos=0 lim=22 cap=22]";
-
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp"));
-
-        ByteBuffer pagingState = DEFAULT_CURSOR_MARK.equalsIgnoreCase(cursorMark) ? null : PagingState.fromString(cursorMark).getRawPagingState();
-
-        Pageable pageable = CassandraPageRequest.of(pageRequest, pagingState);
-
-//        Pageable pageable = CassandraPageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp"));
-
-        Slice<MessageModel> messageModels = messageRepository.findByRoomId(UUID.fromString(roomId), pageable);
-
-//        String newCursorMark = (((CassandraPageRequest) messageModels.getPageable()).getPagingState().toString());
-        String nextCursorMark = null;
-
-        if (messageModels.isLast()) {
-            nextCursorMark = DEFAULT_CURSOR_MARK;
-        } else {
-            nextCursorMark = (((CassandraPageRequest) messageModels.getPageable()).getPagingState().toString());
+        if (StringUtils.isNotEmpty(cursorMark)) {
+            pagingState = PagingState.fromString(cursorMark);
         }
 
-        ByteBuffer pagingState2 = ((CassandraPageRequest) messageModels.getPageable()).getPagingState();
-        String s = new String(pagingState2.array());
-        System.out.println(s);
+        Statement statement = SimpleStatement.builder("SELECT * FROM messages WHERE room_id = " + roomId + " ORDER BY timestamp DESC").setPageSize(10).build();
 
-        CassandraPageRequest pageRequest1 = (CassandraPageRequest) messageModels.nextPageable();
-        String pagingState1 = Objects.requireNonNull(pageRequest1.getPagingState()).toString();
+//        if (pagingState != null) {
+//            statement = statement.setPagingState(pagingState);
+//        }
 
-        return MessageAdapter.toPaginatedMessagesVO(messageModels.getContent(), nextCursorMark);
+        ResultSet resultSet = cassandraOperations.getCqlOperations().queryForResultSet(statement);
+
+//        PagingState safePagingState = resultSet.getExecutionInfo().getSafePagingState();
+
+        List<MessageVO> messages = new ArrayList<>();
+
+//        for (Row row : resultSet) {
+//            messages.add(MessageAdapter.toMessageVO(row));
+//        }
+
+        resultSet.forEach(row -> System.out.println(row.getString("content")));
+
+//        resultSet.forEach(row -> messages.add(MessageAdapter.toMessageVO(row)));
+
+//        if (safePagingState == null) {
+        return MessageAdapter.toPaginatedMessagesVO(messages, null);
+//        } else {
+//            return MessageAdapter.toPaginatedMessagesVO(messages, safePagingState.toString());
+//        }
 
     }
 

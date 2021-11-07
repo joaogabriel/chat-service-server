@@ -1,11 +1,11 @@
 package com.joaotech.chatservice.adapter;
 
+import com.datastax.oss.driver.api.core.cql.Row;
 import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.PaginatedMessagesVO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MessageAdapter {
 
@@ -22,15 +22,38 @@ public class MessageAdapter {
                 .build();
     }
 
-    public static PaginatedMessagesVO toPaginatedMessagesVO(List<MessageModel> messages, String cursorMark) {
+//    public static PaginatedMessagesVO toPaginatedMessagesVO(List<MessageModel> messages, String cursorMark) {
+//
+//        List<MessageVO> messagesVO = messages.stream()
+//                .map(MessageAdapter::toChatMessageVO)
+//                .collect(Collectors.toList());
+//
+//        return PaginatedMessagesVO.builder()
+//                .messages(messagesVO)
+//                .cursorMark(cursorMark)
+//                .build();
+//
+//    }
 
-        List<MessageVO> messagesVO = messages.stream()
-                .map(MessageAdapter::toChatMessageVO)
-                .collect(Collectors.toList());
+    public static PaginatedMessagesVO toPaginatedMessagesVO(List<MessageVO> messages, String cursorMark) {
 
         return PaginatedMessagesVO.builder()
-                .messages(messagesVO)
+                .messages(messages)
                 .cursorMark(cursorMark)
+                .build();
+
+    }
+
+    public static MessageVO toMessageVO(Row row) {
+
+        return MessageVO.builder()
+                .id((row.getUuid("id").toString()))
+                .roomId((row.getUuid("room_id").toString()))
+//                .userToken((row.getString("user_token")))
+                .content((row.getString("content")))
+                .currentStatus((row.getString("current_status")))
+//                .timestamp((row.getString("id")))
+//                .type((row.getString("id")))
                 .build();
 
     }
