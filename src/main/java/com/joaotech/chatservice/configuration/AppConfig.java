@@ -2,7 +2,6 @@ package com.joaotech.chatservice.configuration;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.config.DriverConfigLoader;
-import com.datastax.oss.protocol.internal.request.query.QueryOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

@@ -113,7 +113,7 @@ public class MessageService {
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED.name());
+        return messageRepository.countByRoomIdAndCurrentStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED.name());
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {
