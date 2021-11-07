@@ -17,6 +17,7 @@ public class AppConfig {
         session.setContactPoints("172.17.20.34");
 
         session.setKeyspaceName("chat_service_dev");
+
         session.setLocalDatacenter("datacenter1");
 
         return session;

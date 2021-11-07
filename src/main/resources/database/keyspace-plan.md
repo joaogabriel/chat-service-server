@@ -24,8 +24,8 @@ CREATE INDEX recipient_token_idx
 CREATE INDEX rooms_id_idx
     ON rooms (id);
 
-
-CREATE INDEX ON rooms (is_closed);
+CREATE INDEX 
+    ON rooms (is_closed);
 ```
 
 ### messages

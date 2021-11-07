@@ -19,7 +19,4 @@ public interface RoomRepository extends CassandraRepository<RoomModel, UUID> {
     @Query("SELECT * FROM rooms WHERE sender_token=?0 AND is_closed=false")
     List<RoomModel> findBySenderTokenAndClosedIsFalse(String recipientToken);
 
-    @Query("DELETE FROM rooms WHERE sender_token=?0 AND is_closed=False and recipient_token=?1")
-    void deleteBySenderAndRecipient(String senderToken, String recipientToken);
-
 }
