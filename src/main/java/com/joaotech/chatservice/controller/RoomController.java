@@ -37,8 +37,8 @@ public class RoomController {
     }
 
     @GetMapping("/{id}/messages")
-    public ResponseEntity<PaginatedMessagesVO> findMessages(@PathVariable String id, @RequestParam Integer page, @RequestParam Integer size, @RequestParam(required = false) String cursorMark) {
-        PaginatedMessagesVO paginatedMessagesVO = messageService.findByRoom(id, page, size, cursorMark);
+    public ResponseEntity<PaginatedMessagesVO> findMessages(@PathVariable String id, @RequestParam(required = false) String cursorMark) {
+        PaginatedMessagesVO paginatedMessagesVO = messageService.findByRoom(id, cursorMark);
         return ResponseEntity.ok(paginatedMessagesVO);
     }
 
