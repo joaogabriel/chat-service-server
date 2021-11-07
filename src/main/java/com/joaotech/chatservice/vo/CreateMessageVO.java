@@ -1,6 +1,5 @@
 package com.joaotech.chatservice.vo;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.joaotech.chatservice.model.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
