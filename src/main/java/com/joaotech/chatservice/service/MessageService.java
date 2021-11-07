@@ -1,6 +1,7 @@
 package com.joaotech.chatservice.service;
 
 import com.datastax.oss.driver.api.core.cql.PagingState;
+import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
@@ -11,6 +12,8 @@ import com.joaotech.chatservice.vo.MessageVO;
 import com.joaotech.chatservice.vo.PaginatedMessagesVO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +35,9 @@ import java.util.UUID;
 @Transactional
 @AllArgsConstructor
 public class MessageService {
+
+    @Autowired
+    private CassandraOperations cassandraOperations;
 
     private final RoomService roomService;
 
@@ -146,18 +152,18 @@ public class MessageService {
 //            System.out.println(s2);
 
             // 3
-            byte[] bytes = new byte[pagingState.remaining()];
-            pagingState.duplicate().get(bytes);
-            PagingState pagingState3 = PagingState.fromBytes(bytes);
-
-            Pageable outroOutroPageable = CassandraPageRequest.of(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp")
-            ), pagingState3.getRawPagingState());
-
-            Slice<MessageModel> messageModels2 = messageRepository.findByRoomId(UUID.fromString(roomId), outroOutroPageable);
-
-            List<MessageModel> content2 = messageModels2.getContent();
-
-            content2.forEach(System.out::println);
+//            byte[] bytes = new byte[pagingState.remaining()];
+//            pagingState.duplicate().get(bytes);
+//            PagingState pagingState3 = PagingState.fromBytes(bytes);
+//
+//            Pageable outroOutroPageable = CassandraPageRequest.of(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp")
+//            ), pagingState3.getRawPagingState());
+//
+//            Slice<MessageModel> messageModels2 = messageRepository.findByRoomId(UUID.fromString(roomId), outroOutroPageable);
+//
+//            List<MessageModel> content2 = messageModels2.getContent();
+//
+//            content2.forEach(System.out::println);
 
             // 4
 //            new DefaultPagingState(pagingState, statement, AttachmentPoint.NONE);
@@ -174,6 +180,11 @@ public class MessageService {
 
             // o que tentar ainda:
             // fazendo a consulta e recuperando o ResultSet, da pra acessar o PagingIterable, getExecutionInfo() e getSafePagingState()
+
+            ResultSet resultSet = cassandraOperations.getCqlOperations().queryForResultSet("SELECT * FROM messages WHERE room_id = 2cc80127-84c1-4992-91b2-bb7cfd2cf105 ORDER BY timestamp DESC");
+            PagingState safePagingState = resultSet.getExecutionInfo().getSafePagingState();
+            System.out.println(safePagingState);
+            resultSet.forEach(row -> System.out.println(row.getString("content")));
         }
 
     }
