@@ -3,6 +3,7 @@ package com.joaotech.chatservice.service;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.*;
 import com.joaotech.chatservice.adapter.MessageAdapter;
+import com.joaotech.chatservice.adapter.PaginatedMessagesAdapter;
 import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
 import com.joaotech.chatservice.model.RoomModel;
@@ -87,7 +88,7 @@ public class MessageService {
 
         for (Row row : resultSet) {
 
-            messages.add(MessageAdapter.toMessageVO(row));
+            messages.add(PaginatedMessagesAdapter.toMessageVO(row));
 
             if (--remaining == 0) {
                 break;
@@ -95,7 +96,7 @@ public class MessageService {
 
         }
 
-        return MessageAdapter.toPaginatedMessagesVO(messages, messages.size(), safePagingState == null ? null : safePagingState.toString());
+        return PaginatedMessagesAdapter.toPaginatedMessagesVO(messages, safePagingState);
 
     }
 
