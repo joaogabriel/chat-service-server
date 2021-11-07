@@ -7,6 +7,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.Arrays;
+
 @Configuration
 public class SecurityConfig {
 
@@ -15,9 +17,7 @@ public class SecurityConfig {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
         config.setAllowCredentials(true);
-//        config.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000"));
-        config.addAllowedOriginPattern("http://localhost:3000");
-    //    config.addAllowedHeader("*");
+        config.setAllowedOriginPatterns(Arrays.asList("http://chat.testes.bringu.agsoft.com.br", "http://localhost:3000"));
         config.addAllowedMethod(HttpMethod.OPTIONS);
         config.addAllowedMethod(HttpMethod.HEAD);
         config.addAllowedMethod(HttpMethod.GET);

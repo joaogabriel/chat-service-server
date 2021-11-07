@@ -18,6 +18,8 @@ public class AppConfig {
 
         session.setKeyspaceName("chat_service_dev");
 
+        session.setLocalDatacenter("datacenter1");
+
         return session;
 
     }
