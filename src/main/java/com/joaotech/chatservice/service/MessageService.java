@@ -1,5 +1,7 @@
 package com.joaotech.chatservice.service;
 
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.cql.*;
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
@@ -7,23 +9,25 @@ import com.joaotech.chatservice.model.RoomModel;
 import com.joaotech.chatservice.repository.MessageRepository;
 import com.joaotech.chatservice.vo.CreateMessageVO;
 import com.joaotech.chatservice.vo.MessageVO;
+import com.joaotech.chatservice.vo.PaginatedMessagesVO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.cassandra.core.query.CassandraPageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class MessageService {
+
+    private final CqlSession cqlSession;
 
     private final RoomService roomService;
 
@@ -49,7 +53,7 @@ public class MessageService {
                 .status(new HashMap<>())
                 .build();
 
-        messageModel.status.put(MessageStatus.NOT_SENDED.name(), LocalDateTime.ofEpochSecond(chatMessage.timestamp,0 , ZoneOffset.UTC));
+        messageModel.status.put(MessageStatus.NOT_SENDED.name(), LocalDateTime.ofEpochSecond(chatMessage.timestamp, 0, ZoneOffset.UTC));
 
         messageModel.status.put(currentStatus, LocalDateTime.now());
 
@@ -59,13 +63,39 @@ public class MessageService {
 
     }
 
-    public List<MessageVO> findByRoom(String roomId, Integer page, Integer size) {
+    public PaginatedMessagesVO findByRoom(String roomId, String cursorMark) {
 
-        Pageable pageable = CassandraPageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp"));
+        Statement statement = SimpleStatement.builder("SELECT * FROM messages WHERE room_id = " + roomId + " ORDER BY timestamp DESC")
+                .setPageSize(30)
+                .build();
 
-        Slice<MessageModel> messageModels = messageRepository.findByRoomId(UUID.fromString(roomId), pageable);
+        if (StringUtils.isNotEmpty(cursorMark)) {
 
-        return MessageAdapter.toChatMessageVO(messageModels.getContent());
+            PagingState pagingState = PagingState.fromString(cursorMark);
+
+            statement = statement.setPagingState(pagingState);
+
+        }
+
+        ResultSet resultSet = cqlSession.execute(statement);
+
+        PagingState safePagingState = resultSet.getExecutionInfo().getSafePagingState();
+
+        List<MessageVO> messages = new ArrayList<>();
+
+        int remaining = resultSet.getAvailableWithoutFetching();
+
+        for (Row row : resultSet) {
+
+            messages.add(MessageAdapter.toMessageVO(row));
+
+            if (--remaining == 0) {
+                break;
+            }
+
+        }
+
+        return MessageAdapter.toPaginatedMessagesVO(messages, messages.size(), safePagingState == null ? null : safePagingState.toString());
 
     }
 
@@ -83,7 +113,7 @@ public class MessageService {
     }
 
     public long countNewMessages(String roomToken) {
-        return messageRepository.countByRoomIdAndStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED.name());
+        return messageRepository.countByRoomIdAndCurrentStatus(UUID.fromString(roomToken), MessageStatus.DELIVERED.name());
     }
 
 //    public List<ChatMessageDocument> findChatMessages(String senderId, String recipientId) {

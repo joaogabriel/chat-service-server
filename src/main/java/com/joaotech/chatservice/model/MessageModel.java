@@ -1,10 +1,8 @@
 package com.joaotech.chatservice.model;
 
-import com.datastax.oss.driver.api.core.type.DataType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
@@ -17,7 +15,6 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
 @Table("messages")
 public class MessageModel {
 
@@ -41,7 +38,7 @@ public class MessageModel {
     public String currentStatus;
 
     @Column
-    @CassandraType(type = CassandraType.Name.MAP, typeArguments = { CassandraType.Name.TEXT, CassandraType.Name.TIMESTAMP} )
+    @CassandraType(type = CassandraType.Name.MAP, typeArguments = {CassandraType.Name.TEXT, CassandraType.Name.TIMESTAMP})
     public Map<String, LocalDateTime> status;
 
     @Column
