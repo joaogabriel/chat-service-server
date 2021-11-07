@@ -1,9 +1,7 @@
 package com.joaotech.chatservice.service;
 
-import com.datastax.oss.driver.api.core.cql.PagingState;
-import com.datastax.oss.driver.api.core.cql.ResultSet;
-import com.datastax.oss.driver.api.core.cql.SimpleStatement;
-import com.datastax.oss.driver.api.core.cql.Statement;
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.cql.*;
 import com.joaotech.chatservice.adapter.MessageAdapter;
 import com.joaotech.chatservice.model.MessageModel;
 import com.joaotech.chatservice.model.MessageStatus;
@@ -15,7 +13,6 @@ import com.joaotech.chatservice.vo.PaginatedMessagesVO;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,8 +35,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class MessageService {
 
+//    @Autowired
+//    private CassandraOperations cassandraOperations;
+
     @Autowired
-    private CassandraOperations cassandraOperations;
+    private CqlSession cqlSession;
 
     private final RoomService roomService;
 
@@ -83,31 +83,37 @@ public class MessageService {
             pagingState = PagingState.fromString(cursorMark);
         }
 
-        Statement statement = SimpleStatement.builder("SELECT * FROM messages WHERE room_id = " + roomId + " ORDER BY timestamp DESC").setPageSize(10).build();
+        Statement statement = SimpleStatement.newInstance("SELECT * FROM messages WHERE room_id = " + roomId + " ORDER BY timestamp DESC");
 
-//        if (pagingState != null) {
-//            statement = statement.setPagingState(pagingState);
-//        }
+        statement = statement.setPageSize(30);
 
-        ResultSet resultSet = cassandraOperations.getCqlOperations().queryForResultSet(statement);
+        if (pagingState != null) {
+            statement = statement.setPagingState(pagingState);
+        }
 
-//        PagingState safePagingState = resultSet.getExecutionInfo().getSafePagingState();
+        ResultSet resultSet = cqlSession.execute(statement);
+
+        PagingState safePagingState = resultSet.getExecutionInfo().getSafePagingState();
 
         List<MessageVO> messages = new ArrayList<>();
 
-//        for (Row row : resultSet) {
-//            messages.add(MessageAdapter.toMessageVO(row));
-//        }
+        int remaining = resultSet.getAvailableWithoutFetching();
 
-        resultSet.forEach(row -> System.out.println(row.getString("content")));
+        for (Row row : resultSet) {
 
-//        resultSet.forEach(row -> messages.add(MessageAdapter.toMessageVO(row)));
+            messages.add(MessageAdapter.toMessageVO(row));
 
-//        if (safePagingState == null) {
-        return MessageAdapter.toPaginatedMessagesVO(messages, null);
-//        } else {
-//            return MessageAdapter.toPaginatedMessagesVO(messages, safePagingState.toString());
-//        }
+            if (--remaining == 0) {
+                break;
+            }
+
+        }
+
+        if (safePagingState == null) {
+            return MessageAdapter.toPaginatedMessagesVO(messages, messages.size(), null);
+        } else {
+            return MessageAdapter.toPaginatedMessagesVO(messages, messages.size(), safePagingState.toString());
+        }
 
     }
 
@@ -179,10 +185,10 @@ public class MessageService {
             // o que tentar ainda:
             // fazendo a consulta e recuperando o ResultSet, da pra acessar o PagingIterable, getExecutionInfo() e getSafePagingState()
 
-            ResultSet resultSet = cassandraOperations.getCqlOperations().queryForResultSet("SELECT * FROM messages WHERE room_id = 2cc80127-84c1-4992-91b2-bb7cfd2cf105 ORDER BY timestamp DESC");
-            PagingState safePagingState = resultSet.getExecutionInfo().getSafePagingState();
-            System.out.println(safePagingState);
-            resultSet.forEach(row -> System.out.println(row.getString("content")));
+//            ResultSet resultSet = cassandraOperations.getCqlOperations().queryForResultSet("SELECT * FROM messages WHERE room_id = 2cc80127-84c1-4992-91b2-bb7cfd2cf105 ORDER BY timestamp DESC");
+//            PagingState safePagingState = resultSet.getExecutionInfo().getSafePagingState();
+//            System.out.println(safePagingState);
+//            resultSet.forEach(row -> System.out.println(row.getString("content")));
         }
 
     }

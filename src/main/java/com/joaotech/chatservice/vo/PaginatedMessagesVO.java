@@ -12,6 +12,7 @@ import java.util.List;
 public class PaginatedMessagesVO {
 
     public List<MessageVO> messages;
+    public int count;
     public String cursorMark;
 
 }

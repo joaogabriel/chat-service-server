@@ -35,10 +35,11 @@ public class MessageAdapter {
 //
 //    }
 
-    public static PaginatedMessagesVO toPaginatedMessagesVO(List<MessageVO> messages, String cursorMark) {
+    public static PaginatedMessagesVO toPaginatedMessagesVO(List<MessageVO> messages, int count, String cursorMark) {
 
         return PaginatedMessagesVO.builder()
                 .messages(messages)
+                .count(count)
                 .cursorMark(cursorMark)
                 .build();
 
