@@ -67,7 +67,7 @@ public class MessageService {
     public PaginatedMessagesVO findByRoom(String roomId, String cursorMark) {
 
         Statement statement = SimpleStatement.builder("SELECT * FROM messages WHERE room_id = " + roomId + " ORDER BY timestamp DESC")
-                .setPageSize(30)
+                .setPageSize(200)
                 .build();
 
         if (StringUtils.isNotEmpty(cursorMark)) {
